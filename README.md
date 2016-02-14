@@ -1,0 +1,2 @@
+# informatyka
+Zajęcia informatyki rozszerzonej
