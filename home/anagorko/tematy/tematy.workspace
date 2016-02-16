@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="tematy" Database="">
-  <Project Name="debugger_zmienne" Path="debugger_zmienne/debugger_zmienne.project" Active="No"/>
-  <Project Name="debugger_szyfr" Path="debugger_szyfr/debugger_szyfr.project" Active="No"/>
-  <Project Name="L_cache" Path="L_cache/L_cache.project" Active="Yes"/>
+  <Project Name="debugger_podstawy" Path="debugger_zmienne/debugger_zmienne.project" Active="No"/>
+  <Project Name="debugger_zadanie" Path="debugger_szyfr/debugger_szyfr.project" Active="No"/>
+  <Project Name="l_cache" Path="L_cache/L_cache.project" Active="No"/>
+  <Project Name="zasieg_zmiennych" Path="zasieg_zmiennych/zasieg_zmiennych.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="debugger-zmienne" ConfigName="Debug"/>
-      <Project Name="debugger_zmienne" ConfigName="Debug"/>
-      <Project Name="debugger_szyfr" ConfigName="Debug"/>
-      <Project Name="L_cache" ConfigName="Debug"/>
+      <Project Name="debugger_podstawy" ConfigName="Debug"/>
+      <Project Name="debugger_zadanie" ConfigName="Debug"/>
+      <Project Name="l_cache" ConfigName="Debug"/>
+      <Project Name="zasieg_zmiennych" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="debugger-zmienne" ConfigName="Release"/>
-      <Project Name="debugger_zmienne" ConfigName="Release"/>
-      <Project Name="debugger_szyfr" ConfigName="Release"/>
-      <Project Name="L_cache" ConfigName="Release"/>
+      <Project Name="debugger_podstawy" ConfigName="Release"/>
+      <Project Name="debugger_zadanie" ConfigName="Release"/>
+      <Project Name="l_cache" ConfigName="Release"/>
+      <Project Name="zasieg_zmiennych" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>
