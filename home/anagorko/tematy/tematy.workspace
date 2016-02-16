@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="tematy" Database="">
+  <Project Name="debugger_zmienne" Path="debugger_zmienne/debugger_zmienne.project" Active="No"/>
+  <Project Name="debugger_szyfr" Path="debugger_szyfr/debugger_szyfr.project" Active="No"/>
+  <Project Name="L_cache" Path="L_cache/L_cache.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="no">
+      <Environment/>
+      <Project Name="debugger-zmienne" ConfigName="Debug"/>
+      <Project Name="debugger_zmienne" ConfigName="Debug"/>
+      <Project Name="debugger_szyfr" ConfigName="Debug"/>
+      <Project Name="L_cache" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="debugger-zmienne" ConfigName="Release"/>
+      <Project Name="debugger_zmienne" ConfigName="Release"/>
+      <Project Name="debugger_szyfr" ConfigName="Release"/>
+      <Project Name="L_cache" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
