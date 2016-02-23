@@ -1,2 +1,3 @@
-# informatyka
+# Informatyka
+
 Zajęcia informatyki rozszerzonej
