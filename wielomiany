@@ -1,0 +1,55 @@
+#include <vector>
+#include <iostream>
+using namespace std;
+
+class Polynomial
+{
+	vector<double> a;
+
+public:
+	Polynomial() : a() {}
+
+	double getA(int n){
+		if(n>a.size()){
+			cout<<"error\n";
+		}
+	return a[n];
+	}
+
+	void setA(int n, double v)
+	{
+		if(n>a.size()){
+			cout<<"dopisuje\n";
+			a.resize(n+1,0.0);
+			return;
+		}
+		a[n]=v;
+	}
+
+	void print(){
+		for(int i=0;i<=a.size();i++){
+			if(a[i]>0){
+				cout << a[i] << "x^" << i;
+				if(i+1<=a.size()){
+					cout << "+";
+				}
+			}
+			if(a[i]<0){
+				cout << a[i] << "x^" << i;
+				if(i+1<=a.size()){
+					cout << "-";
+				}
+			}
+		}
+	}
+};
+
+int main(){
+	Polynomial p;
+	
+	p.setA(13, 7.5);
+	p.setA(14, 24);
+	p.setA(28, -45);
+	p.print();
+	
+}
