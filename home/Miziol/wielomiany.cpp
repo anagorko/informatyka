@@ -45,11 +45,12 @@ class Polynomial
 				if(p[i] != 0 || c == true)
 				{
 					c = true;
-					cout << p[i] << (i == 0 ? "" : "*x^") << i+1 << " ";
+					cout << p[i] << "*x^" << i+1 << " + ";
 				}
 
 			}
-			cout << endl;
+
+			cout << p[0] << endl;
 		};
 
 		double value(int n) // schemat Hornera
@@ -64,6 +65,29 @@ class Polynomial
 			return value;
 		};
 
+		void add(Polynomial a, Polynomial b, Polynomial c) // c = a + b
+		{
+			int n;
+			if(a.deg() > b.deg())
+			{
+				n = a.deg();
+			}else{
+				n = b.deg();
+			}
+
+			n--;
+
+			for(int i = 0; i < n; i++)
+			{
+				c[i] 	
+			}
+		};
+
+
+
+
+		//konstruktory 
+
 	Polynomial(int n)
 	{
 		p.resize(n);
@@ -74,6 +98,11 @@ class Polynomial
 		p.resize(n, v);
 	};
 };
+
+
+
+
+
 
 int main()
 {
@@ -87,4 +116,19 @@ int main()
 	p.print();
 
 	cout << p.value(2) << endl;
+
+	Polynomial q(10,0.0);
+
+	q.setA(5,2);
+	q.setA(4,6);
+
+	cout << q.getA(4) << endl;
+
+	q.print();
+
+	cout << q.value(2) << endl;
+
+	Polynomial z;
+
+	cout << add(p,q,z) << endl;
 }
