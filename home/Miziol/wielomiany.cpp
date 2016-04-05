@@ -7,16 +7,16 @@ class Polynomial
 {
 	vector<double> p;
 
-	private:
+	public:
 
 		int deg()
 		{
 			for(int i = p.size(); i > 0; i--)
 			{
 				if(p[i] > 0) return i-1;
-				cout << "ERROR. NO VALUE. RETURNED -1\n";
-				return -1;
 			}
+			cout << "ERROR. NO VALUE. RETURNED -1\n";
+			return -1;
 		};
 
 	public:
@@ -65,7 +65,7 @@ class Polynomial
 			return value;
 		};
 
-		void add(Polynomial a, Polynomial b, Polynomial c) // c = a + b
+		void add(Polynomial a, Polynomial b) // c = a + b
 		{
 			int n;
 			if(a.deg() > b.deg())
@@ -75,18 +75,65 @@ class Polynomial
 				n = b.deg();
 			}
 
+			p.resize(n, 0.0);
+
 			n--;
 
 			for(int i = 0; i < n; i++)
 			{
-				c[i] 	
+				p[i] = a.getA(i) + b.getA(i);
 			}
+		};
+
+		void substraction(Polynomial a, Polynomial b) // c = a - b
+		{
+			int n;
+			if(a.deg() > b.deg())
+			{
+				n = a.deg();
+			}else{
+				n = b.deg();
+			}
+
+			p.resize(n, 0.0);
+
+			n--;
+
+			for(int i = 0; i < n; i++)
+			{
+				p[i] = a.getA(i) - b.getA(i);
+			}
+		};
+
+		void multiply(Polynomial a, Polynomial b) // c = a * b
+		{
+			int n = a.deg() + b.deg();
+
+			p.resize(n, 0.0);
+
+			cout << n << endl;
+
+			n--;
+
+			for(int i = 0; i < n; i++)
+			{
+				for(int j = 0; j < n; j++)
+				{
+					p[i] = p[i] + a.getA(i) * b.getA(i-j);
+				}
+			}
+
 		};
 
 
 
 
 		//konstruktory 
+
+	Polynomial()
+	{
+		p.resize(1000, 0.0);
+	};
 
 	Polynomial(int n)
 	{
@@ -130,5 +177,24 @@ int main()
 
 	Polynomial z;
 
-	cout << add(p,q,z) << endl;
+	z.add(p,q);
+
+	z.print();
+
+	cout << endl;
+
+	z.substraction(p,q);
+
+	z.print();
+
+	cout << endl;
+
+	z.multiply(p,q);
+
+	z.print();
+
+	cout << z.deg() << endl;
+
+	cout << endl;
+
 }
