@@ -13,7 +13,7 @@ class Polynomial
 		{
 			for(int i = p.size(); i > 0; i--)
 			{
-				if(p[i] > 0) return i-1;
+				if(p[i] != 0) return i-1;
 			}
 			cout << "ERROR. NO VALUE. RETURNED -1\n";
 			return -1;
@@ -56,7 +56,7 @@ class Polynomial
 		double value(int n) // schemat Hornera
 		{
 			double value;
-			value = p[deg()-1];
+			value = 0;
 			for(int i = deg()-2; i >= 0; i--)
 			{
 				value = p[i] + (value * n);
@@ -111,7 +111,7 @@ class Polynomial
 
 			p.resize(n, 0.0);
 
-			cout << n << endl;
+			cout << a.deg() << b.deg() << n << endl;
 
 			n--;
 
@@ -132,17 +132,32 @@ class Polynomial
 
 	Polynomial()
 	{
-		p.resize(1000, 0.0);
+		p.resize(1000);
+
+		for(int i = 0; i < 1000; i++)
+		{
+			p[i] = 0.0;
+		}
 	};
 
 	Polynomial(int n)
 	{
 		p.resize(n);
+
+		for(int i = 0; i < n; i++)
+		{
+			p[i] = 0.0;
+		}
 	};
 
-	Polynomial(int n, int v)
+	Polynomial(int n, double v)
 	{
-		p.resize(n, v);
+		p.resize(n);
+
+		for(int i = 0; i < n; i++)
+		{
+			p[i] = v;
+		}
 	};
 };
 
@@ -153,21 +168,19 @@ class Polynomial
 
 int main()
 {
-	Polynomial p(10,0.0);
+	Polynomial p(10);
 
 	p.setA(5,1);
 	p.setA(4,3);
-	cout << p.getA(4) << endl;
 	p.print();
-	cout << p.value(2) << endl;
+	cout << p.deg() << " " << p.value(2) << endl << endl;
 
 	Polynomial q(10,0.0);
 
 	q.setA(5,2);
 	q.setA(4,6);
-	cout << q.getA(4) << endl;
 	q.print();
-	cout << q.value(2) << endl;
+	cout << q.deg() << " " << q.value(2) << endl << endl;;
 
 	Polynomial z;
 
