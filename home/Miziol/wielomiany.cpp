@@ -157,44 +157,31 @@ int main()
 
 	p.setA(5,1);
 	p.setA(4,3);
-
 	cout << p.getA(4) << endl;
-
 	p.print();
-
 	cout << p.value(2) << endl;
 
 	Polynomial q(10,0.0);
 
 	q.setA(5,2);
 	q.setA(4,6);
-
 	cout << q.getA(4) << endl;
-
 	q.print();
-
 	cout << q.value(2) << endl;
 
 	Polynomial z;
 
 	z.add(p,q);
-
 	z.print();
-
 	cout << endl;
 
 	z.substraction(p,q);
-
 	z.print();
-
 	cout << endl;
 
 	z.multiply(p,q);
-
 	z.print();
-
 	cout << z.deg() << endl;
-
 	cout << endl;
 
 }
