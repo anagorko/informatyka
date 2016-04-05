@@ -3,7 +3,7 @@
 using namespace std;
 
 
-double max(int a, int b)
+double max(int a, int b) //zwraca wieksza liczbe
 {
 	if(a > b)
 		return a;
@@ -59,7 +59,7 @@ public:
 	}
 };
 
-Polynomial wiekszy(Polynomial q, Polynomial p)
+Polynomial wiekszy(Polynomial q, Polynomial p) //zwraca wielomian wyzszego stopnia
 {
 	if(p.deg()>=q.deg())
 		return p;
@@ -67,7 +67,7 @@ Polynomial wiekszy(Polynomial q, Polynomial p)
 		return q;
 }
 
-Polynomial mniejszy(Polynomial q, Polynomial p)
+Polynomial mniejszy(Polynomial q, Polynomial p) //zwraca wielomian nizszego stopnia
 {
 	if(p.deg()<=q.deg())
 		return p;
@@ -102,7 +102,7 @@ Polynomial mult(Polynomial q, Polynomial p)
     return w;
 }
 
-Polynomial mult2(Polynomial p, double x)
+Polynomial mult2(Polynomial p, double x) //mnozy wielomian przez liczbe
 {
     Polynomial v;
     for(int i = 0; i <= p.deg(); i++)
