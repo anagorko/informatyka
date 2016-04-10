@@ -43,7 +43,7 @@ int Polynomial::deg(){
 void Polynomial::print(){
     bool jcw = false; //już cos wypisałem
 	for(int i=degree;i>=0;i--){
-		(a[i]!=0) ? cout<< (jcw? "+": "")<<a[i]<<"x^"<<i: "";
+		a[i]==0?:cout<<(jcw? "+":(a[i]==-1?"-":""))<< ( a[i]==1 || a[i]==-1? : a[i])<<"x^"<<i;
         if(!jcw && a[i]!=0) jcw=1;
 	}
 	cout<<endl;
@@ -59,8 +59,10 @@ double Polynomial::value(double x){
 
 int main(){
 	Polynomial W;
-	W.setA(5, 4);
+	W.setA(5, -1);
     W.setA(3, 3);
+    W.setA(2, -1);
+    W.setA(1, 1);
 	cout<<"1 element = "<<W.getA(1)<<endl;
 	cout<<"deg = "<<W.deg()<<endl;
 	cout<<"wyrażenie: ";
