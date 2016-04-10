@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 class Polynomial
@@ -92,38 +93,36 @@ public:
 			}
 		}
 	}
-	
+	int d;
 	int deg(){
-		int m;
 		for(int i=0;i<a.size();i++){
 			if(a[i]==0){
 			}else{
-				m=i;
+				d=i;
 			}
 		}
-		cout << endl << "Stopien wielomianu wynosi " << m;
+		cout << endl << "Stopien wielomianu wynosi " << d;
 	}
 	
 	double value(double x){
-		double w=0;
-		for(int i=0;i<a.size();i++){
-			w=w+(i*(x^a[i]));
+		double w=a[d]*x+a[d-1];
+		for(int i=d-1;i<0;i--){
+			w=a[i]*w+a[i-1];
 		}
-		cout << "wartość wielomianu wynosi " << w;
+		cout << endl << "Wartosc wielomianu wynosi " << w;
+		return w;
 	}
-	
-	
 };
 
 int main(){
 	Polynomial p;
-	p.setA(34, -8);		//(stopnień, współczynnik) i, a[i]
-	p.setA(99, 78);
-	p.setA(0, 0);
-	p.setA(0, 0);
-	p.setA(0, 0);
+	p.setA(0, 0);		//(stopnień, współczynnik) i, a[i]
+	p.setA(1, 0);
+	p.setA(2, 0);
+	p.setA(3, 0);
+	p.setA(4, -1);
 	p.print();
 	p.deg();
-	p.value(2.3);
+	p.value(4);
 	return 0;
 }
