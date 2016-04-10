@@ -91,7 +91,6 @@ public:
 				}
 			}
 		}
-		
 	}
 	
 	int deg(){
@@ -105,20 +104,26 @@ public:
 		cout << endl << "Stopien wielomianu wynosi " << m;
 	}
 	
-	double value(){
-		cin >> ;
+	double value(double x){
+		double w=0;
+		for(int i=0;i<a.size();i++){
+			w=w+(i*(x^a[i]));
+		}
+		cout << "wartość wielomianu wynosi " << w;
 	}
+	
+	
 };
 
 int main(){
 	Polynomial p;
-	p.setA(34, -8);		//(stopnień, współczynnik)
+	p.setA(34, -8);		//(stopnień, współczynnik) i, a[i]
 	p.setA(99, 78);
 	p.setA(0, 0);
 	p.setA(0, 0);
 	p.setA(0, 0);
 	p.print();
 	p.deg();
-	p.value();
+	p.value(2.3);
 	return 0;
 }
