@@ -105,14 +105,20 @@ public:
 	}
 	
 	double value(double x){
-		double w=a[d]*x+a[d-1];
+		double w;
+		if(d==0){
+			w=a[d];
+		}else{
+			w=a[d]*x+a[d-1];
+		}
 		for(int i=d-1;i>=0;i--){
 			if(i==0){
-				w=a[i]*x*w;
+				w=w*x;
 			}else{
-				w=a[i]*x*w+a[i-1];
+				w=w*x+a[i-1];
 			}
 		}
+		w=w/x;
 		cout << endl << "Wartosc wielomianu wynosi " << w;
 		return w;
 	}
@@ -124,9 +130,9 @@ int main(){
 	p.setA(1, 0);
 	p.setA(2, 0);
 	p.setA(3, 0);
-	p.setA(4, -1);
+	p.setA(10, -2);
 	p.print();
 	p.deg();
-	p.value(4);
+	p.value(2);
 	return 0;
 }
