@@ -16,12 +16,20 @@ class Polynomial
     void print();
     double value(double x);
 
+    Polynomial& operator+(const Polynomial &q);
+
     Polynomial(){
     	degree = -1;
     	a.clear();
     }
     // oraz konstruktory
 };
+
+Polynomial& Polynomial::operator+(const Polynomial &q){
+    for(int i=0;i<=q.degree;i++){
+        setA(i, a[i]+q.a[i]);
+    }
+}
 double Polynomial::getA(int n){
     if(degree <= n){
         return a[n];
@@ -43,14 +51,20 @@ int Polynomial::deg(){
 void Polynomial::print(){
     bool jcw = false; //już cos wypisałem
 	for(int i=degree;i>=0;i--){
-		a[i]==0?:cout<<(jcw? "+":(a[i]==-1?"-":""))<< ( a[i]==1 || a[i]==-1? : a[i])<<"x^"<<i;
-        if(!jcw && a[i]!=0) jcw=1;
+		if(a[i]!=0){
+            if(a[i]==-1){
+                cout<<"-";
+            }else if(a[i]==1 && jcw) cout<<"+";
+            if(a[i]!=1 && a[i]!=-1) cout<<a[i];
+            cout<<"x^"<<i;
+            if(!jcw) jcw=1;
+        }
 	}
 	cout<<endl;
 }
-double Polynomial::value(double x){
-	double w=a[degree];
-	for(int i=degree-1;i>0;i--){
+double Polynomial::value(double x){  // a2x2+a1x+a0 = x(x+a1)a2 + a0
+	double w=a[degree];              //  x(x(x+a3)a2)a1+a0
+	for(int i=degree-1;i>=0;i--){     // x(x(x(x+a4)a3)a2)a1 + a0
 		w=x*w+a[i]*x;
 	}
 	return w;
@@ -59,13 +73,19 @@ double Polynomial::value(double x){
 
 int main(){
 	Polynomial W;
-	W.setA(5, -1);
-    W.setA(3, 3);
-    W.setA(2, -1);
-    W.setA(1, 1);
-	cout<<"1 element = "<<W.getA(1)<<endl;
-	cout<<"deg = "<<W.deg()<<endl;
-	cout<<"wyrażenie: ";
-	W.print();
-	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.value(2)<<endl;
+	W.setA(4, 1);
+    W.setA(0, 1);
+//    W.setA(2, -1);
+//    W.setA(1, 1);
+	cout<<"wyrażenie W, "<<W.deg()<<" stopnia: "; W.print();
+	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.value(2)<<endl<<endl;
+    Polynomial Q;
+    Q.setA(5, 2);
+    Q.setA(3, -1);
+    cout<<"wyrażenie Q, "<<Q.deg()<<" stopnia: "; Q.print();
+    cout<<"dla x=2 wartość wielomiany jest równa: "<<Q.value(2)<<endl<<endl;
+    
+    W+Q;
+    cout<<"W+Q, to wielomian "<<W.deg()<<" stopnia: "; W.print();
+    cout<<endl;
 }
