@@ -16,19 +16,60 @@ class Polynomial
     void print();
     double value(double x);
 
-    Polynomial& operator+(const Polynomial &q);
+    Polynomial& operator+=(const Polynomial &q);
+    const Polynomial operator+(const Polynomial &q) const;
 
+    Polynomial& operator-=(const Polynomial &q);
+    const Polynomial operator-(const Polynomial &q) const;
+
+    Polynomial& operator*=(const Polynomial &q);
+    const Polynomial operator*(const Polynomial &q) const;
+/*
+    Polynomial& operator+(const Polynomial &q);
+    Polynomial& operator-(const Polynomial &q);
+    Polynomial& operator*(const Polynomial &q);
+*/
     Polynomial(){
     	degree = -1;
     	a.clear();
     }
+    Polynomial(int n){
+        degree = n;
+        a.resize(n+1, 0.0);
+    }
+
+
     // oraz konstruktory
 };
 
-Polynomial& Polynomial::operator+(const Polynomial &q){
-    for(int i=0;i<=q.degree;i++){
-        setA(i, a[i]+q.a[i]);
+const Polynomial Polynomial::operator*(const Polynomial &q) const{
+    Polynomial _a(degree+q.degree);
+
+    for(int x=0;x<=q.degree;x++){
+        for(int y=0;y<=degree;y++){
+            _a.setA(x+y, _a.a[x+y]+a[y]*q.a[x]);
+        }
     }
+    _a.deg();
+    return _a;
+}
+
+const Polynomial Polynomial::operator-(const Polynomial &q) const{
+    Polynomial _a;
+    for(int i=0;i<=q.degree;i++){
+        _a.setA(i, a[i]-q.a[i]);
+    }
+    _a.deg();
+    return _a;
+}
+
+const Polynomial Polynomial::operator+(const Polynomial &q) const{
+    Polynomial _a;
+    for(int i=0;i<=q.degree;i++){
+        _a.setA(i, a[i]+q.a[i]);
+    }
+    _a.deg();
+    return _a;
 }
 double Polynomial::getA(int n){
     if(degree <= n){
@@ -36,7 +77,7 @@ double Polynomial::getA(int n){
     }else return 0;
 }
 
-void Polynomial::setA(int n, double x){
+void Polynomial::setA(int n, double x){ 
     if(degree < n){
         a.resize(n+1, 0);
         degree = n;
@@ -45,6 +86,11 @@ void Polynomial::setA(int n, double x){
 }
 
 int Polynomial::deg(){
+    degree = a.size()-1;
+    for(int i=a.size()-1;i>=0;i--){
+        if(a[i]!=0) break;
+        degree--;
+    }
     return degree;
 }
 
@@ -80,12 +126,12 @@ int main(){
 	cout<<"wyrażenie W, "<<W.deg()<<" stopnia: "; W.print();
 	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.value(2)<<endl<<endl;
     Polynomial Q;
-    Q.setA(5, 2);
-    Q.setA(3, -1);
+    Q.setA(3, 2);
+    Q.setA(4, -1);
     cout<<"wyrażenie Q, "<<Q.deg()<<" stopnia: "; Q.print();
     cout<<"dla x=2 wartość wielomiany jest równa: "<<Q.value(2)<<endl<<endl;
     
-    W+Q;
-    cout<<"W+Q, to wielomian "<<W.deg()<<" stopnia: "; W.print();
+    W = W*Q;
+    cout<<"W-Q, to wielomian "<<W.deg()<<" stopnia: "; W.print();
     cout<<endl;
 }
