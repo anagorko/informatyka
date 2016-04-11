@@ -11,12 +11,12 @@ class Polynomial
 
 		int deg()
 		{
-			for(int i = p.size(); i > 0; i--)
+			int max = -1;
+			for (int i = 0; i < p.size(); i++)
 			{
-				if(p[i] != 0) return i-1;
+				if(p[i] != 0.0) max = i;
 			}
-			cout << "ERROR. NO VALUE. RETURNED -1\n";
-			return -1;
+			return max;
 		};
 
 	public:
@@ -40,12 +40,12 @@ class Polynomial
 		void print()
 		{
 			bool c = false;
-			for(int i = p.size()-1; i >= 0; i--)
+			for(int i = p.size()-1; i > 0; i--)
 			{
 				if(p[i] != 0 || c == true)
 				{
 					c = true;
-					cout << p[i] << "*x^" << i+1 << " + ";
+					cout << p[i] << "*x^" << i << " + ";
 				}
 
 			}
@@ -57,7 +57,7 @@ class Polynomial
 		{
 			double value;
 			value = 0;
-			for(int i = deg()-2; i >= 0; i--)
+			for(int i = deg()+1; i >= 0; i--)
 			{
 				value = p[i] + (value * n);
 			}
@@ -75,11 +75,14 @@ class Polynomial
 				n = b.deg();
 			}
 
-			p.resize(n, 0.0);
+			p.resize(n+1);
 
-			n--;
+			for(int i = 0; i <= n; i++)
+			{
+				p[i] = 0;
+			}
 
-			for(int i = 0; i < n; i++)
+			for(int i = 0; i <= n; i++)
 			{
 				p[i] = a.getA(i) + b.getA(i);
 			}
@@ -95,11 +98,14 @@ class Polynomial
 				n = b.deg();
 			}
 
-			p.resize(n, 0.0);
+			p.resize(n+1);
 
-			n--;
+			for(int i = 0; i <= n; i++)
+			{
+				p[i] = 0;
+			}
 
-			for(int i = 0; i < n; i++)
+			for(int i = 0; i <= n; i++)
 			{
 				p[i] = a.getA(i) - b.getA(i);
 			}
@@ -108,21 +114,31 @@ class Polynomial
 		void multiply(Polynomial a, Polynomial b) // c = a * b
 		{
 			int n = a.deg() + b.deg();
+			int r;
 
-			p.resize(n, 0.0);
-
-			cout << a.deg() << b.deg() << n << endl;
-
-			n--;
-
-			for(int i = 0; i < n; i++)
+			if(a.deg() > b.deg())
 			{
-				for(int j = 0; j < n; j++)
-				{
-					p[i] = p[i] + a.getA(i) * b.getA(i-j);
-				}
+				r = a.deg();
+			}else{
+				r = b.deg();
 			}
 
+			p.resize(n+1);
+
+			for(int i = 0; i <= n; i++)
+			{
+				p[i] = 0;
+			}
+
+			p[0] = a.getA(0) + b.getA(0);
+
+			for(int i = 1; i <= n; i++)
+			{
+				for(int j = 0; j <= i; j++)
+				{
+					p[i] = p[i] + (a.getA(j) * b.getA(i-j));
+				}
+			}
 		};
 
 
@@ -170,15 +186,15 @@ int main()
 {
 	Polynomial p(10);
 
-	p.setA(5,1);
-	p.setA(4,3);
+	p.setA(3,1);
+	p.setA(2,3);
 	p.print();
 	cout << p.deg() << " " << p.value(2) << endl << endl;
 
 	Polynomial q(10,0.0);
 
-	q.setA(5,2);
-	q.setA(4,6);
+	q.setA(2,2);
+	q.setA(1,6);
 	q.print();
 	cout << q.deg() << " " << q.value(2) << endl << endl;;
 
