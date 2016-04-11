@@ -107,7 +107,7 @@ public:
 	double value(double x){
 		double w=a[d]*x+a[d-1];
 		for(int i=d-1;i<0;i--){
-			w=a[i]*w+a[i-1];
+			w=a[i]*x*w+a[i-1];
 		}
 		cout << endl << "Wartosc wielomianu wynosi " << w;
 		return w;
