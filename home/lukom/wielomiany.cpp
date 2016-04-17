@@ -40,15 +40,15 @@ class Polynomial
 };
 
 void div(const Polynomial &W, const Polynomial &P, Polynomial &Q, Polynomial &R){
-    R = W;
+    R = W;                                                                                                                                                                                                              
     for(int i=R.deg();i>=0 && R.deg()>=P.deg();i--){
         Q.setA(i-P.deg(), R.getA(i)/P.getA(P.deg()));
         for(int a=P.deg();a>=0;a--){
             R.setA((i-P.deg())+a, R.getA((i-P.deg())+a)-( P.getA(a) * Q.getA(i-P.deg()) ) ); 
         }
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                           
 }
-const Polynomial gcd(const Polynomial &, const Polynomial &);//TODO
+const Polynomial gcd(const Polynomial &w, const Polynomial &p);//TODO NWD
 
 ostream& operator<<(ostream &os, const Polynomial &q){
     bool jcw = false; //już cos wypisałem
@@ -185,10 +185,7 @@ int main(){
     cout<<"wyrażenie P, "<<P.deg()<<" stopnia: "<<P<<endl;
     cout<<"dla x=2 wartość wielomiany jest równa: "<<P.v(2)<<endl<<endl;
     
-    div(W, P, Q, R);
+ //   Q = gcd(W, P);
     cout<<"wyrażenie Q, "<<Q.deg()<<" stopnia: "<<Q<<endl;
     cout<<"dla x=2 wartość wielomiany jest równa: "<<Q.v(2)<<endl<<endl;
-
-    cout<<"wyrażenie R, "<<R.deg()<<" stopnia: "<<R<<endl;
-    cout<<"dla x=2 wartość wielomiany jest równa: "<<R.v(2)<<endl<<endl;
 }
