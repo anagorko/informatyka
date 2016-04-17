@@ -5,16 +5,16 @@ using namespace std;
 class Polynomial
 {
   vector<double> a;
-  
+
+  double findRoot(double, double, double);//TODO
 
   public:
-    double getA(int n);
+    double getA(int n) const;
     void setA(int n, double x);
-
     int deg() const;
 
-    void print();
-    double value(double x);
+    Polynomial();
+  //  Polynomial(initializer_list<double>);//TODO
 
     Polynomial& operator+=(const Polynomial &q);
     const Polynomial operator+(const Polynomial &q) const;
@@ -25,17 +25,61 @@ class Polynomial
     Polynomial& operator*=(const Polynomial &q);
     const Polynomial operator*(const Polynomial &q) const;
 
-    Polynomial(){
-        a.clear();
-    	setA(0, 0);
-    }
-    Polynomial(int n){
-        a.resize(n+1, 0.0);
-    }
+    bool operator==(const Polynomial &q) const;    
+    bool operator!=(const Polynomial &q) const;
 
+    double v(double x) const;
 
-    // oraz konstruktory
+    friend ostream& operator<<(ostream&, const Polynomial &q);
+
+    const Polynomial differential() const;//TODO
+
+    vector<double> rationalRoots() const;//TODO
+    vector<double> realRoots(double) const;//TODO
+
 };
+
+void div(const Polynomial &W, const Polynomial &P, Polynomial &Q, Polynomial &R){
+    R = W;
+    for(int i=R.deg();i>=0 && R.deg()>=P.deg();i--){
+        Q.setA(i-P.deg(), R.getA(i)/P.getA(P.deg()));
+        for(int a=P.deg();a>=0;a--){
+            R.setA((i-P.deg())+a, R.getA((i-P.deg())+a)-( P.getA(a) * Q.getA(i-P.deg()) ) ); 
+        }
+    }
+}
+const Polynomial gcd(const Polynomial &, const Polynomial &);//TODO
+
+ostream& operator<<(ostream &os, const Polynomial &q){
+    bool jcw = false; //już cos wypisałem
+    for(int i=q.deg();i>=0;i--){
+        if(q.a[i]!=0){
+            if(q.a[i]==-1){
+                if(i!=0)os<<"-";
+            }else if(q.a[i]>0 && jcw) os<<"+";
+            if( i==0 || ( q.a[i]!=1 && q.a[i]!=-1 )) os<<q.a[i];
+            if(i!=0) os<<"x^"<<i;
+            if(!jcw) jcw=1;
+        }
+    }
+    return os;
+}
+
+bool Polynomial::operator!=(const Polynomial &q) const{
+    if(deg()!=q.deg()) return true;
+    for(int i=0;i<deg();i++){
+        if(a[i]!=q.a[i]) return true;
+    }
+    return false;
+}
+
+bool Polynomial::operator==(const Polynomial &q) const{
+    if(deg()!=q.deg()) return false;
+    for(int i=0;i<deg();i++){
+        if(a[i]!=q.a[i]) return false;
+    }
+    return true;
+}
 
 const Polynomial Polynomial::operator*(const Polynomial &q) const{
     Polynomial _a;
@@ -89,8 +133,8 @@ Polynomial& Polynomial::operator+=(const Polynomial &q){
     deg();
 }
 
-double Polynomial::getA(int n){
-    if(deg() <= n){
+double Polynomial::getA(int n) const{
+    if(deg() >= n){
         return a[n];
     }else return 0;
 }
@@ -111,21 +155,12 @@ int Polynomial::deg() const{
     return _a;
 }
 
-void Polynomial::print(){
-    bool jcw = false; //już cos wypisałem
-	for(int i=deg();i>=0;i--){
-		if(a[i]!=0){
-            if(a[i]==-1){
-                if(i!=0)cout<<"-";
-            }else if(a[i]>0 && jcw) cout<<"+";
-            if( i==0 || ( a[i]!=1 && a[i]!=-1 )) cout<<a[i];
-            if(i!=0)cout<<"x^"<<i;
-            if(!jcw) jcw=1;
-        }
-	}
-	cout<<endl;
+Polynomial::Polynomial(){
+    a.clear();
+    setA(0, 0);
 }
-double Polynomial::value(double x){  // a2x2+a1x+a0 = x(x+a1)a2 + a0
+
+double Polynomial::v(double x) const{  // a2x2+a1x+a0 = x(x+a1)a2 + a0
     if(deg() == -1) return 0;
 	double w=a[deg()];              //  x(x(x+a3)a2)a1+a0
 	for(int i=deg()-1;i>=0;i--){     // x(x(x(x+a4)a3)a2)a1 + a0
@@ -136,21 +171,24 @@ double Polynomial::value(double x){  // a2x2+a1x+a0 = x(x+a1)a2 + a0
 
 
 int main(){
-	Polynomial W;
+	Polynomial W, P, Q, R;
 //	W.setA(4, 1);
-//    W.setA(0, 1);
-//    W.setA(2, -1);
-//    W.setA(1, 1);
-	cout<<"wyrażenie W, "<<W.deg()<<" stopnia: "; W.print();
-	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.value(2)<<endl<<endl;
-    Polynomial Q;
+    W.setA(4, 1);
+    W.setA(3, 2);
+    W.setA(1, 1);
+	cout<<"wyrażenie W, "<<W.deg()<<" stopnia: "<<W<<endl;
+	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.v(2)<<endl<<endl;
     
-    Q.setA(4, -1);
-    Q.setA(3, 2);
-    cout<<"wyrażenie Q, "<<Q.deg()<<" stopnia: "; Q.print();
-    cout<<"dla x=2 wartość wielomiany jest równa: "<<Q.value(2)<<endl<<endl;
+    P.setA(4, 1);
+    P.setA(3, 2);
+
+    cout<<"wyrażenie P, "<<P.deg()<<" stopnia: "<<P<<endl;
+    cout<<"dla x=2 wartość wielomiany jest równa: "<<P.v(2)<<endl<<endl;
     
-    W += Q;
-    cout<<"W+=Q, to wielomian "<<W.deg()<<" stopnia: "; W.print();
-    cout<<endl;
+    div(W, P, Q, R);
+    cout<<"wyrażenie Q, "<<Q.deg()<<" stopnia: "<<Q<<endl;
+    cout<<"dla x=2 wartość wielomiany jest równa: "<<Q.v(2)<<endl<<endl;
+
+    cout<<"wyrażenie R, "<<R.deg()<<" stopnia: "<<R<<endl;
+    cout<<"dla x=2 wartość wielomiany jest równa: "<<R.v(2)<<endl<<endl;
 }
