@@ -143,6 +143,39 @@ class Polynomial
 
 
 
+		void div(Polynomial a, Polynomial b, Polynomial &r) // c + r = a / b
+		{
+			int n = a.deg() - b.deg();
+
+			p.resize(n+1);
+
+			for(int i = 0; i <= n; i++)
+			{
+				p[i] = 0;
+			}
+
+			if (b.deg() > a.deg())
+			{
+				cout << "ERROR\n ";
+				return;
+			}
+
+			for(int i = a.deg() + 1; i >= 0; i = a.deg())
+			{
+				if(i < b.deg())
+				{
+					break;
+				}
+
+				p[i - b.deg()] = a.getA(i) / b.getA(b.deg());
+
+				for(int j = b.deg(); j >= 0; j--)
+				{
+					a.setA(j + i - b.deg()) =- p[i - b.deg()] * b.
+				}
+			}
+		};
+
 
 		//konstruktory 
 
