@@ -154,6 +154,11 @@ class Polynomial
 				p[i] = 0;
 			}
 
+			for(int i = 0; i <= r.deg(); i++)
+			{
+				r.setA(i, 0.0);
+			}
+
 			if (b.deg() > a.deg())
 			{
 				cout << "ERROR\n ";
@@ -171,9 +176,11 @@ class Polynomial
 
 				for(int j = b.deg(); j >= 0; j--)
 				{
-					a.setA(j + i - b.deg()) =- p[i - b.deg()] * b.
+					a.setA(j + i - b.deg(), p[i - b.deg()] * b.getA(j));
 				}
 			}
+
+
 		};
 
 
@@ -222,14 +229,12 @@ int main()
 	p.setA(3,1);
 	p.setA(2,3);
 	p.print();
-	cout << p.deg() << " " << p.value(2) << endl << endl;
 
 	Polynomial q(10,0.0);
 
 	q.setA(2,2);
 	q.setA(1,6);
 	q.print();
-	cout << q.deg() << " " << q.value(2) << endl << endl;;
 
 	Polynomial z;
 
@@ -244,6 +249,15 @@ int main()
 	z.multiply(p,q);
 	z.print();
 	cout << z.deg() << endl;
+	cout << endl;
+
+	Polynomial x(10,0.0);
+
+	x.div(p,q,z);
+
+	x.print();
+	cout << endl;
+	z.print();
 	cout << endl;
 
 }
