@@ -248,8 +248,6 @@ int main()
 
 	z.multiply(p,q);
 	z.print();
-	cout << z.deg() << endl;
-	cout << endl;
 
 	Polynomial x(10,0.0);
 
