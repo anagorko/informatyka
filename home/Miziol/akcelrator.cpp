@@ -46,7 +46,7 @@ int main()
 					{
 						start1 = (start1 + end1) / 2;
 					}
-					if( t[(start1 + end1 + 1) / 2] = search)
+					if( t[(start1 + end1 + 1) / 2] == search)
 					{
 						end1 = (start1 + end1) / 2;
 					}
@@ -55,13 +55,13 @@ int main()
 
 				while(start2 != end2)
 				{
-					if( t[(start2 + end2) / 2] = search)
+					if( t[(start2 + end2) / 2] == search)
 					{
 						start2 = (start2 + end2) / 2;
 					}
 					if( t[(start2 + end2) / 2] > search)
 					{
-						end2 = ((start2 + end2) - 1) / 2;
+						end2 = ((start2 + end2)) / 2;
 					}
 					end = end2;
 					cout << "2+++ " << start2 << " " << end2 << endl;
