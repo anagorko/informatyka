@@ -26,14 +26,6 @@ int main()
 
 		while(true)
 		{
-			if(start == end)
-			{
-				if(start != search)
-				{
-					start++;
-					break;
-				}
-			}
 
 			if( t[(start + end) / 2] == search)
 			{
@@ -42,44 +34,57 @@ int main()
 
 				while(start1 != end1)
 				{
-					if( t[(start1 + end1 + 1) / 2] < search)
+					if( t[(start1 + end1) / 2] < search)
 					{
-						start1 = (start1 + end1) / 2;
+						start1 = (start1 + end1 + 1) / 2;
 					}
-					if( t[(start1 + end1 + 1) / 2] = search)
+					if( t[(start1 + end1 + 1) / 2] == search)
 					{
-						end1 = (start1 + end1) / 2;
+						end1 = (start1 + end1 + 1) / 2;
 					}
 					start = start1;
 				}
 
 				while(start2 != end2)
 				{
-					if( t[(start2 + end2) / 2] = search)
+					if( t[(start2 + end2) / 2] == search)
 					{
-						start2 = (start2 + end2) / 2;
+						start2 = (start2 + end2 + 1) / 2;
 					}
 					if( t[(start2 + end2) / 2] > search)
 					{
-						end2 = ((start2 + end2) - 1) / 2;
+						end2 = ((start2 + end2)) / 2;
 					}
 					end = end2;
-					cout << "2+++ " << start2 << " " << end2 << endl;
 				}
+				break;
 				
 			}else{
 				if( t[(start + end) / 2] < search)
 				{
-					start = (start + end) / 2;
+					start = (start + end) / 2 + 1;
 				}
-				if( t[(start + end) / 2] > search)
+				else if( t[(start + end) / 2] > search)
 				{
 					end = (start + end) / 2;
 				}
 			}
+			if(start == end && t[start] != search)
+			{
+				start++;
+				break;
+			}
 		}
 
-		cout << end - start + 1 << endl;
+		int result;
+		if(start > end)
+		{
+			result = 0;
+		}else{
+			result = end - start;
+		}
+
+		cout << result << endl;
 	}
 
 	return 0;
