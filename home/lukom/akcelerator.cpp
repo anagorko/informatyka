@@ -1,3 +1,4 @@
+//#define DEB
 #include<iostream>
 using namespace std;
 int main(){
@@ -8,39 +9,52 @@ int main(){
 	int a;
 	cin>>a;
 	for(int i=0;i<a;i++){
-//		cout<<"dawaj pytanie:\n";
+#ifdef DEB
+		cout<<"dawaj pytanie:\n";
+#endif
 		int b;
 		cin>>b;
 		//binary search
-		int  p=0, k=n-1, m1=-1,m2=-1;
-		while(p!=k){
-			m1 = (p+k)/2;
-			if(t[m1]==b && (m1==0 || t[m1-1]!=b) ){
-				p  = k;
+		int  p1=0, k1=n-1,p2 = 0, k2 = n-1, m1=0,m2=-1;
+		while( p1 < k1 || p2 < k2){
+
+			m1 = (p1+k1)/2;
+			if(t[m1]==b){
+				k1 = m1;
 			}else if(t[m1]<b){
-				p = m1+1;
+				p1 = m1+1;
+				p2 = p1;
 			}else{
-				k = m1;
+				k1 = m1-1;
+				k2 = k1;
 			}
-			if(p == k && t[m1]!=b)m1=-1;
-		}
-//		cout<<"poczatek zakresu : "<<m1<<endl;
-		p=0;
-		k=n-1;
-		while(p!=k && m1!=-1){
-                        m2 = (p+k+1)/2;
-                        if(t[m2]==b){
-				if(m2==n-1 || t[m2+1]!=b) k = p;
-				else k = m2;
+
+			m2 = (p2+k2+1)/2;
+			if(t[m2]==b){
+                                p2 = m2;
                         }else if(t[m2]<b){
-                                p = m2+1;
-                        }else if(t[m2]>b){
-                                k = m2-1;
-			}
-                }
-//		cout<<"koniec zakresu: "<<m2<<endl;
+                                p2 = m2+1;
+				p1 = p2;
+                        }else{
+                                k2 = m2-1;
+				k1 = k2;
+                        }
+#ifdef DEB
+			cout<<"1: "<<p1<<" "<<k1<<endl;
+			cout<<"2: "<<p2<<" "<<k2<<endl;
+#endif
+
+		}
+		m1 = (p1+k1)/2;
+		m2 = (p2+k2+1)/2;
+		if(t[m1]!=b) m1=-1;
+#ifdef DEB
+		cout<<"poczatek zakresu : "<<m1<<endl;
+		cout<<"koniec zakresu: "<<m2<<endl;
+#endif
 		if(m1!=-1)cout<< m2-m1+1<<endl;
 		else cout<<0<<endl;
+
 	}
 	return 0;
 }
