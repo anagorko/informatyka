@@ -2,15 +2,17 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<math.h>
+
+#include"Book_library.h"
+Book Book1;
 
 #include"UI.h"
-#include"Book_library.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-	Book Book1;
 
 	if(argc == 1) welcomeHelp();
 	else
@@ -25,6 +27,10 @@ int main(int argc, char* argv[])
 			if(test == "print")
 			{
 				Book1.printBook();
+			}
+			if(test == "add")
+			{
+				add();
 			}
 		}
 

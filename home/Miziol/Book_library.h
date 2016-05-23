@@ -157,6 +157,20 @@ public:
 		bk.close();
 	}
 
+	void add(string na, string su, string ma, int nu)
+	{
+		size++;
+		int i = book.size() + 1;
+		book.resize(i);
+		cout << "seslseseses";
+		book[i].setName(na);
+		book[i].setSurname(su);
+		book[i].setMail(ma);
+		book[i].setId(i);
+		book[i].setNumber(nu);
+		cout << "po problemie";
+	}
+
 	void printBook()
 	{
 		cout << "Address book\nNumber of rekoords: " << size << "\nValue of records:\n";
