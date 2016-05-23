@@ -10,3 +10,6 @@ void help()
 {
 	//ss
 }
+
+
+//przekopiować printa - pytranie do pana Nagórko

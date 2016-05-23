@@ -2,7 +2,7 @@ using namespace std;
 
 class Person
 {
-	string name, surname, mail;
+	string name, surname, mail; // save af Name;Surname;Mail;Id;Number;
 	int id, number;
 
 public:
@@ -142,9 +142,17 @@ public:
 	{
 		fstream bk;
 
-		bk.open(file, ios::trunc | ios::out | ios::app );
-cout << "save";
+		remove(file);
+
+		bk.open(file, ios::out | ios::app );
+
 		bk << size << ";\n";
+
+		for(int i = 0; i < size; i++)
+		{
+			bk << book[i].getName() << ";" << book[i].getSurname() << ";" << book[i].getMail() << ";" << book[i].getId() << ";" << book[i].getNumber() << ";";
+			bk << endl;
+		}
 
 		bk.close();
 	}
