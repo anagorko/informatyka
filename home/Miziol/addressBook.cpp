@@ -16,6 +16,17 @@ int main(int argc, char* argv[])
 	else
 	{
 		Book1.openFile(argv[1]);
+
+		for (int i = 2; i < argc; i++)
+		{
+			string test;
+			test = argv[i];
+
+			if(test == "print")
+			{
+				Book1.printBook();
+			}
+		}
 	}
 
 	return 0;
