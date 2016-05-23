@@ -1,4 +1,4 @@
-##include<iostream>
+#include<iostream>
 #include<vector>
 #include<fstream>
 
@@ -99,7 +99,7 @@ public:
 
 	void dilejt(int x)
 	{
-        if (x > (book.size() - 1)) cout << "Nie mam takich danych";
+        if (x > (book.size()) || book[x].get_id() == 0) cout << "Nie mam takich danych";
         for(int i = 0; i < book.size(); i++)
         {
             if(book[i].get_id() == x)
@@ -108,12 +108,11 @@ public:
                 cout << "Usunięto wpis o numerze" << x;
             }
         }
-        cout << "Nie amm takich danych";
 	}
 
 	void modify(int x, string what, string new_content)
 	{
-        if (x > (book.size() - 1)) cout << "Nie mam takich danych";
+        if (x > (book.size())) cout << "Nie mam takich danych";
         for(int i = 0; i < book.size(); i++)
         {
             if(book[i].get_id() == x)
@@ -145,13 +144,11 @@ public:
     */
     void robocze_write()
     {
-         cout<<"w srodku"<<endl<<book.size()<<endl;
-         for (int i = 0; i < 1; i++)
+         for (int i = 0; i < book.size(); i++)
 		{
-		    cout<<book[i].get_id();
 		    if(book[i].get_id() != 0)
             {
-                cout << book[i];
+                cout << endl << book[i];
             }
         }
     }
@@ -197,29 +194,29 @@ public:
         cout<< "W linii komend wpisujemy nazwę książki adresowej. Po drugie komendę z poniższych: 1.dodaj 2.zmień 3.usuń 4.znajdź ";
     }
 
-    void modify(AdressBook book)
+    void modify(AdressBook& bk)
     {
         int x;
-        string new_name, new_surname;
+        string data_to_change, new_data;
         cout<< "który wpis?";
         cin>>x;
-        cout<<"Nowe imię:";
-        cin>>new_name;
-        cout<<"Nowe nazwisko:";
-        cin>>new_surname;
+        cout<<"co chcesz zmienić?";
+        cin>>data_to_change;
+        cout<<"Nowe dane:";
+        cin>>new_data;
 
-        book.modify(x, new_name, new_surname);
+        bk.modify(x, data_to_change, new_data);
     }
 
-    void dilejt(AdressBook book)
+    void dilejt(AdressBook& bk)
     {
         int x;
         cout<<"który wpis?";
         cin>>x;
-        book.dilejt(x);
+        bk.dilejt(x);
     }
 
-    void add(AdressBook book)
+    void add(AdressBook& bk)
     {
 
         string new_name, new_surname, new_mail;
@@ -232,21 +229,21 @@ public:
         cout<<"Mail:";
         cin>>new_mail;
 
-        book.add(new_name, new_surname, new_mail);
+        bk.add(new_name, new_surname, new_mail);
     }
 
-    void looking_for(AdressBook book)
+    void looking_for(AdressBook bk)
     {
         string sb;
         cout<<"kogo szukamy?";
         cin>>sb;
-        book.looking_for(sb);
+        bk.looking_for(sb);
     }
 
-    void print(AdressBook book)
+    void print(AdressBook bk)
     {
         vector<Person> a;
-        a = book.get_vector();
+        a = bk.get_vector();
         for(int i = 0; i < a.size(); i++)
         {
             if(a[i].get_id() != 0)
@@ -260,17 +257,22 @@ public:
 
 int main(int argc, char* argv[])
 {
-    Person p = Person("Krzysiu", "Blankiewicz", "kblankiewicz5");
+    /*Person p = Person("Krzysiu", "Blankiewicz", "kblankiewicz5");
 
-    AdressBook book;
+    AdressBook ksiazka;
 
     UI iface;
 
-    iface.add(book);
+    iface.add(ksiazka);
+    iface.add(ksiazka);
+    iface.add(ksiazka);
+    iface.dilejt(ksiazka);
+    iface.modify(ksiazka);
 
-    book.robocze_write();
+    ksiazka.robocze_write();
 
-    /*UI iface;
+*/
+    UI iface;
 
     if (argc == 1 || (argc > 1 && string(argv[1]) == "help"))
     {
@@ -283,27 +285,27 @@ int main(int argc, char* argv[])
 
     if (argc == 3)
     {
-        string bookname;
-        bookname = string(argv[1]);
+        string ksiazka_name;
+        ksiazka_name = string(argv[1]);
 
-        string file_name = bookname + "txt";
+        string file_name = ksiazka_name + "txt";
 
   //      OTWÓRZ KSIĄŻKĘ Z PLIKU I STWÓRZ ADRESSBOOK book
-        AdressBook book;
+
+        AdressBook ksiazka;
 
         if(string(argv[2]) == "dodaj")
-            iface.add(book);
+            iface.add(ksiazka);
         if(string(argv[2]) == "zmień")
-            iface.modify(book);
+            iface.modify(ksiazka);
         if(string(argv[2]) == "usuń")
-            iface.dilejt(book);
+            iface.dilejt(ksiazka);
         if(string(argv[2]) == "znajdź")
-            iface.looking_for(book);
+            iface.looking_for(ksiazka);
         if(string(argv[2]) == "wyświetl")
-            iface.print(book);
+            iface.print(ksiazka);
 
-  //     ZAPISZ KSIĄŻKĘDO PLIKU
-    }*/
+   //     ksiazka.write(test.txt);
+    }
 }
-
 
