@@ -27,6 +27,8 @@ int main(int argc, char* argv[])
 				Book1.printBook();
 			}
 		}
+
+		Book1.saveFile(argv[1]);
 	}
 
 	return 0;

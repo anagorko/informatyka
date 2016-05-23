@@ -10,7 +10,6 @@ public:
 	void setId(int n)
 	{
 		id = n;
-		cout << id << endl;
 	}
 	int getId()
 	{
@@ -20,7 +19,6 @@ public:
 	void setName(string s)
 	{
 		name = s;
-		cout << name << endl;
 	}
 	string getName()
 	{
@@ -30,7 +28,6 @@ public:
 	void setSurname(string s)
 	{
 		surname = s;
-		cout << surname << endl;
 	}
 	string getSurname()
 	{
@@ -40,7 +37,6 @@ public:
 	void setMail(string s)
 	{
 		mail = s;
-		cout << mail << endl;
 	}
 	string getMail()
 	{
@@ -50,7 +46,6 @@ public:
 	void setNumber(int n)
 	{
 		number = n;
-		cout << number << endl;
 	}
 	int getNumber()
 	{
@@ -65,6 +60,7 @@ class Book
 {
 	int size;
 	vector <Person> book;
+
 private:
 
 public:
@@ -72,15 +68,19 @@ public:
 	{
 		fstream bk;
 
-		int element;
+		int element = 1;
 		string s;
 
-		bk.open(file, ios::app | ios::in | ios::out );
+		bk.open(file, ios::in );
 		getline(bk, s);
 		for (int i = 0; i < s.size()-1; i++)
 		{
-			size = size * 10 + s[i];
+			size  = 0;
+			size = size * 10 + s[i] - 48;
 		}
+
+		book.resize(size);
+
 		for (int j = 0; j < size; j++)
 		{
 			getline(bk, s);
@@ -91,9 +91,11 @@ public:
 				{
 					case 1:
 					if(s[i] == ';')
+					{
 						element++;
-					else
+					}else{
 						book[j].setName( book[j].getName() + s[i]);
+					}
 
 					break;
 
@@ -117,15 +119,39 @@ public:
 					if(s[i] == ';')
 						element++;
 					else
-						book[j].setId( (book[j].getId() * 10)+ (int)s[i]);
+						book[j].setId( (book[j].getId() * 10) + s[i] - 48);
 
 					break;
+
+					case 5:
+					if(s[i] == ';')
+						element++;
+					else
+						book[j].setNumber( (book[j].getNumber() * 10) + s[i] - 48);
+
+					break;
+
 				}
 			}
 		}
+
+		bk.close();
 	}
+
+	void saveFile(char* file)
+	{
+		fstream bk;
+
+		bk.open(file, ios::trunc | ios::out | ios::app );
+cout << "save";
+		bk << size << ";\n";
+
+		bk.close();
+	}
+
 	void printBook()
 	{
+		cout << "Address book\nNumber of rekoords: " << size << "\nValue of records:\n";
 		for(int i = 0; i < size; i++)
 		{
 			cout << book[i].getId() << " " << book[i].getName() << " " << book[i].getSurname() << " " << book[i].getMail() << " " << book[i].getNumber() << endl;
