@@ -2,7 +2,7 @@ using namespace std;
 
 void welcomeHelp()
 {
-	cout << "Welcome in Simply Address Book\n\nAt the begining please enter the name of book file";
+	cout << "\nWelcome in Simply Address Book\n\nAt the begining please enter the name of book file\n\n";
 	return;
 }
 
@@ -10,3 +10,6 @@ void help()
 {
 	//ss
 }
+
+
+//przekopiować printa - pytranie do pana Nagórko
