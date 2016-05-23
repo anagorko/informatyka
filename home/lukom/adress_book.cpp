@@ -7,7 +7,6 @@ using namespace std;
 
 class Person{
 public:
-    int id;
 
     vector<char> name;
     vector<char> surname;
@@ -20,7 +19,7 @@ public:
 	vector<Person> bk;
 
     void read(string bookname);
-	void write(string bookname, Person p);//TODO
+	void write(string bookname);
 
 
 } ab;
@@ -28,8 +27,8 @@ class UI {//User Interface
 public:
 	void help();
 
-    void list(string l);//TODO
-    void add();//TODO
+    void list(string l);
+    void add();
     void modify();//TODO
     void del();//TODO
 
@@ -51,14 +50,15 @@ void UI::list(string l){
     }
 }
 void UI::add(){
-    adressbook ab;
+
     Person p;
     string s;
 
     cout<<"Podaj Nazwę Książki Telefonicznej: ";
     
-    string bookfile;
-    cin>>bookfile;
+    string bookname;
+    cin>>bookname;
+    ab.read(bookname);
 
     cout<<"Podaj Imię: ";
     cin>>s;
@@ -75,30 +75,30 @@ void UI::add(){
     cout<<"Podaj numer telefonu: ";
     cin>>s;
     for(int i=0;i<s.length();i++) p.phone.push_back((int)s[i]-'0');
-    p.id =0;
-    ab.write(bookfile, p);
+    
+    ab.bk.push_back(p);
 
-   // cout<<(char)(p.phone[0]+'0')<<endl;
+    ab.write(bookname);
 }
 
 void UI::help(){
-    cout<<"Witaj w ksiazce adresowej!\n";
+    cout<<"Witaj w ksiazce adresowej!\n\nAby dodać kontakt dopisz na końcu polecenia 'add'\n";
+    cout<<"Aby pokazac książkę napisz na koncu polecenia 'list + nazwa_książki\n\n";
 }
 
-void adressbook::write(string bookname, Person p){
+void adressbook::write(string bookname){
     
-
     string ss;
-//    ss +=  (char)p.id + '0';
-//    ss += ' ';
-    for(int i=0;i<p.name.size();i++)ss += p.name[i]; //name
-    ss += ';';
-    for(int i=0;i<p.surname.size();i++)ss += p.surname[i]; //surname
-    ss += ';';
-    for(int i=0;i<p.mail.size();i++)ss += p.mail[i]; //mail
-    ss += ';';
-    for(int i=0;i<p.phone.size();i++)ss += (char)p.phone[i]+'0'; //name
-    ss += ';';
+    for(int i=0;i<ab.bk.size();i++){
+        for(int q=0;q<ab.bk[i].name.size();q++) ss += ab.bk[i].name[q];
+        ss += ";";
+        for(int q=0;q<ab.bk[i].surname.size();q++) ss += ab.bk[i].surname[q];
+        ss += ";";
+        for(int q=0;q<ab.bk[i].mail.size();q++) ss += ab.bk[i].mail[q];
+        ss += ";";
+        for(int q=0;q<ab.bk[i].phone.size();q++) ss += ab.bk[i].phone[q] + '0';
+        ss += ";";
+    }
     
     fstream bookfile;
 
