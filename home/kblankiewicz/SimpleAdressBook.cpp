@@ -1,4 +1,4 @@
-#include<iostream>
+##include<iostream>
 #include<vector>
 #include<fstream>
 
@@ -11,7 +11,7 @@ class Person
 
 public:
 
-	/*Person(string n, string s, string m)
+	Person(string n, string s, string m)
 	{
         int i = -1;
         id = i;
@@ -19,7 +19,7 @@ public:
 		surname = s;
 		mail = m;
 
-	}*/
+	}
 
 	int get_id()
 	{
@@ -69,7 +69,13 @@ ostream& operator<<(ostream& os, Person& p)
 
 istream& operator>>(istream& is, Person& p)
 {
-    is >> p.get_id() >> p.get_name() >> p.get_surname() >> p.get_mail();
+    int i;
+    string n, s, m;
+    is >> i >> n >> s >> m;
+    p.set_id(i);
+    p.set_name(n);
+    p.set_surname(s);
+    p.set_mail(m);
     return is;
 }
 
@@ -82,12 +88,12 @@ public:
 
 	void add(string new_name, string new_surname, string new_mail)
 	{
-	    Person new_Person (new_name, new_surname, new_mail)
+	    Person new_Person = Person(new_name, new_surname, new_mail);
 
-	    book.resize(book.size() + 1, NIE WIEM CO TU WPISAĆ)
+	    book.resize(book.size() + 1, Person("nic", "nic", "nic"));
 	    book[book.size() - 1] = new_Person;
-	    new_Person.set_id(liczba_wpisow + 1);
-
+	    book[book.size() - 1].set_id(book.size());
+        cout << book[0]<<endl<<"book.size = "<<book.size()<<endl;
 		cout << "dodano wpis";
 	}
 
@@ -99,10 +105,10 @@ public:
             if(book[i].get_id() == x)
             {
                 book[i].set_id(0);
-                cout << "Usunięto wpis o numerze" x;
+                cout << "Usunięto wpis o numerze" << x;
             }
         }
-        cout << "Nie amm takich danych"
+        cout << "Nie amm takich danych";
 	}
 
 	void modify(int x, string what, string new_content)
@@ -112,15 +118,15 @@ public:
         {
             if(book[i].get_id() == x)
             {
-                if(book[i].get_id(x) == 0)cout << "Nie mam takich danych";
                 if(what == "name") book[i].set_name(new_content);
-                if(what == "surname") book[i].set_surname(new_content;
+                if(what == "surname") book[i].set_surname(new_content);
                 if(what == "mail") book[i].set_mail(new_content);
                 else cout << "błąd w komendzie";
             }
         }
-        cout <<"Zmodyfikowano wpis o numerze"
+        cout <<"Zmodyfikowano wpis o numerze" << x;
 	}
+
 
 
 	/*void write(string bookname)
@@ -139,22 +145,24 @@ public:
     */
     void robocze_write()
     {
-         for (int i = 0; i < book.size(); i++)
+         cout<<"w srodku"<<endl<<book.size()<<endl;
+         for (int i = 0; i < 1; i++)
 		{
-		    if()
-            cout << book[i];
+		    cout<<book[i].get_id();
+		    if(book[i].get_id() != 0)
+            {
+                cout << book[i];
+            }
         }
     }
 
     int looking_for(string sb)
     {
-        if (x > (book.size() - 1) || book[x].get_id() == 0) return "Nie mam takich danych";
-
         for(int i = 0; i < book.size(); i++)
         {
-            if(book[i].get_surname() == sb)
+            if(book[i].get_surname() == sb && book[i].get_id() != 0)
             {
-                cout<<get_Person(book[i].get_id());
+                //cout<<get_Person(book[i].get_id()); MA PROBLEM Z OPERATOREM
             }
         }
     }
@@ -172,6 +180,10 @@ public:
     }
 
 
+    vector<Person> get_vector()
+    {
+        return book;
+    }
 };
 
 class UI
@@ -188,9 +200,15 @@ public:
     void modify(AdressBook book)
     {
         int x;
-        cout<< "który wpis?"
+        string new_name, new_surname;
+        cout<< "który wpis?";
         cin>>x;
-        book.modify(x);
+        cout<<"Nowe imię:";
+        cin>>new_name;
+        cout<<"Nowe nazwisko:";
+        cin>>new_surname;
+
+        book.modify(x, new_name, new_surname);
     }
 
     void dilejt(AdressBook book)
@@ -203,6 +221,7 @@ public:
 
     void add(AdressBook book)
     {
+
         string new_name, new_surname, new_mail;
         cout<<"Imię:";
         cin>>new_name;
@@ -213,7 +232,7 @@ public:
         cout<<"Mail:";
         cin>>new_mail;
 
-        book.add(new_name, new_surname, new_mail)
+        book.add(new_name, new_surname, new_mail);
     }
 
     void looking_for(AdressBook book)
@@ -221,41 +240,37 @@ public:
         string sb;
         cout<<"kogo szukamy?";
         cin>>sb;
-        looking_for(book, sb);
+        book.looking_for(sb);
     }
 
     void print(AdressBook book)
     {
-        for(int i = 0; i < book.size(); i++)
+        vector<Person> a;
+        a = book.get_vector();
+        for(int i = 0; i < a.size(); i++)
         {
-            if(book[i].get_id() != 0)
+            if(a[i].get_id() != 0)
             {
-                cout<<book[i];
+                cout<<a[i];
             }
         }
     }
 
 };
 
-/*int main()
+int main(int argc, char* argv[])
 {
-	Person p;
-	p.set_id(1);
-	string n = "Krzysiu";
-	p.set_name(n);
-	string s = "Blankiewicz";
-	p.set_surname(s);
+    Person p = Person("Krzysiu", "Blankiewicz", "kblankiewicz5");
 
     AdressBook book;
 
-    book.add(p);
-
-    book.write();
-}*/
-
-int main(int argc, char* argv[])
-{
     UI iface;
+
+    iface.add(book);
+
+    book.robocze_write();
+
+    /*UI iface;
 
     if (argc == 1 || (argc > 1 && string(argv[1]) == "help"))
     {
@@ -264,14 +279,17 @@ int main(int argc, char* argv[])
     }
 
     if(argc > 3)
-        cout<<"Nie wszystko na raz."
+        cout<<"Nie wszystko na raz.";
 
     if (argc == 3)
     {
-        string book;
-        book = string(argv[1]);
+        string bookname;
+        bookname = string(argv[1]);
 
-        WCZYTAJ KSIĄŻKĘ Z PLIKU BOOK.TXT
+        string file_name = bookname + "txt";
+
+  //      OTWÓRZ KSIĄŻKĘ Z PLIKU I STWÓRZ ADRESSBOOK book
+        AdressBook book;
 
         if(string(argv[2]) == "dodaj")
             iface.add(book);
@@ -284,7 +302,8 @@ int main(int argc, char* argv[])
         if(string(argv[2]) == "wyświetl")
             iface.print(book);
 
-       ZAPISZ KSIĄŻKĘDO PLIKU
-    }
+  //     ZAPISZ KSIĄŻKĘDO PLIKU
+    }*/
 }
+
 
