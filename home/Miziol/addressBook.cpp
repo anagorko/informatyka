@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
 			if(test == "print")
 			{
-				Book1.printBook();
+				print();
 			}
 			if(test == "add")
 			{

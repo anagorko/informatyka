@@ -34,4 +34,13 @@ void add()
 	Book1.add(na,su,ma,n);
 }
 
+void print()
+{
+	cout << "Address book\nNumber of rekoords: " << Book1.size << "\nValue of records:\n";
+		for(int i = 0; i < Book1.size; i++)
+		{
+			cout << Book1.book[i].getId() << " " << Book1.book[i].getName() << " " << Book1.book[i].getSurname() << " " << Book1.book[i].getMail() << " " << Book1.book[i].getNumber() << endl;
+		} 
+}
+
 //przekopiować printa - pytranie do pana Nagórko

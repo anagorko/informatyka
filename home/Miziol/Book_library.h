@@ -58,6 +58,7 @@ public:
 
 class Book
 {
+public:
 	int size;
 	vector <Person> book;
 
@@ -171,15 +172,6 @@ public:
 		book[i].setMail(ma);
 		book[i].setId(i+1);
 		book[i].setNumber(nu);
-	}
-
-	void printBook()
-	{
-		cout << "Address book\nNumber of rekoords: " << size << "\nValue of records:\n";
-		for(int i = 0; i < size; i++)
-		{
-			cout << book[i].getId() << " " << book[i].getName() << " " << book[i].getSurname() << " " << book[i].getMail() << " " << book[i].getNumber() << endl;
-		} 
 	}
 
 	//kolene funkcje
