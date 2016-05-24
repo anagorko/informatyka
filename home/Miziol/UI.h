@@ -25,16 +25,12 @@ void add()
 	getline(cin,nu);
 
 	n=0;
-	p=0;
+
 	for(int i = 0; i < nu.size(); i++)
 	{
-		if(nu[i]==' ') p++;
-		else
-		{
-			n = (pow(10,i-p)*n) + (nu[i] - 48);
-		}
+		n = n * 10 + nu[i] - 48;
 	}
-	cout << "esles";
+
 	Book1.add(na,su,ma,n);
 }
 

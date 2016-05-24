@@ -85,6 +85,8 @@ public:
 		{
 			getline(bk, s);
 
+			element = 1;
+
 			for(int i = 0; i < s.size(); i++)
 			{
 				switch(element)
@@ -162,13 +164,13 @@ public:
 		size++;
 		int i = book.size() + 1;
 		book.resize(i);
-		cout << "seslseseses";
+		
+		i--;
 		book[i].setName(na);
 		book[i].setSurname(su);
 		book[i].setMail(ma);
-		book[i].setId(i);
+		book[i].setId(i+1);
 		book[i].setNumber(nu);
-		cout << "po problemie";
 	}
 
 	void printBook()
