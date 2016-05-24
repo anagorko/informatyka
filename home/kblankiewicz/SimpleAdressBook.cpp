@@ -92,7 +92,7 @@ public:
 
 	    book.resize(book.size() + 1, Person("nic", "nic", "nic"));
 	    book[book.size() - 1] = new_Person;
-		
+
 		int l = 1;
 		for(int i = 0; i < book.size(); i++)
 		{
@@ -125,13 +125,29 @@ public:
         {
             if(book[i].get_id() == x)
             {
-                if(what == "name") book[i].set_name(new_content);
-                if(what == "surname") book[i].set_surname(new_content);
-                if(what == "mail") book[i].set_mail(new_content);
-                else cout << "błąd w komendzie" << endl;
+                if(what == "imie")
+                {
+                    book[i].set_name(new_content);
+                    cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
+                }
+                if(what == "nazwisko")
+                {
+                    book[i].set_surname(new_content);
+                    cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
+                }
+                if(what == "mail")
+                {
+                    book[i].set_mail(new_content);
+                    cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
+                }
+                else
+                {
+                    cout << "Prawdopodobnie zrobiles literowke przy odpowiedzi na drugie pytanie." << endl;
+                   // int wyjatek = 98;
+                   // throw wyjatek;
+                }
             }
         }
-        cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
 	}
 
 
@@ -140,24 +156,33 @@ public:
 	{
     	ofstream bookfile;
         bookfile.open(bookname.c_str(), ios::trunc);
+
+        bookfile << book.size()<<endl;
         for (int i = 0; i < book.size(); i++)
 			{
             if(book[i].get_id() != 0)  bookfile << book[i];
         	}
+
         bookfile.close();
     }
 
 	void read(string bookname)
 	{
     	ifstream bookfile;
-        bookfile.open(bookname.c_str(), ios::trunc);
+        bookfile.open(bookname.c_str(), ios::in);
+
+        int counting;
+        bookfile >> counting;
+
+        book.resize(counting, Person("nic", "nic", "nic"));
+
         for (int i = 0; i < book.size(); i++)
-			{
+        {
             bookfile >> book[i];
-        	}
+        }
         bookfile.close();
     }
-    
+
     void robocze_write()
     {
          for (int i = 0; i < book.size(); i++)
@@ -187,7 +212,8 @@ public:
         {
             if(book[i].get_surname() == sb && book[i].get_id() != 0)
             {
-                //cout<<get_Person(book[i].get_id());
+                Person q = get_Person(book[i].get_id());
+                cout<<q;
             }
         }
     }
@@ -206,27 +232,34 @@ public:
 
     void help()
     {
-        cout<< "W linii komend wpisujemy nazwę książki adresowej. Po drugie komendę z poniższych: 1.dodaj 2.zmień 3.usuń 4.znajdź ";
+        cout<< "W linii komend wpisujemy nazwe ksiazki adresowej. Po drugie, co zrobić..."<<endl<<endl<< "   dodaj"<<endl<< "   zmien"<<endl<< "   usun"<<endl<< "    znajdz - Wyswietla wpisy osob o danym nazwisku. Potrzebne do znalezienia numeru zadanego wpisu."<<endl<<"  nowa_ksiazka - tworzy nową ksiazke adresowa o nazwie podanej jako pierwszy argument."<<endl<<endl<<"Przy braku dodatkowej zmiennej program wypisze cala ksiazke.";
     }
 
-    void modify(AdressBook& bk)
-    {
-        int x;
-        string data_to_change, new_data;
-        cout<< "który wpis?";
-        cin>>x;
-        cout<<"co chcesz zmienić?";
-        cin>>data_to_change;
-        cout<<"Nowe dane:";
-        cin>>new_data;
+    //try
+    //{
+        void modify(AdressBook& bk)
+        {
+            int x;
+            string data_to_change, new_data;
+            cout<< "Wpis o ktorym numerze zmienic?";
+            cin>>x;
+            cout<<"Co chcesz zmienić? (imie/nazwisko/mail)";
+            cin>>data_to_change;
+            cout<<"Nowe dane:";
+            cin>>new_data;
 
-        bk.modify(x, data_to_change, new_data);
-    }
+            bk.modify(x, data_to_change, new_data);
+        }
+    //}
+    //catch(int w)
+    //{
+     //   .modify(ksiazka);
+    //}
 
     void dilejt(AdressBook& bk)
     {
         int x;
-        cout<<"który wpis?";
+        cout<<"Który wpis usuwamy?";
         cin>>x;
         bk.dilejt(x);
     }
@@ -250,7 +283,7 @@ public:
     void looking_for(AdressBook bk)
     {
         string sb;
-        cout<<"kogo szukamy?";
+        cout<<"Jakiego nazwiska szukamy?";
         cin>>sb;
         bk.looking_for(sb);
     }
@@ -272,39 +305,29 @@ public:
 
 int main(int argc, char* argv[])
 {
-    Person p = Person("Krzysiu", "Blankiewicz", "kblankiewicz5");
-    AdressBook ksiazka;
-    UI iface;
-    iface.add(ksiazka);
-    iface.add(ksiazka);
-    iface.add(ksiazka);
-    iface.dilejt(ksiazka);
-    iface.modify(ksiazka);
-   // ksiazka.robocze_write();
-
-	ksiazka.write("test.txt");
-
+    
     /*UI iface;
-
-    if (argc == 1 || (argc > 1 && string(argv[1]) == "help"))
+    if (argc == 1  || (argc > 1 && string(argv[1]) == "help"))
     {
         iface.help();
         return 0;
     }
 
+
     if(argc > 3)
         cout<<"Nie wszystko na raz.";
-
     if (argc == 3)
     {
-        string ksiazka_name;
-        ksiazka_name = string(argv[1]);
+        if(string(argv[2]) == "nowa_ksiazka")
+        {
+            AdressBook ksiazka;
 
-        string file_name = ksiazka_name + "txt";
-
-  //      OTWÓRZ KSIĄŻKĘ Z PLIKU I STWÓRZ ADRESSBOOK book
-
+            ksiazka.write(string(argv[1]) + "txt");
+            return 0;
+        }
         AdressBook ksiazka;
+
+        ksiazka.read(string(argv[1]) + ".txt");
 
         if(string(argv[2]) == "dodaj")
             iface.add(ksiazka);
@@ -317,7 +340,36 @@ int main(int argc, char* argv[])
         if(string(argv[2]) == "wyświetl")
             iface.print(ksiazka);
 
-   //     ksiazka.write(test.txt);
+        ksiazka.write(string(argv[1]) + ".txt");
     }*/
+    UI iface;
+
+    AdressBook ksiazka;
+
+    iface.help();
+    cout<<endl<<"Słucham..."<<endl;
+    string nazwa_ksiazki, komenda;
+    cin>>nazwa_ksiazki>>komenda;
+
+    if(komenda == "nowa_ksiazka")
+    {
+        ksiazka.write(nazwa_ksiazki + ".txt");
+    }
+
+    ksiazka.read(nazwa_ksiazki + ".txt");
+
+    if(komenda == "dodaj")
+        iface.add(ksiazka);
+    if(komenda == "zmien")
+        iface.modify(ksiazka);
+    if(komenda == "usun")
+        iface.dilejt(ksiazka);
+    if(komenda == "znajdz")
+        iface.looking_for(ksiazka);
+    if(komenda == "wyswietl")
+        iface.print(ksiazka);
+
+    ksiazka.write(nazwa_ksiazki + ".txt");
+
 	return 0;
 }
