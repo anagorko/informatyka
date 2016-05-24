@@ -25,17 +25,22 @@ void add()
 	getline(cin,nu);
 
 	n=0;
-	p=0;
+
 	for(int i = 0; i < nu.size(); i++)
 	{
-		if(nu[i]==' ') p++;
-		else
-		{
-			n = (pow(10,i-p)*n) + (nu[i] - 48);
-		}
+		n = n * 10 + nu[i] - 48;
 	}
-	cout << "esles";
+
 	Book1.add(na,su,ma,n);
+}
+
+void print()
+{
+	cout << "Address book\nNumber of rekoords: " << Book1.size << "\nValue of records:\n";
+		for(int i = 0; i < Book1.size; i++)
+		{
+			cout << Book1.book[i].getId() << " " << Book1.book[i].getName() << " " << Book1.book[i].getSurname() << " " << Book1.book[i].getMail() << " " << Book1.book[i].getNumber() << endl;
+		} 
 }
 
 //przekopiować printa - pytranie do pana Nagórko
