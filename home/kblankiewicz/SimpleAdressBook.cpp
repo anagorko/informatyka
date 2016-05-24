@@ -63,7 +63,7 @@ public:
 
 ostream& operator<<(ostream& os, Person& p)
 {
-    os << p.get_id() << p.get_name() << p.get_surname() << p.get_mail();
+    os << p.get_id()<< " " << p.get_name() << " " << p.get_surname() << " " << p.get_mail() <<endl;
     return os;
 }
 
@@ -92,27 +92,35 @@ public:
 
 	    book.resize(book.size() + 1, Person("nic", "nic", "nic"));
 	    book[book.size() - 1] = new_Person;
-	    book[book.size() - 1].set_id(book.size());
+		
+		int l = 1;
+		for(int i = 0; i < book.size(); i++)
+		{
+			if(book[i].get_id() >= l)  l = book[i].get_id() + 1;
+		}
+
+	    book[book.size() - 1].set_id(l);
         cout << book[0]<<endl<<"book.size = "<<book.size()<<endl;
-		cout << "dodano wpis";
+		cout << "dodano wpis" << endl;
 	}
 
 	void dilejt(int x)
 	{
-        if (x > (book.size()) || book[x].get_id() == 0) cout << "Nie mam takich danych";
+        if (x > (book.size()) || book[x].get_id() == 0) cout << "Nie mam takich danych" << endl;
         for(int i = 0; i < book.size(); i++)
         {
+			cout << i << " " << book[i].get_id() << endl;
             if(book[i].get_id() == x)
             {
                 book[i].set_id(0);
-                cout << "Usunięto wpis o numerze" << x;
+                cout << "Usunięto wpis o numerze" << x << endl;
             }
         }
 	}
 
 	void modify(int x, string what, string new_content)
 	{
-        if (x > (book.size())) cout << "Nie mam takich danych";
+        if (x > (book.size())) cout << "Nie mam takich danych" << endl;
         for(int i = 0; i < book.size(); i++)
         {
             if(book[i].get_id() == x)
@@ -120,28 +128,36 @@ public:
                 if(what == "name") book[i].set_name(new_content);
                 if(what == "surname") book[i].set_surname(new_content);
                 if(what == "mail") book[i].set_mail(new_content);
-                else cout << "błąd w komendzie";
+                else cout << "błąd w komendzie" << endl;
             }
         }
-        cout <<"Zmodyfikowano wpis o numerze" << x;
+        cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
 	}
 
 
 
-	/*void write(string bookname)
+	void write(string bookname)
 	{
     	ofstream bookfile;
-
-        bookfile.open(bookname, ios::trunc);
-
+        bookfile.open(bookname.c_str(), ios::trunc);
         for (int i = 0; i < book.size(); i++)
-		{
-            bookfile << book[i];
-        }
-
+			{
+            if(book[i].get_id() != 0)  bookfile << book[i];
+        	}
         bookfile.close();
     }
-    */
+
+	void read(string bookname)
+	{
+    	ifstream bookfile;
+        bookfile.open(bookname.c_str(), ios::trunc);
+        for (int i = 0; i < book.size(); i++)
+			{
+            bookfile >> book[i];
+        	}
+        bookfile.close();
+    }
+    
     void robocze_write()
     {
          for (int i = 0; i < book.size(); i++)
@@ -149,17 +165,6 @@ public:
 		    if(book[i].get_id() != 0)
             {
                 cout << endl << book[i];
-            }
-        }
-    }
-
-    int looking_for(string sb)
-    {
-        for(int i = 0; i < book.size(); i++)
-        {
-            if(book[i].get_surname() == sb && book[i].get_id() != 0)
-            {
-                //cout<<get_Person(book[i].get_id()); MA PROBLEM Z OPERATOREM
             }
         }
     }
@@ -176,6 +181,16 @@ public:
         }
     }
 
+	int looking_for(string sb)
+    {
+        for(int i = 0; i < book.size(); i++)
+        {
+            if(book[i].get_surname() == sb && book[i].get_id() != 0)
+            {
+                //cout<<get_Person(book[i].get_id());
+            }
+        }
+    }
 
     vector<Person> get_vector()
     {
@@ -257,22 +272,19 @@ public:
 
 int main(int argc, char* argv[])
 {
-    /*Person p = Person("Krzysiu", "Blankiewicz", "kblankiewicz5");
-
+    Person p = Person("Krzysiu", "Blankiewicz", "kblankiewicz5");
     AdressBook ksiazka;
-
     UI iface;
-
     iface.add(ksiazka);
     iface.add(ksiazka);
     iface.add(ksiazka);
     iface.dilejt(ksiazka);
     iface.modify(ksiazka);
+   // ksiazka.robocze_write();
 
-    ksiazka.robocze_write();
+	ksiazka.write("test.txt");
 
-*/
-    UI iface;
+    /*UI iface;
 
     if (argc == 1 || (argc > 1 && string(argv[1]) == "help"))
     {
@@ -306,6 +318,6 @@ int main(int argc, char* argv[])
             iface.print(ksiazka);
 
    //     ksiazka.write(test.txt);
-    }
+    }*/
+	return 0;
 }
-
