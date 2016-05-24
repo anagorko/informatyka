@@ -21,6 +21,8 @@ public:
     void read(string bookname);
 	void write(string bookname);
 
+    void sort();
+
 
 } ab;
 class UI {//User Interface
@@ -34,6 +36,9 @@ public:
 
 };
 
+void adressbook::sort(){
+    std::sort(bk.begin(), bk.end(), [] (const Person& lhs, const Person& rhs) { return lhs.name < rhs.name; });
+}
 
 void UI::list(string l){
 
@@ -87,7 +92,7 @@ void UI::help(){
 }
 
 void adressbook::write(string bookname){
-    
+    sort();
     string ss;
     for(int i=0;i<ab.bk.size();i++){
         for(int q=0;q<ab.bk[i].name.size();q++) ss += ab.bk[i].name[q];
@@ -99,30 +104,30 @@ void adressbook::write(string bookname){
         for(int q=0;q<ab.bk[i].phone.size();q++) ss += ab.bk[i].phone[q] + '0';
         ss += ";";
     }
-    
+
     fstream bookfile;
 
     bookfile.open(bookname, ios::trunc | ios::in | ios::out);
 
-    
+
     bookfile << ss;
 
     bookfile.close();
 }
-void adressbook::read(string bookname){  
+void adressbook::read(string bookname){
     string s;
     Person p;
     int nper=0;//nr persony
     int phase=0;
-    
+
     fstream bookfile;
 
     bookfile.open(bookname, ios::in);
-    
-    while(!bookfile.eof()){
- 
+
+    while(bookfile.is_open() && !bookfile.eof()){
+
         getline(bookfile, s, ';');
-        
+
         for(int i=0;i<s.length();i++){
             if(phase==0)p.name.push_back(s[i]);//name
             else if(phase==1)p.surname.push_back(s[i]);//surname
