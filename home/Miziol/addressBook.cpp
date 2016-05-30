@@ -32,6 +32,20 @@ int main(int argc, char* argv[])
 			{
 				add();
 			}
+			if(test == "delete")
+			{
+				int dp = 0;
+
+				i++;
+				test = argv[i];
+
+				for(int i = 0; i < test.size(); i++)
+				{
+					dp = dp * 10 + test[i] - 48;
+				}
+
+				deletePerson(dp);
+			}
 		}
 
 		Book1.saveFile(argv[1]);

@@ -39,8 +39,14 @@ void print()
 	cout << "Address book\nNumber of rekoords: " << Book1.size << "\nValue of records:\n";
 		for(int i = 0; i < Book1.size; i++)
 		{
-			cout << Book1.book[i].getId() << " " << Book1.book[i].getName() << " " << Book1.book[i].getSurname() << " " << Book1.book[i].getMail() << " " << Book1.book[i].getNumber() << endl;
+			cout << i << " " << Book1.book[i].getName() << " " << Book1.book[i].getSurname() << " " << Book1.book[i].getMail() << " " << Book1.book[i].getNumber() << endl;
 		} 
 }
+
+void deletePerson(int dv) //id od deleted part of vector
+{
+	Book1.book.erase(dv);
+}
+
 
 //przekopiować printa - pytranie do pana Nagórko
