@@ -18,7 +18,7 @@ class adressbook {
 public:
 	vector<Person> bk;
 
-    void read(string bookname);
+    void read();
 	void write(string bookname);
 
     void sort();
@@ -26,24 +26,55 @@ public:
 
 } ab;
 class UI {//User Interface
+
 public:
 	void help();
 
-    void list(string l);
+    void list();
     void add();
-    void modify();//TODO
+    int modify(string s);
     void del();//TODO
 
+
+    Person ask();
 };
+class Sources {
+public:
+    vector<string> lib;
+
+    int add_lib(string l);
+}SO;
+
+int Sources::add_lib(string l) {
+    SO.lib.push_back(l);
+}
+
+int UI::modify(string s){
+    int nr=0;
+    for(int i=0;i<s.length();i++){
+        if(s[i]<'0' || s[i]>'9'){
+            cout<<"Niepoprawne dane\n";
+            return 0;
+        }
+        nr = nr*10 + (int)s[i]-'0';
+    }
+    cout<<nr<<endl;
+    ab.bk[nr-1]=ask();
+
+    ab.write(SO.lib[0]);
+
+    return 1;
+}
 
 void adressbook::sort(){
     std::sort(bk.begin(), bk.end(), [] (const Person& lhs, const Person& rhs) { return lhs.name < rhs.name; });
 }
 
-void UI::list(string l){
+void UI::list(){
 
-    ab.read(l);
+    ab.read();
     for(int i=0;i<ab.bk.size();i++){
+        cout<<i+1<<". ";
         for(int q=0;q<ab.bk[i].name.size();q++) cout<<ab.bk[i].name[q];
         cout<<" ";
         for(int q=0;q<ab.bk[i].surname.size();q++) cout<<ab.bk[i].surname[q];
@@ -54,16 +85,11 @@ void UI::list(string l){
         cout<<"\n";
     }
 }
-void UI::add(){
-
+Person UI::ask(){
     Person p;
     string s;
 
-    cout<<"Podaj Nazwę Książki Telefonicznej: ";
-    
-    string bookname;
-    cin>>bookname;
-    ab.read(bookname);
+    ab.read();
 
     cout<<"Podaj Imię: ";
     cin>>s;
@@ -80,10 +106,14 @@ void UI::add(){
     cout<<"Podaj numer telefonu: ";
     cin>>s;
     for(int i=0;i<s.length();i++) p.phone.push_back((int)s[i]-'0');
-    
-    ab.bk.push_back(p);
 
-    ab.write(bookname);
+    return p;
+}
+void UI::add(){
+
+    ab.bk.push_back(ask());
+
+    ab.write(SO.lib[0]);
 }
 
 void UI::help(){
@@ -114,7 +144,7 @@ void adressbook::write(string bookname){
 
     bookfile.close();
 }
-void adressbook::read(string bookname){
+void adressbook::read(){
     string s;
     Person p;
     int nper=0;//nr persony
@@ -122,7 +152,7 @@ void adressbook::read(string bookname){
 
     fstream bookfile;
 
-    bookfile.open(bookname, ios::in);
+    bookfile.open(SO.lib[0], ios::in);
 
     while(bookfile.is_open() && !bookfile.eof()){
 
@@ -158,16 +188,20 @@ int main(int argc, char* argv[])
     for(int i=1;i<argc;i++){
         if (string(argv[i]) == "help"){
             break; 
-        }else if(string(argv[i]) == "add"){ //dodawanie adresow
+        }else if(string(argv[i]) == "add" && (i+1)<argc){ //dodawanie adresow
+            i++;
+            SO.add_lib(string(argv[i]));
             show_help = 0;
             iface.add();
         }else if(string(argv[i]) == "list" && (i+1)<argc){
             i++;
+            SO.add_lib(string(argv[i]));
             show_help = 0;
-            iface.list(string(argv[i]));
-        }else{
-            cout<<"Niepoprawne dane\n\n";
-            break;
+            iface.list();
+        }else if(string(argv[i]) == "modify" && (i+2)<argc){
+            SO.add_lib(string(argv[i+1]));
+            show_help = 0; 
+            iface.modify(string(argv[i+2]));
         }
     }
     if(show_help)iface.help();

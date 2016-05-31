@@ -2,19 +2,10 @@ using namespace std;
 
 class Person
 {
-	string name, surname, mail; // save af Name;Surname;Mail;Id;Number;
-	int id, number;
+	string name, surname, mail; // save af Name;Surname;Mail;Number;
+	int number;
 
 public:
-
-	void setId(int n)
-	{
-		id = n;
-	}
-	int getId()
-	{
-		return id;
-	}
 
 	void setName(string s)
 	{
@@ -122,14 +113,6 @@ public:
 					if(s[i] == ';')
 						element++;
 					else
-						book[j].setId( (book[j].getId() * 10) + s[i] - 48);
-
-					break;
-
-					case 5:
-					if(s[i] == ';')
-						element++;
-					else
 						book[j].setNumber( (book[j].getNumber() * 10) + s[i] - 48);
 
 					break;
@@ -153,7 +136,7 @@ public:
 
 		for(int i = 0; i < size; i++)
 		{
-			bk << book[i].getName() << ";" << book[i].getSurname() << ";" << book[i].getMail() << ";" << book[i].getId() << ";" << book[i].getNumber() << ";";
+			bk << book[i].getName() << ";" << book[i].getSurname() << ";" << book[i].getMail() << ";" << ";" << book[i].getNumber() << ";";
 			bk << endl;
 		}
 
@@ -170,7 +153,6 @@ public:
 		book[i].setName(na);
 		book[i].setSurname(su);
 		book[i].setMail(ma);
-		book[i].setId(i+1);
 		book[i].setNumber(nu);
 	}
 
