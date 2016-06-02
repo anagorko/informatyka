@@ -3,6 +3,7 @@
 #include<string>
 #include<vector>
 #include<math.h>
+#include<algorithm>
 
 #include"Book_library.h"
 Book Book1;

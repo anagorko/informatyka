@@ -156,5 +156,10 @@ public:
 		book[i].setNumber(nu);
 	}
 
+	void sortBook()
+	{
+		sort(begin(book), end(book), [] (const Person& lhs, const Person& rhs) { return lhs.getName() < rhs.getName(); });
+	}
+
 	//kolene funkcje
 };
