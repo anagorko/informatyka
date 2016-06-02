@@ -136,7 +136,7 @@ public:
 
 		for(int i = 0; i < size; i++)
 		{
-			bk << book[i].getName() << ";" << book[i].getSurname() << ";" << book[i].getMail() << ";" << ";" << book[i].getNumber() << ";";
+			bk << book[i].getName() << ";" << book[i].getSurname() << ";" << book[i].getMail() << ";" << book[i].getNumber() << ";";
 			bk << endl;
 		}
 

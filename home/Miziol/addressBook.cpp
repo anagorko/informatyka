@@ -46,6 +46,20 @@ int main(int argc, char* argv[])
 
 				deletePerson(dp);
 			}
+			if(test == "edit")
+			{
+				int ep = 0;
+
+				i++;
+				test = argv[i];
+
+				for(int i = 0; i < test.size(); i++)
+				{
+					ep = ep * 10 + test[i] - 48;
+				}
+
+				editPerson(ep);
+			}
 		}
 
 		Book1.saveFile(argv[1]);
