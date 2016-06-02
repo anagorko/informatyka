@@ -49,28 +49,38 @@ void deletePerson(int dv) //id od deleted part of vector
 	Book1.book.erase(Book1.book.begin() + dv);
 }
 
-void editPerson(int n) // nie działa tak jak ma działać
+void editPerson(int n)
 {
 	string na, su, ma, nu;
-	//int n,p;
+	int num;
+
+	cout<<"If some value is correct please just press Enter\n";
+
 	cout << "Please insert Name:\n";
 	getline(cin,na);
+	if(na == "") na = Book1.book[n].getName();
+
 	cout << "Please insert Surname:\n";
 	getline(cin,su);
+	if(na == "") su = Book1.book[n].getSurname();
+
 	cout << "Please insert Mail:\n";
 	getline(cin,ma);
+	if(na == "") ma = Book1.book[n].getMail();
+
 	cout << "Please insert Number:\n";
 	getline(cin,nu);
+	if(na == "") nu = Book1.book[n].getNumber();
 
-	n=0;
+	num=0;
 
 	for(int i = 0; i < nu.size(); i++)
 	{
-		n = n * 10 + nu[i] - 48;
+		num = num * 10 + nu[i] - 48;
 	}
 
-	Book1.add(na,su,ma,n);
+	Book1.book[n].setName(na);
+	Book1.book[n].setSurname(su);
+	Book1.book[n].setMail(ma);
+	Book1.book[n].setNumber(num);
 }
-
-
-//przekopiować printa - pytranie do pana Nagórko
