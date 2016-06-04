@@ -2,6 +2,7 @@
 #include<fstream>
 #include<vector>
 #include<algorithm>
+#include<math.h>
 
 using namespace std;
 
@@ -72,11 +73,11 @@ public:
 
 istream& operator>>(istream& is, Napis &n)
 {
-	is >> n.n;
+	return is >> n.n;
 };
 ostream& operator<<(ostream& os, const Napis &n)
 {
-	os << n.n;
+	return os << n.n;
 };
 
 int main()
