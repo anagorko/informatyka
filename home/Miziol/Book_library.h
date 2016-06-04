@@ -11,7 +11,7 @@ public:
 	{
 		name = s;
 	}
-	string getName()
+	string getName() const
 	{
 		return name;
 	}
