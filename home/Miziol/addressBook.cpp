@@ -61,6 +61,11 @@ int main(int argc, char* argv[])
 
 				editPerson(ep);
 			}
+			if(test == "sort")
+			{
+				Book1.sortBook();
+				cout << "sort";
+			}
 		}
 
 		Book1.saveFile(argv[1]);
