@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
+#include<algorithm>
 
 using namespace std;
 
@@ -26,12 +27,12 @@ public:
 	    return id;
 	}
 
-	string get_name()
+	string get_name() const
 	{
 	    return name;
 	}
 
-	string get_surname()
+	string get_surname() const
 	{
 	    return surname;
 	}
@@ -94,7 +95,7 @@ public:
 	    book[book.size() - 1] = new_Person;
 
 		int l = 1;
-		for(int i = 0; i < book.size(); i++)
+		for(unsigned int i = 0; i < book.size(); i++)
 		{
 			if(book[i].get_id() >= l)  l = book[i].get_id() + 1;
 		}
@@ -104,7 +105,7 @@ public:
 		cout << "dodano wpis" << endl;
 	}
 
-	void dilejt(int x)
+	void dilejt(unsigned int x)
 	{
         if (x > (book.size()) || book[x].get_id() == 0) cout << "Nie mam takich danych" << endl;
         for(int i = 0; i < book.size(); i++)
@@ -125,20 +126,23 @@ public:
         {
             if(book[i].get_id() == x)
             {
-                if(what == "imie")
+                if(what == "imię")
                 {
                     book[i].set_name(new_content);
                     cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
+					return;
                 }
                 if(what == "nazwisko")
                 {
                     book[i].set_surname(new_content);
                     cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
+					return; 
                 }
                 if(what == "mail")
                 {
                     book[i].set_mail(new_content);
                     cout <<"Zmodyfikowano wpis o numerze" << x <<endl;
+					return ;
                 }
                 else
                 {
@@ -148,6 +152,22 @@ public:
                 }
             }
         }
+	}
+
+
+	void sortuj(string z)
+	{
+		
+		if(z == "imię")
+		{
+			sort(begin(book), end(book), [] (const Person& lhs, const Person& rhs) { return lhs.get_name() < rhs.get_name(); });
+
+		}
+
+		if(z == "nazwisko")
+		{
+			sort(begin(book), end(book), [] (const Person& lhs, const Person& rhs) { return lhs.get_surname() < rhs.get_surname(); });
+		}
 	}
 
 
@@ -173,6 +193,8 @@ public:
 
         int counting;
         bookfile >> counting;
+
+	cout << counting << endl;
 
         book.resize(counting, Person("nic", "nic", "nic"));
 
@@ -212,10 +234,11 @@ public:
         {
             if(book[i].get_surname() == sb && book[i].get_id() != 0)
             {
-                Person q = get_Person(book[i].get_id());
-                cout<<q;
+             	int x = book[i].get_id();
+				return x;   
             }
         }
+		return -1000;
     }
 
     vector<Person> get_vector()
@@ -232,7 +255,7 @@ public:
 
     void help()
     {
-        cout<< "W linii komend wpisujemy nazwe ksiazki adresowej. Po drugie, co zrobić..."<<endl<<endl<< "   dodaj"<<endl<< "   zmien"<<endl<< "   usun"<<endl<< "    znajdz - Wyswietla wpisy osob o danym nazwisku. Potrzebne do znalezienia numeru zadanego wpisu."<<endl<<"  nowa_ksiazka - tworzy nową ksiazke adresowa o nazwie podanej jako pierwszy argument."<<endl<<endl<<"Przy braku dodatkowej zmiennej program wypisze cala ksiazke.";
+        cout<< "W linii komend wpisujemy nazwe ksiazki adresowej. Po drugie, co zrobić..."<<endl<<endl<< "   dodaj"<<endl<< "   zmien"<<endl<< "   usun"<<endl<< "    znajdz - Wyswietla wpisy osob o danym nazwisku. Potrzebne do znalezienia numeru zadanego wpisu."<<endl<<"  nowa_ksiazka - tworzy nową ksiazke adresowa o nazwie podanej jako pierwszy argument."<<endl<<"wyświetl_posortowaną"<<endl<<"Przy braku dodatkowej zmiennej program wypisze cala ksiazke.";
     }
 
     //try
@@ -243,7 +266,7 @@ public:
             string data_to_change, new_data;
             cout<< "Wpis o ktorym numerze zmienic?";
             cin>>x;
-            cout<<"Co chcesz zmienić? (imie/nazwisko/mail)";
+            cout<<"Co chcesz zmienić? (imię/nazwisko/mail)";
             cin>>data_to_change;
             cout<<"Nowe dane:";
             cin>>new_data;
@@ -298,31 +321,34 @@ public:
             {
                 cout<<a[i];
             }
-        }
     }
+    }
+
+	void sort(AdressBook bk, string x)
+	{
+		bk.sortuj(x);
+		bk.robocze_write();
+	}
 
 };
 
 int main(int argc, char* argv[])
 {
     
-    /*UI iface;
+    UI iface;
     if (argc == 1  || (argc > 1 && string(argv[1]) == "help"))
     {
         iface.help();
         return 0;
     }
 
-
-    if(argc > 3)
-        cout<<"Nie wszystko na raz.";
-    if (argc == 3)
+    if (argc > 2)
     {
         if(string(argv[2]) == "nowa_ksiazka")
         {
             AdressBook ksiazka;
 
-            ksiazka.write(string(argv[1]) + "txt");
+            ksiazka.write(string(argv[1]) + ".txt");
             return 0;
         }
         AdressBook ksiazka;
@@ -339,10 +365,12 @@ int main(int argc, char* argv[])
             iface.looking_for(ksiazka);
         if(string(argv[2]) == "wyświetl")
             iface.print(ksiazka);
+		if(string(argv[2]) == "wyświetl_posortowaną")
+            iface.sort(ksiazka, string(argv[3]));
 
         ksiazka.write(string(argv[1]) + ".txt");
-    }*/
-    UI iface;
+    }
+    /*UI iface;
 
     AdressBook ksiazka;
 
@@ -370,6 +398,6 @@ int main(int argc, char* argv[])
         iface.print(ksiazka);
 
     ksiazka.write(nazwa_ksiazki + ".txt");
-
+	*/
 	return 0;
 }
