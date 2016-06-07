@@ -12,7 +12,7 @@ class Polynomial
 		int deg()
 		{
 			int max = -1;
-			for (int i = 0; i < p.size(); i++)
+			for (unsigned int i = 0; i < p.size(); i++)
 			{
 				if(p[i] != 0.0) max = i;
 			}
@@ -30,7 +30,7 @@ class Polynomial
 			}
 		};
 
-		void setA(int n, double a)
+		void setA(unsigned int n, double a)
 		{
 			if(p.size() < n) p.resize(n+1,0.0);
 
@@ -114,14 +114,6 @@ class Polynomial
 		void multiply(Polynomial a, Polynomial b) // c = a * b
 		{
 			int n = a.deg() + b.deg();
-			int r;
-
-			if(a.deg() > b.deg())
-			{
-				r = a.deg();
-			}else{
-				r = b.deg();
-			}
 
 			p.resize(n+1);
 
@@ -145,6 +137,13 @@ class Polynomial
 
 		void div(Polynomial a, Polynomial b, Polynomial &r) // c + r = a / b
 		{
+
+			if (b.deg() > a.deg())
+			{
+				cout << "ERROR\n ";
+				return;
+			}
+
 			int n = a.deg() - b.deg();
 
 			p.resize(n+1);
@@ -163,19 +162,8 @@ class Polynomial
 
 			//zerowanie - koniec
 
-			if (b.deg() > a.deg())
+			for(int i = a.deg() + 1; i >= 0; i--)
 			{
-				cout << "ERROR\n ";
-				return;
-			}
-
-			for(int i = a.deg() + 1; i >= 0; i = a.deg())
-			{
-				/*if(i < b.deg())
-				{
-					break;
-				}*/
-
 				p[i - b.deg()] = a.getA(i) / b.getA(b.deg());
 
 				for(int j = b.deg(); j >= 0; j--)
