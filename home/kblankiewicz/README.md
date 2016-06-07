@@ -1,7 +1,7 @@
 ##Zrobione:
 *ciekawe_napisy
 
-*AdressBook(bez zaimplemantowanego sortowania)
+*AdressBook
 
 ##Do zrobienia
 *PI
