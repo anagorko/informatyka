@@ -1,7 +1,9 @@
 ##Zrobione:
 *ciekawe_napisy
 
-*AdressBook(bez zaimplemantowanego sortowania)
+*AdressBook
+
+*zagadka tartaglia
 
 ##Do zrobienia
 *PI
@@ -12,7 +14,5 @@
 
 ##Do poprawienia
 *akcelerator
-
-*zagadka tartaglia
 
 *Wielomiany (nie ma pierwiastków i operatorów)
