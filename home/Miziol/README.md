@@ -6,7 +6,7 @@
 
 * klasa Point - punkt3d.cpp
 
-* Wielomiany - wielomiany.cpp - nieskończony
+* Wielomiany - [wielomiany.cpp](wielomiany.cpp) - nieskończony
 
 * Ciekawe napisy - ciekawe napisy.cpp
 
