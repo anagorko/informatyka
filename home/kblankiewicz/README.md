@@ -3,6 +3,8 @@
 
 *AdressBook
 
+*zagadka tartaglia
+
 ##Do zrobienia
 *PI
 
@@ -12,7 +14,5 @@
 
 ##Do poprawienia
 *akcelerator
-
-*zagadka tartaglia
 
 *Wielomiany (nie ma pierwiastków i operatorów)
