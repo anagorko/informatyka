@@ -149,6 +149,8 @@ class Polynomial
 
 			p.resize(n+1);
 
+			//zerowaanie
+
 			for(int i = 0; i <= n; i++)
 			{
 				p[i] = 0;
@@ -159,6 +161,8 @@ class Polynomial
 				r.setA(i, 0.0);
 			}
 
+			//zerowanie - koniec
+
 			if (b.deg() > a.deg())
 			{
 				cout << "ERROR\n ";
@@ -167,10 +171,10 @@ class Polynomial
 
 			for(int i = a.deg() + 1; i >= 0; i = a.deg())
 			{
-				if(i < b.deg())
+				/*if(i < b.deg())
 				{
 					break;
-				}
+				}*/
 
 				p[i - b.deg()] = a.getA(i) / b.getA(b.deg());
 
@@ -180,7 +184,7 @@ class Polynomial
 				}
 			}
 
-
+			return;
 		};
 
 
