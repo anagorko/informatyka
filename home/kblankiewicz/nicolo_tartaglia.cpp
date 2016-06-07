@@ -1,19 +1,18 @@
 #include <iostream>
-#include <math.h>
 using namespace std;
 
-int szukaj(int p, int q)
+int szukaj(long long int p,long long int q)
 {
-    int b = 0;
-    int e = 1000000;
-    int z = 0;
+    long long int b = 0;
+    long long int e = 1000000;
+    long long int z = 0;
     for(int i = 0; i < 22; i++)
     {
         if(b == e) z = z + 1;
-        int m = (b + e)/ 2;
-        cout<<endl<<"m = "<<m;
-        long long int y = pow(m, 3) + (m * p);
-        cout<<(m*p)<<"  "<<pow(m, 3)<<"  "<<y;   <<<<<=====DLA P=7 I Q=160 MÓJ KOMPUTER LICZY 125 + 35 = 159 ??????
+        long long int m = (b + e)/ 2;
+        //cout<<endl<<"m = "<<m;
+        long long int y = m*m*m + (m * p);
+        //cout<<endl<<y<<endl; 
         if(y == q)
         {
             return m;
@@ -32,9 +31,9 @@ int szukaj(int p, int q)
 
 int main()
 {
-    int t, p, q;
+    long long int t, p, q;
     cin>>t;
-    for(int i = 0; i <= t; i++)
+    for(int i = 0; i < t; i++)
     {
         cin>>p;
        // cout<<"p = "<<p<<endl;
