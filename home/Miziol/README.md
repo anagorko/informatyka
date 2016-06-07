@@ -1,17 +1,17 @@
 #Zrobione zadania
 
-*Smok - smok.cpp
+* Smok - smok.cpp
 
-*akcelerator - akcelerator.cpp, zagadka - nicolo_tartaglii.cpp
+* akcelerator - akcelerator.cpp, zagadka - nicolo_tartaglii.cpp
 
-*klasa Point - punkt3d.cpp
+* klasa Point - punkt3d.cpp
 
-*Wielomiany - wielomiany.cpp - nieskończony
+* Wielomiany - wielomiany.cpp - nieskończony
 
-*Ciekawe napisy - ciekawe napisy.cpp
+* Ciekawe napisy - ciekawe napisy.cpp
 
-*AddresBook - addressBook.cpp
+* AddresBook - addressBook.cpp
 
-*PI
+* PI
 
-*Szyfr Cezara
+* Szyfr Cezara
