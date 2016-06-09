@@ -6,11 +6,11 @@ klasa Point: nic takiego chyba nie mam
 
 akcelerator, zagadka: są
 
-Ciekawe napisy: są
+Ciekawe napisy: DONE
 
-smok: TODO
+smok: DONE
 
-PI: TODO
+PI: czesciowo
 
 Szyfr cezara: TODO
 
