@@ -1,17 +1,35 @@
 #Zrobione zadania
 
-* Smok - smok.cpp
-
-* akcelerator - akcelerator.cpp, zagadka - nicolo_tartaglii.cpp
-
-* klasa Point - punkt3d.cpp
-
 * Wielomiany - [wielomiany.cpp](wielomiany.cpp) - nieskończony
+
+* AddresBook - addressBook.cpp
+
+
 
 * Ciekawe napisy - ciekawe napisy.cpp
 
-* AddresBook - addressBook.cpp
+* Smok - smok.cpp
 
 * PI
 
 * Szyfr Cezara
+
+
+
+* akcelerator - akcelerator.cpp
+
+* zagadka - nicolo_tartaglii.cpp
+
+* klasa Point - punkt3d.cpp
+
+* Even Fibonacci numbers - fib.cpp
+
+* Największy wspólny dzielnik
+
+* Skoczki
+
+* Dziesiętny na czwórkowy - dziesietny na czworkowy.cpp
+
+* Liczby pierwsze (wysyłanie rozwiązania) - czypierwsza.cpp
+
+* Rozkład
