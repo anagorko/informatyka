@@ -48,8 +48,33 @@ string rozszyfruj(string szyfr, int klucz)
     return wynik;
 }
 
+int blad(string slowo, string szyfr)
+{
+	int klucz1;
+	int klucz2;
+	int ascii1;
+	int ascii2;
+
+	for(int i = 0; i < szyfr.length(); i++)
+	{
+		ascii1 = (int) slowo[i];
+		ascii2 = (int) szyfr[i];
+		
+		klucz1 = ascii1 - ascii2;
+		if(i > 0)
+		{
+			if(klucz1 != klucz2)
+			{
+				return 1;
+			}
+		}
+		klucz2 = klucz1;
+	}
+}
+
 int main()
 {
+/*
     string s;
     int k;
     cin>>s>>k;
@@ -60,5 +85,9 @@ int main()
     int y;
     cin>>x>>y;
     cout<<zaszyfruj(x, y);
+*/
+	string a, b;
+	cin>>a>>b;
+	cout<<blad(a, b); //zwrócenie 1 oznacza błąd
 
 }
