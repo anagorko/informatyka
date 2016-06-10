@@ -1,4 +1,3 @@
-
 #include<iostream>
 using namespace std;
 
@@ -9,16 +8,15 @@ using namespace std;
 const int w = 800;
 const int h = 600;
 
-int lewa = -2;
-int prawa = 1;
-int dol = -1;
-int gora = 1;
+double lewa = -1.5;
+double prawa = 0.5;
+double dol = -1;
+double gora = 1;
 
 double q = 0;
 double q_prime;
 double p = 0;
 double p_prime;
-int l = 0;
 
 int main(int argc, char** argv)
 {
@@ -34,30 +32,45 @@ int main(int argc, char** argv)
 
     al_clear_to_color(al_map_rgb(0,0,0));
 
-    for (int i = 0; i < 5000; i++)
-    {
-        l++;
-        if(l%2 == 0)
-        {
-            p_prime = p*-0.4 - 1;
-            q_prime = q*-0.4 + 0.1;
-        }
-        else
-        {
-            p_prime = p*0.76 - 0.4*q;
-            q_prime = p*0.4 + 0.76*q;
-        }
+	for(int i = 0; i < 1000; i++)
+	{
 
-        p = p_prime;
-        q = q_prime;
+	    for (int i = 0; i < 50000; i++)
+		{
+			if(rand()%2 == 0)
+			{
+				p_prime = p*-0.4 - 1;
+				q_prime = q*-0.4 + 0.1;
+			}
+			else
+			{
+				p_prime = p*0.76 - 0.4*q;
+				q_prime = p*0.4 + 0.76*q;
+			}
 
-        //cout<<q<<" "<<p<<endl;
+			p = p_prime;
+			q = q_prime;
 
-        al_draw_pixel((p - lewa) * 800/(prawa - lewa), (q - dol)* 600/(gora - dol), al_map_rgb(255,255,255));
+			//cout<<q<<" "<<p<<endl;
+	
+			if(i > 100)
+			{
+				al_draw_pixel((p - lewa) * 800/(prawa - lewa), (q - dol)* 600/(gora - dol), al_map_rgb(255,255,255));
+			}
+	
+		}
+		
+ 		al_flip_display();
+		al_clear_to_color(al_map_rgb(0,0,0));
+		
+		lewa = lewa * 0.99;
+		prawa = prawa * 0.99;
+		dol = dol * 0.99;
+		gora = gora * 0.99;
 
-    }
+	}
 
-    al_flip_display();
+   
 
     int rest;
     cin>>rest;
