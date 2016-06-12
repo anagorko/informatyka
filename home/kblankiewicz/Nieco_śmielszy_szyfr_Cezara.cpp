@@ -48,6 +48,27 @@ string rozszyfruj(string szyfr, int klucz)
     return wynik;
 }
 
+void szyfrowanie(string dane, string wyniki)
+{
+    int klucz = 107;
+    string dozrobienia;
+
+    ifstream bookfile;
+    bookfile.open(dane.c_str(), ios::in);
+
+    ofstream plik;
+    ofstream.open(wyniki.c_str(), ios::trunc);
+
+    for(int i = 0; i < 100; i++)
+    {
+        bookfile >> dozrobienia;
+        plik << zaszyfruj(dozrobienia, klucz);
+    }
+
+    bookfile.close();
+    plik.close;
+}
+
 int blad(string slowo, string szyfr)
 {
 	int klucz1;
@@ -59,7 +80,7 @@ int blad(string slowo, string szyfr)
 	{
 		ascii1 = (int) slowo[i];
 		ascii2 = (int) szyfr[i];
-		
+
 		klucz1 = ascii1 - ascii2;
 		if(i > 0)
 		{
@@ -74,20 +95,21 @@ int blad(string slowo, string szyfr)
 
 int main()
 {
-/*
-    string s;
-    int k;
-    cin>>s>>k;
-    cout << zaszyfruj(s, k);
-    
-    
-    string x;
-    int y;
-    cin>>x>>y;
-    cout<<zaszyfruj(x, y);
-*/
-	string a, b;
-	cin>>a>>b;
-	cout<<blad(a, b); //zwrócenie 1 oznacza błąd
+   szyfrowanie("dane_6_1.txt", "wyniki_6_1.txt");
 
+    /*for(int i = 0; i < 3000; i++)
+    {
+        string x;
+        int y;
+        cin>>x>>y;
+        cout<<rozszyfruj(x, y);
+    }
+
+    for(int i = 0; i < 3000; i++)
+    {
+        string a, b;
+        cin>>a>>b;
+        cout<<blad(a, b); //zwrócenie 1 oznacza błąd
+    }
+*/
 }
