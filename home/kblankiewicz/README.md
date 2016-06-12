@@ -5,6 +5,8 @@
 
 *zagadka tartaglia
 
+*Iteracje - smok kogośtam
+
 ##Do zrobienia
 *PI
 
