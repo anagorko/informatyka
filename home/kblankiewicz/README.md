@@ -8,7 +8,6 @@
 *Iteracje - smok kogośtam
 
 ##Do zrobienia
-*PI
 
 *cezar
 
@@ -18,3 +17,5 @@
 *akcelerator
 
 *Wielomiany (nie ma pierwiastków i operatorów)
+
+*PI(nie ma trzeciej części zadania)
