@@ -162,14 +162,15 @@ class Polynomial
 
 			//zerowanie - koniec
 
-			for(int i = a.deg() + 1; i >= 0; i--)
+			for(int i = a.deg(); i >= 0; i--)
 			{
-				p[i - b.deg()] = a.getA(i) / b.getA(b.deg());
+				p[i-b.deg()] =+ a.getA(i) / b.getA(b.deg());
 
-				for(int j = b.deg(); j >= 0; j--)
+				for (int j = b.deg() - 1; j >= 0; j--)
 				{
-					a.setA(j + i - b.deg(), p[i - b.deg()] * b.getA(j));
+					p[i-b.deg()+(b.deg()-j)] =+ a.getA(i-(b.deg()-j)) / b.getA(j);
 				}
+				
 			}
 
 			return;
