@@ -166,9 +166,9 @@ class Polynomial
 			{
 				p[i-b.deg()] =+ a.getA(i) / b.getA(b.deg());
 
-				for (int j = b.deg() - 1; j >= 0; j--)
+				for (int j = 1; j < b.deg() - 1; j--)
 				{
-					p[i-b.deg()+(b.deg()-j)] =+ a.getA(i-(b.deg()-j)) / b.getA(j);
+					a.setA(i-j, a.getA(i-j) / b.getA(b.deg() - 1 - j))
 				}
 				
 			}
