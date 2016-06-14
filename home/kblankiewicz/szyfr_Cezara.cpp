@@ -4,8 +4,6 @@
 using namespace std;
 
 
-//int l = 0;
-//int q = 0;
 
 string zaszyfruj(string slowo, int klucz)
 {
@@ -49,31 +47,37 @@ string rozszyfruj(string szyfr, int klucz)
     return wynik;
 }
 
-int blad(string slowo, string szyfr)
+bool blad(string slowo, string szyfr)
 {
 	int klucz1;
 	int klucz2;
 	int ascii1;
 	int ascii2;
-
+	
 	for(int i = 0; i < szyfr.length(); i++)
 	{
 		ascii1 = (int) slowo[i];
 		ascii2 = (int) szyfr[i];
+		
+		if(ascii1 > ascii2)
+		{
+			klucz1 = ascii1 - ascii2;
+		}
+		else
+		{
+			klucz1 = (ascii1 - 65) + (91 - ascii2);
+		}
 
-		klucz1 = abs(ascii1 - ascii2);
 		if(i > 0)
 		{
 			if(klucz1 != klucz2)
 			{
-			    //l++;
-				return 1;
+				return true;
 			}
 		}
 		klucz2 = klucz1;
 	}
-	//q++;
-    return 0;
+    return false;
 }
 
 void szyfrowanie(string dane, string wyniki)
@@ -120,6 +124,7 @@ void rozszyfrowywanie(string dane, string wyniki)
 
 void czy_blad(string dane, string wynik)
 {
+
     string aktualne_slowo;
     string aktualny_szyfr;
 
@@ -132,7 +137,7 @@ void czy_blad(string dane, string wynik)
     for(int i = 0; i < 3000; i++)
     {
         wejscie >> aktualne_slowo >> aktualny_szyfr;
-        if(blad(aktualne_slowo, aktualny_szyfr) == 1)
+        if(blad(aktualne_slowo, aktualny_szyfr))
         {
             cout<<aktualne_slowo<<" "<<aktualny_szyfr<<endl;
             wyjscie << aktualne_slowo << endl;
@@ -151,6 +156,5 @@ int main()
     rozszyfrowywanie("dane_6_2.txt", "wynik_6_2.txt");
 
     czy_blad("dane_6_3.txt", "wynik_6_3.txt");
-    //cout<<l<<endl<<q;
     
 }
