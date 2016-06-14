@@ -5,6 +5,11 @@ int main(){
 	int n;		//liczba cząsteczek
 	cin >> n;
 	int t[n-1];		//kolejne prędkości cząstek
+	for(int i=0; i<n; i++){
+		int j;
+		cin >> j;
+		t[i]=j;
+	}
 	int q;		//liczba zapytań
 	cin >> q;
 	for(; q>0; q--){
