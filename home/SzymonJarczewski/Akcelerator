@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+	int n;		//liczba cząsteczek
+	cin >> n;
+	int t[n-1];		//kolejne prędkości cząstek
+	int q;		//liczba zapytań
+	cin >> q;
+	for(; q>0; q--){
+		int p;		//zapytanie
+		cin >> p;
+		for(;;){
+			
+		}
+	}
+}
