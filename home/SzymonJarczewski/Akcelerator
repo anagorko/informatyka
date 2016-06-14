@@ -15,6 +15,9 @@ int main(){
 	for(; q>0; q--){
 		int p;		//zapytanie
 		cin >> p;
+		int s=t[0];		//początek
+		int e=t[n-1];		//koniec
+		int x=(e+s)/2;		//sprawdzana wartość
 		for(;;){
 			//TODO
 		}
