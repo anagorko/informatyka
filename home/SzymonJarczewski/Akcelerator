@@ -5,8 +5,8 @@ int main(){
 	int n;		//liczba cząsteczek
 	cin >> n;
 	int t[n-1];		//kolejne prędkości cząstek
-	for(int i=0; i<n; i++){
-		int j;
+	for(int i=0; i<n; i++){		//wpisywanie do tablicy
+		int j;		//liczba, która zaraz będzie wpisana
 		cin >> j;
 		t[i]=j;
 	}
@@ -16,7 +16,7 @@ int main(){
 		int p;		//zapytanie
 		cin >> p;
 		for(;;){
-			
+			//TODO
 		}
 	}
 }
