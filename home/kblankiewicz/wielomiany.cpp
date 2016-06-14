@@ -16,7 +16,7 @@ class Polynomial
 	vector<double> a;
 
 public:
-	double getA(int n)
+	double getA(int n) const
 	{
 		if(n < a.size())
 			return a[n];
@@ -36,7 +36,7 @@ public:
 		}
 	}
 
-	int deg()
+	int deg() const
 	{
 		int d;
 		d=a.size();
@@ -48,16 +48,95 @@ public:
 
 	void print()
 	{
+		if(deg() == 0)
+		{
+			cout << "0";
+		}
 		int d;
 		d = a.size();
 		if(a[d-1] != 0) cout<<a[d-1]<<"x^"<<d-1;
 		for(int i = d; i >= 2; i--)
-        {
-            if(a[i-2] != 0)
-            cout<<" + "<<a[i-2]<<"x^"<<i-2;
-        }
+		{
+		    if(a[i-2] != 0)
+		    cout<<" + "<<a[i-2]<<"x^"<<i-2;
+		}
 	}
+
+	Polynomial& operator+=(const Polynomial &q)
+	{
+		if(deg()<q.deg())
+		{
+			a.resize(q.deg() + 1, 0.0);
+		}
+
+		for(int i = 0; i < a.size(); i++)
+		{
+			a[i] = a[i] + q.getA(i);
+		}
+		return *this;
+
+	}
+    	const Polynomial operator+(const Polynomial &q) const
+	{
+		Polynomial w (*this);
+		w += q;
+		return w;
+	}
+
+    	Polynomial& operator-=(const Polynomial &q)
+	{
+		if(deg()<q.deg())
+		{
+			a.resize(q.deg() + 1, 0.0);
+		}
+
+		for(int i = 0; i < a.size(); i++)
+		{
+			a[i] = a[i] - q.getA(i);
+		}
+		return *this;
+	}
+    	const Polynomial operator-(const Polynomial &q) const
+	{
+		Polynomial w (*this);
+		w -= q;
+		return w;
+	}
+	
+    	/*Polynomial& operator*=(const Polynomial &q);
+    	const Polynomial operator*(const Polynomial &q) const;
+	*/
+
+    	bool operator==(const Polynomial &q) const
+	{
+		if(deg() != q.deg())
+		{
+			return false;
+		}
+
+		for(int i = 0; i < deg(); i++)
+		{
+			if(a[i] != q.getA(i))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+    	bool operator!=(const Polynomial &q) const
+	{
+		if(*this == q)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 };
+
 
 Polynomial wiekszy(Polynomial q, Polynomial p) //zwraca wielomian wyzszego stopnia
 {
@@ -136,13 +215,14 @@ void div(Polynomial p, Polynomial q, Polynomial &wynik, Polynomial &reszta)
 
 int main()
 {
+
 	Polynomial p;
 
-	p.setA(0,-7);
-	p.setA(1,2);
-	p.setA(2,4);
-	p.setA(3,5);
-	/*p.setA(4,1);
+	p.setA(0,1);
+	p.setA(1,5);
+	p.setA(2,0);
+	p.setA(3,3);
+	/*p.setA(4,2);
 	p.setA(5,2);
 	p.setA(6,0);
 	p.setA(7,0);*/
@@ -152,18 +232,22 @@ int main()
 
 	Polynomial q;
 
-	q.setA(0,1);
-	q.setA(1,5);
-	q.setA(2,-3);
-	/*q.setA(3,0);
-	q.setA(4,0);
+	q.setA(0,0);
+	q.setA(1,0);
+	q.setA(2,0);
+	q.setA(3,0);
+	/*q.setA(4,0);
 	q.setA(5,0);
 	q.setA(6,0);
 	q.setA(7,0);*/
 
 	q.print();
-	cout<<endl<<q.deg();
+	cout<<endl<<q.deg()<<endl;
 
+	Polynomial w = p - q;
+	w.print();
+
+	/*
 	cout<<endl<<"dodawanie; ";
 	add(p, q).print();
 
@@ -180,5 +264,5 @@ int main()
     cout<<endl<<"DZIELENIE: "<<"wynik: ";
     wynik.print();
     cout<<"  reszta: ";
-    reszta.print();
+    reszta.print();*/
 }

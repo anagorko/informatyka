@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<math.h>
 
 using namespace std;
 
@@ -164,13 +165,76 @@ class Polynomial
 
 			for(int i = a.deg(); i >= 0; i--)
 			{
-				p[i-b.deg()] =+ a.getA(i) / b.getA(b.deg());
-
-				for (int j = 1; j < b.deg() - 1; j--)
+				if(b.getA(b.deg()) != 0)
 				{
-					a.setA(i-j, a.getA(i-j) / b.getA(b.deg() - 1 - j))
+					p[i-b.deg()] =+ a.getA(i) / b.getA(b.deg());
+
+					for (int j = 1; j < b.deg() - 1; j--)
+					{
+						if(b.getA(b.deg()-1-j) != 0)
+						{
+							a.setA(i-j, a.getA(i-j) / b.getA(b.deg() - 1 - j));
+						}
+					}
 				}
-				
+			}
+
+			return;
+		};
+
+		bool checkRoot(double r)
+		{
+			double w = 0;
+
+			for(int i = deg(); i >= 0; i--)
+			{
+				w =+ p[i] * pow(r, i);
+			}
+
+			if(w == 0) return 1;
+			return 0;
+
+		};
+
+
+
+		void roots()
+		{
+			int l= 1, q= 1;
+
+			if(checkRoot(0)) cout << "0" << endl;
+
+			for( int i = 0; i < deg(); i++)
+			{
+				if( p[i] != (int)p[i]) return;
+			}
+
+			for( ; q < p[deg()]; q++)
+			{
+				if( (int) p[deg()]%q == 0 && checkRoot(q) ) cout << q << endl;
+				if( (int) p[deg()]%q == 0 && checkRoot(-q) ) cout << -q << endl;
+
+			}
+
+			q=1;
+
+			for( ; l < p[0]; l++)
+			{
+				if( (int) p[0]%l == 0 && checkRoot(l) ) cout << l << endl;
+				if( (int) p[0]%l == 0 && checkRoot(-l) ) cout << -l << endl;
+
+			}
+
+			l=1;
+
+			for( ; l < p[deg()]; l++)
+			{
+				for( ; q <= p[0]+1; q++)
+				{
+					if(checkRoot(l/q)) cout << l/q << endl;
+					if(checkRoot(-l/q)) cout << -l/q << endl;
+				}
+
 			}
 
 			return;
@@ -250,5 +314,13 @@ int main()
 	cout << endl;
 	z.print();
 	cout << endl;
+
+	x.roots();
+
+	cout << "\n\n\n";
+
+	p.roots();
+
+	return 0;
 
 }
