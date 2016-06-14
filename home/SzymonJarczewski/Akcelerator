@@ -15,11 +15,24 @@ int main(){
 	for(; q>0; q--){
 		int p;		//zapytanie
 		cin >> p;
-		int s=t[0];		//początek
-		int e=t[n-1];		//koniec
+		int s=0;		//początek
+		int e=n-1;		//koniec
 		int x=(e+s)/2;		//sprawdzana wartość
 		for(;;){
-			//TODO
+			if(t[x]>p){		//jeśli x jest za duży
+				e=x-1;
+				x=(e+s)/2;
+			}
+			if(t[x]<p){		//jeśli x jest za mały
+				s=x+1;
+				x=(e+s)/2;
+			}
+			if(t[x]==p){		//jeśli x trafi
+				for(int i=x; ;){		//sprawdzamy górny przedział
+					}
+				for(int i=x; ;){		//sprawdzamy dolny przedział
+					}
+			}
 		}
 	}
 }
