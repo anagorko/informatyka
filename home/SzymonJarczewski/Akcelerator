@@ -28,10 +28,17 @@ int main(){
 				x=(e+s)/2;
 			}
 			if(t[x]==p){		//jeśli x trafi
-				for(int i=x; ;){		//sprawdzamy górny przedział
-					}
-				for(int i=x; ;){		//sprawdzamy dolny przedział
-					}
+				int a;		//min miejsce w tablicy
+				int b;		//max miejsce w tablicy
+				for(int i=x; t[x]<=t[i]; i++){		//sprawdzamy górny przedział
+					a=i;
+				}
+				for(int i=x; t[x]>=t[i]; i--){		//sprawdzamy dolny przedział
+					b=i;
+				}
+				a=b-a;
+				cout << a << endl;
+				break;
 			}
 		}
 	}
