@@ -15,10 +15,23 @@ int main(){
 	for(; q>0; q--){
 		int p;		//zapytanie
 		cin >> p;
-		int s=0;		//początek
-		int e=n-1;		//koniec
-		int x=(e+s)/2;		//sprawdzana wartość
+		int a;		//min indeks
+		int b;		//max indeks
+//wyznaczanie a
+		int as=0;		//początek
+		int ae=n-1;		//koniec
+		int ax=(ae+as)/2;		//sprawdzany indeks
 		for(;;){
+		}
+//wyznaczanie b
+		int bs=0;		//początek
+		int be=n-1;		//koniec
+		int bx=(be+bs)/2;		//sprawdzany indeks
+		for(;;){
+		}
+		a=b-a;
+		cout << a << endl;
+		/*for(;;){		//wyszukiwanie binarne 1
 			if(t[x]>p){		//jeśli x jest za duży
 				e=x-1;
 				x=(e+s)/2;
@@ -28,18 +41,20 @@ int main(){
 				x=(e+s)/2;
 			}
 			if(t[x]==p){		//jeśli x trafi
-				int a;		//min miejsce w tablicy
-				int b;		//max miejsce w tablicy
-				for(int i=x; t[x]<=t[i]; i++){		//sprawdzamy górny przedział
-					a=i;
+				for(;;){		//wyszukiwanie binarne 1.1
+					if(t[x]>p){		//jeśli x jest za duży
+						e=x-1;
+						x=(e+s)/2;
+					}
+					if(t[x]<p){		//jeśli x jest za mały
+						s=x+1;
+						x=(e+s)/2;
+					}
+					if(){}
 				}
-				for(int i=x; t[x]>=t[i]; i--){		//sprawdzamy dolny przedział
-					b=i;
-				}
-				a=b-a;
-				cout << a << endl;
 				break;
 			}
-		}
+		}*/
 	}
+	return 0;
 }
