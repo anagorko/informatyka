@@ -39,6 +39,18 @@ class Polynomial
 
 };
 
+vector<double> Polynomial::rationalRoots() const{
+    vector<double> r;
+    for(int p=1;p<=getA(0);p++){
+        if(getA(0) - (int)getA(0) == 0 && p%(int)getA(0)!=0) continue;
+        for(int q=1;q<getA(deg());q++){
+            if(getA(deg()) - (int)getA(deg()) == 0 && q%(int)getA(deg())!=0) continue;
+            if(v(((double)p)/q)==0) r.push_back( ((double)p)/q);  
+        }
+    }
+    return r;
+}
+
 void div(const Polynomial &W, const Polynomial &P, Polynomial &Q, Polynomial &R){
     R = W;                                                                                                                                                                                                              
     for(int i=R.deg();i>=0 && R.deg()>=P.deg();i--){
@@ -178,6 +190,10 @@ int main(){
     W.setA(1, 1);
 	cout<<"wyrażenie W, "<<W.deg()<<" stopnia: "<<W<<endl;
 	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.v(2)<<endl<<endl;
+    cout<<"pierwiastki W : ";
+    vector<double> r = W.rationalRoots();
+    for(int i=0;i<r.size();i++) cout<< r[i]<<" ";
+    cout<<endl;
     
     P.setA(4, 1);
     P.setA(3, 2);
