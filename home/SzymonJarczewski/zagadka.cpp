@@ -11,7 +11,7 @@ int main(){
 		unsigned long long int q;		//wynik
 		cin >> q;
 		unsigned long long int s=0;		//początek
-		unsigned long long int e=q;		//koniec
+		unsigned long long int e=100000;		//koniec
 		unsigned long long int x=(e+s)/2;		//x
 		for(int m=0; m<2000; m++){
 			if(x*x*x+p*x<q){		//jeśli x jest za mały
