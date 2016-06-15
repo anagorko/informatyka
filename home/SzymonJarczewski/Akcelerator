@@ -15,46 +15,67 @@ int main(){
 	for(; q>0; q--){
 		int p;		//zapytanie
 		cin >> p;
-		int a;		//min indeks
 		int b;		//max indeks
+		int a;		//min indeks
 //wyznaczanie a
-		int as=0;		//początek
-		int ae=n-1;		//koniec
-		int ax=(ae+as)/2;		//sprawdzany indeks
-		for(;;){
-		}
-//wyznaczanie b
-		int bs=0;		//początek
-		int be=n-1;		//koniec
-		int bx=(be+bs)/2;		//sprawdzany indeks
-		for(;;){
-		}
-		a=b-a;
-		cout << a << endl;
-		/*for(;;){		//wyszukiwanie binarne 1
-			if(t[x]>p){		//jeśli x jest za duży
+		int s=0;		//początek
+		int e=n-1;		//koniec
+		int x=(e+s)/2;		//sprawdzany min indeks
+		for(int i; i<30; i++){
+			if(t[x]>p){		//x jest za duży
 				e=x-1;
 				x=(e+s)/2;
 			}
-			if(t[x]<p){		//jeśli x jest za mały
+			if(t[x]<p){		//x jest za mały
 				s=x+1;
 				x=(e+s)/2;
 			}
-			if(t[x]==p){		//jeśli x trafi
-				for(;;){		//wyszukiwanie binarne 1.1
-					if(t[x]>p){		//jeśli x jest za duży
+			if(t[x]==p){		//jeśli x został znaleziony
+				if(x>0){
+					if(t[x-1]<t[x]){
+						a=x;
+					}else{
 						e=x-1;
 						x=(e+s)/2;
 					}
-					if(t[x]<p){		//jeśli x jest za mały
-						s=x+1;
-						x=(e+s)/2;
-					}
-					if(){}
+				}else{
+					a=x;
 				}
-				break;
 			}
-		}*/
+			//if(){		//jeśli x nie został znaleziony
+				//TODO
+			//}
+		}
+		cout << "a wynosi: " << a << endl;
+//wyznaczanie b
+		int d=0;		//początek
+		int r=n-1;		//koniec
+		int y=(r+d)/2;		//sprawdzany max indeks
+		for(int i; i<30; i++){
+			if(t[y]>p){		//y jest za duży
+				r=y-1;
+				y=(r+d)/2;
+			}
+			if(t[y]<p){		//y jest za mały
+				d=y+1;
+				y=(r+d)/2;
+			}
+			if(t[y]==p){
+				if(y<n-1){
+					if(t[y]<t[y+1]){
+						b=y;
+					}else{
+						d=y+1;
+						y=(r+d)/2;
+					}
+				}else{
+					b=y;
+				}
+			}
+		}
+		cout << "b wynosi: " << b << endl;
+		a=b-a+1;
+		cout << a << endl;
 	}
 	return 0;
 }
