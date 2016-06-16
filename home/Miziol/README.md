@@ -10,7 +10,7 @@
 
 * Smok - smok.cpp
 
-* PI
+* PI - PI.cpp
 
 * Szyfr Cezara
 
