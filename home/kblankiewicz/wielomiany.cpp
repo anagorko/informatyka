@@ -3,7 +3,7 @@
 using namespace std;
 
 
-double max(int a, int b) //zwraca wieksza liczbe
+int max(int a, int b) //zwraca wieksza liczbe
 {
 	if(a > b)
 		return a;
@@ -172,7 +172,7 @@ vector<double> Polynomial :: rational_roots(Polynomial q)
 
     for(int i = 0; i < q.getA(q.deg() + 1); i++)
     {
-        if(q.getA(q.deg() + 1) % 1 == 0 && q.getA(q.deg() + 1) % i == 0)
+        if((int)q.getA(q.deg() + 1) % 1 == 0 && (int) q.getA(q.deg() + 1) % i == 0)
         {
             o.push_back(i);
             o.push_back(-i);
