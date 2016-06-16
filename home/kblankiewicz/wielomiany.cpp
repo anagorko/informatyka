@@ -76,14 +76,14 @@ public:
 		return *this;
 
 	}
-    	const Polynomial operator+(const Polynomial &q) const
+    const Polynomial operator+(const Polynomial &q) const
 	{
 		Polynomial w (*this);
 		w += q;
 		return w;
 	}
 
-    	Polynomial& operator-=(const Polynomial &q)
+    Polynomial& operator-=(const Polynomial &q)
 	{
 		if(deg()<q.deg())
 		{
@@ -96,18 +96,18 @@ public:
 		}
 		return *this;
 	}
-    	const Polynomial operator-(const Polynomial &q) const
+    const Polynomial operator-(const Polynomial &q) const
 	{
 		Polynomial w (*this);
 		w -= q;
 		return w;
 	}
-	
-    	/*Polynomial& operator*=(const Polynomial &q);
-    	const Polynomial operator*(const Polynomial &q) const;
-	*/
 
-    	bool operator==(const Polynomial &q) const
+
+    //const Polynomial operator*(const Polynomial &q) const;
+
+
+    bool operator==(const Polynomial &q) const
 	{
 		if(deg() != q.deg())
 		{
@@ -123,7 +123,8 @@ public:
 		}
 		return true;
 	}
-    	bool operator!=(const Polynomial &q) const
+
+    bool operator!=(const Polynomial &q) const
 	{
 		if(*this == q)
 		{
@@ -135,8 +136,61 @@ public:
 		}
 	}
 
+    /*Polynomial& operator*=(const Polynomial &q)
+    {
+        int h=0; //chwilowa wartoœæ w[i]
+        for(int i = (q.deg()+deg()); i >= 0; i--)
+        {
+            for(int j = max(deg(), q.deg()); j >= 0; j--)
+            {
+                h=h+(wiekszy(*this, q).getA(j)*mniejszy(*this,q).getA(i-j));
+            }
+            setA(i, h);
+            h=0;
+        }
+        return *this;
+    }*/
+
+    vector<double> rational_roots(Polynomial q);
 };
 
+vector<double> Polynomial :: rational_roots(Polynomial q)
+{
+    cout<<endl<<"będę zaokrąglał niecałkowite współczynniki"<<endl;
+    vector<double> r;
+    vector<int> z;
+    vector<int> o;
+
+    for(int i = 0; i < q.getA(0); i++)
+    {
+        if( (int)q.getA(0) % 1 == 0 && (int)q.getA(0) % i == 0)
+        {
+            z.push_back(i);
+            z.push_back(-i);
+        }
+    }
+
+    for(int i = 0; i < q.getA(q.deg() + 1); i++)
+    {
+        if(q.getA(q.deg() + 1) % 1 == 0 && q.getA(q.deg() + 1) % i == 0)
+        {
+            o.push_back(i);
+            o.push_back(-i);
+        }
+    }
+
+    for(int i = 0; i < z.size(); i++)
+    {
+         for(int j = 0; j < o.size(); j++)
+        {
+            if(value(q, j/i) == 0)
+            {
+                r.push_back(j/i);
+            }
+        }
+    }
+    return r;
+}
 
 Polynomial wiekszy(Polynomial q, Polynomial p) //zwraca wielomian wyzszego stopnia
 {
@@ -244,23 +298,17 @@ int main()
 	q.print();
 	cout<<endl<<q.deg()<<endl;
 
-	Polynomial w = p - q;
-	w.print();
 
 	/*
 	cout<<endl<<"dodawanie; ";
 	add(p, q).print();
-
     cout<<endl<<"mnozenie: ";
     mult(p, q).print();
-
     cout<<endl<<"wartosc p dla 2; ";
     cout<<value(p, 2);
-
     Polynomial wynik;
     Polynomial reszta;
     div(p, q, wynik, reszta);
-
     cout<<endl<<"DZIELENIE: "<<"wynik: ";
     wynik.print();
     cout<<"  reszta: ";
