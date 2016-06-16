@@ -12,7 +12,7 @@
 
 * PI - PI.cpp
 
-* Szyfr Cezara
+* Szyfr Cezara - szyfr_cezara.cpp (elementy wykomentowane to kod do innych podpunktów zadania!!!!)
 
 
 
