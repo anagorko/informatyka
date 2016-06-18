@@ -1,10 +1,10 @@
-Wielomiany: Wszytsko jest oprócz wyszukiwania pierwiastków
+Wielomiany: DONE
 
-Adressbook: z grubsza jest
+Adressbook: DONE
 
 klasa Point: nic takiego chyba nie mam
 
-akcelerator, zagadka: są
+akcelerator, zagadka: DONE
 
 Ciekawe napisy: DONE
 

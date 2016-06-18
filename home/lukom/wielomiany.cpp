@@ -44,7 +44,6 @@ vector<double> Polynomial::rationalRoots() const{
     double p,q;
     for(p = ( getA(0)<0 ? (int)getA(0): 1 );p <= ( getA(0)<0 ? -getA(0) : getA(0) );p=p+1){
         if((int)p!=0 && getA(0) - (int)getA(0) == 0 && (int)getA(0)%(int)p!=0) continue;
-            cout<<"::"<<p<<endl;
         for(q = ( getA(deg())<0 ? (int)getA(deg()):1 );q<= ( getA(deg())<0? -getA(deg()): getA(deg()) );q=q+1){
             if((int)q==0 || ( getA(deg()) - (int)getA(deg()) == 0 && (int)getA(deg())%(int)q!=0)) continue;
             if(q!=0 && v(p/q)==0) r.push_back(p/q);  
@@ -178,7 +177,7 @@ double Polynomial::v(double x) const{  // a2x2+a1x+a0 = x(x+a1)a2 + a0
     if(deg() == -1) return 0;
 	double w=a[deg()];              //  x(x(x+a3)a2)a1+a0
 	for(int i=deg()-1;i>=0;i--){     // x(x(x(x+a4)a3)a2)a1 + a0
-		w=x*w+a[i]*x;
+		w=x*w+a[i];
 	}
 	return w;
 }
@@ -188,10 +187,10 @@ int main(){
 	Polynomial W, P, Q, R;
 //	W.setA(4, 1);
     W.setA(2, 1);
-    W.setA(1, 1);
+    W.setA(1, 2);
     W.setA(0, -3);
 	cout<<"wyrażenie W, "<<W.deg()<<" stopnia: "<<W<<endl;
-	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.v(2)<<endl<<endl;
+	cout<<"dla x=2 wartość wielomiany jest równa: "<<W.v(1)<<endl<<endl;
     cout<<"pierwiastki W : ";
     vector<double> r = W.rationalRoots();
     for(int i=0;i<r.size();i++) cout<< r[i]<<" ";
