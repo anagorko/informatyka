@@ -4,17 +4,23 @@
 using namespace std;
 int main()
 {
-		string x;
-		cin >> x;
-		int t[255];
-		for(int i=0;i<=255;i++){
-			t[i]=0;
+	string x;
+	cin >> x;
+	int t[255];
+	for(int i=0;i<=255;i++){		//zerowanie tablicy t
+		t[i]=0;
+	}
+	for(int i=0;x.length()>i;i++){		//wpisywanie ilości liter do t
+		t[(int)x[i]]++;
+	}
+	string y;
+	int m=0;
+	for(int i=0;i<=255;i++){
+		//wpisywanie do stringa
+		for(int n=0;t[i]>n;n++){
+			y[m]=i;
+			m++;
 		}
-		for(int i=0;x.length()>i;i++){
-			t[(int)x[i]]++;
-		}
-		string y;
-		for(int i=0;i<=255;i++){
-			//wpisywanie do stringa
-		}
+	}
+	cout << endl << y;
 }
