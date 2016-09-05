@@ -1,13 +1,10 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-struct slowo
-{
-	vector <string> w;
-};
 class slownik{
-	vector <slowo> l;
-}S;
+public:
+	vector <string> w;
+}L;
 string sygnatura(string s){
 	int t[256];
 	for(int i=0;i<256;i++) t[i]=0;
@@ -20,9 +17,26 @@ string sygnatura(string s){
 }
 
 int main(){
-	vector <char> a, b, c;
-	S.l.w.push_back();
-//	string ss = sygnatura(s);	cout<<ss<<endl;
-
-
+	
+	cout<<"podaj ilość słów do słownika:";
+	int n;
+	cin>>n;
+	cout<<"a teraz słowa:";
+	//wczytywanie słownika
+	for(int i=0;i<n;i++){
+		string s;
+		cin>>s;
+		L.w.push_back(s);
+	}
+	cout<<"ANAGRAMY:\n";
+	
+	//szukanie anagramu:
+	for(int i=0;i<L.w.size();i++){
+		cout<<L.w[i]<<": ";
+		for(int a=0;a<L.w.size();a++){
+			if(a==i)continue;
+			if(sygnatura(L.w[i])==sygnatura(L.w[a]) )cout<<L.w[a]<<", ";
+		}
+		cout<<"\n";
+	}
 }
