@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 string alfabet(string s)
@@ -16,10 +17,10 @@ string alfabet(string s)
 			{
 				t[j] = q;
 				t[j + 1] = p;
-			}			
+			}
 		}
 	}
-	return t; 
+	return t;
 }
 
 int main()
@@ -31,34 +32,40 @@ int main()
 
 	vector <string> v;
 	string s;
-	while(!cin.eof)
+
+	cout << "podaj wyrazy" << endl;
+
+	while(!cin.eof())
 	{
 		cin>>s;
 		v.push_back(s);
 	}
-	
+
 	bool t[v.size() - 1];
-	for(i = 0; i < v.size(); i++)
+	for(int i = 0; i < v.size(); i++)
 	{
 		t[i] = false;
 	}
-	
+
+    cout << endl << "anagramy:" << endl;
+
 	for(int i = 0; i < v.size(); i++)
 	{
-		cout << v[i] << " ";
-		if(t[i] = false)
+		if(t[i] == false)
 		{
-			for(int j = 0; j < v.size() - 1; j++)
+		    cout << v[i] << " ";
+			for(int j = 0; j < v.size(); j++)
 			{
 				if(j != i)
 				{
-					if(alfabet(v[i]) = alfabet(v[j]))
+					if(alfabet(v[i]) == alfabet(v[j]))
 					{
-						cout << v[j];
+						cout << v[j] << " ";
 						t[j] = true;
-					}	
-				}				
+					}
+				}
 			}
+            cout << endl;
 		}
 	}
 
