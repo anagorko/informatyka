@@ -9,15 +9,15 @@ int main()
 	for(;a>0;a--){
 		string x;
 		cin >> x;
-		int t[255];
-		for(int i=0;i<=255;i++){		//zerowanie tablicy t
+		int t[256];
+		for(int i=0;i<256;i++){		//zerowanie tablicy t
 			t[i]=0;
 		}
 		for(int i=0;x.length()>i;i++){		//wpisywanie ilości liter do t
 			t[(int)x[i]]++;
 		}
 		string y;
-		for(int i=0;i<=255;i++){
+		for(int i=0;i<256;i++){
 			for(int n=0;t[i]>n;n++){
 				y+=(char)i;
 			}
