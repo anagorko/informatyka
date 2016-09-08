@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <iostream>
+#include <vector>
  
 using namespace std;
 int main()
 {
+	vector <string> l;
+	vector <string> s;
 	int a=0;
 	cin >> a;
 	for(;a>0;a--){
@@ -22,6 +25,43 @@ int main()
 				y+=(char)i;
 			}
 		}
-		cout << y << endl;
+		l.push_back(y);		//wpisywanie do wektora posegregowanych liter
+		s.push_back(x);		//wpisywanie do wektora słów
 	}
+	for(int i=0;i<l.size();i++){
+		if(l[i]!="1000"){
+			cout << s[i] << " ";
+			for(int j=0;i>j;j++){		//szukanie wyżej
+				if(l[i]==l[j]){
+					cout << s[j] << " ";
+					l[j]="1000";
+				}
+			}
+			for(int j=i+1;j<l.size();j++){		//szukanie niżej
+				if(l[i]==l[j]){
+					cout << s[j] << " ";
+					l[j]="1000";
+				}
+			}
+			l[i]="1000";
+			cout << endl;
+		}
+	}
+//	for(int i=0;i<l.size();i++){
+//		if(l[i]!="1"){
+//			cout << s[i] << endl;		//wypisuje szykane słowo
+//			l[i]="1";
+//			for(int j=0;j<i;j++){		//szuka słów wyżej w tablicy (wektorze)
+//				if(l[i]==l[j]){
+//					cout << s[j] << endl;
+//					l[j]="1";
+//				}
+//			}
+//			for(int j=l.size();j>i;j--){		//szuka słów niżej w tablicy
+//				cout << s[j] << endl;
+//				l[i]="1";
+//			}
+//		}
+//	}
+	return 0;
 }
