@@ -9,11 +9,11 @@ string anagram(string s)
 	{
 		for (int j = 0; j < s.size(); j++)
 		{
-		(int) s[j] == i;
-		w =+ (char)i;
+		if( (int) s[j] == i ) w = w + (char)i;
 		}
 	}
 
+	cout << w << "1"<< endl;
 	return w;
 }	
 
@@ -35,6 +35,7 @@ int main()
 		out = 0;
 		for (int j = i + 1; j <= s.size(); j++)
 		{
+			if(i>j) break;
 			if( anagram(s[i]) == anagram(s[j]) )
 			{
 				if (out == false) cout << s[i] << " ";
