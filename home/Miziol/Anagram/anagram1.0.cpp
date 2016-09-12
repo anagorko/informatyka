@@ -13,7 +13,6 @@ string anagram(string s)
 		}
 	}
 
-	cout << w << "1"<< endl;
 	return w;
 }	
 
@@ -33,7 +32,7 @@ int main()
 	for (int i = 0; i < s.size(); i++)
 	{
 		out = 0;
-		for (int j = i + 1; j <= s.size(); j++)
+		for (int j = i + 1; j < s.size(); j++)
 		{
 			if(i>j) break;
 			if( anagram(s[i]) == anagram(s[j]) )
@@ -43,6 +42,7 @@ int main()
 				cout << s[j] << " ";
 			}
 		}
+		cout << endl;
 	}
 
 }
