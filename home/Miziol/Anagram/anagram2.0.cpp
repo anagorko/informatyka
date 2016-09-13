@@ -1,4 +1,5 @@
 #include<iostream>
+#include<algorithm>
 #include<vector>
 
 using namespace std;
@@ -29,7 +30,7 @@ public:
 		return s;
 	}
 
-	string az()
+	string az() const
 	{
 		return a;
 	}
@@ -41,15 +42,11 @@ public:
 		a = abc(s);
 	}
 
-	/*anagram operator== ()
+	bool operator==(const anagram& a) const
 	{
+		return az() == a.az();
+	}
 
-	}*/
-
-	/*anagram operator= ()
-	{
-
-	}*/
 };
 
 
@@ -60,16 +57,25 @@ int main()
 
 	anagram in;
 
-	string s;
+	string s = "";
 
-	while(true)
+	while(!cin.eof())
 	{
 		getline(cin, s);
-		if(s == " ") break;
 		in.set(s);
 		dictionary.push_back(in);
 	}
 
-	//cd nastapi
+	sort( dictionary.begin(), dictionary.end() );
+
+	s = "";
+
+	for (int i = 0; i < dictionary.size(); i++)
+	{
+		if( s == dictionary[i].az())
+		{
+			; 	//dictionary[i].az()
+		}
+	}
 
 }
