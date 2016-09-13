@@ -47,6 +47,11 @@ public:
 		return az() == a.az();
 	}
 
+	bool operator< (const anagram& a) const
+	{
+		return az() < a.az();
+	}
+
 };
 
 
