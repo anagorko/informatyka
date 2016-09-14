@@ -64,6 +64,8 @@ int main()
 
 	string s = "";
 
+	bool nl;
+
 	while(!cin.eof())
 	{
 		getline(cin, s);
@@ -73,14 +75,30 @@ int main()
 
 	sort( dictionary.begin(), dictionary.end() );
 
-	s = "";
+	s = dictionary[0].az();
+	nl = 1;
 
-	for (int i = 0; i < dictionary.size(); i++)
+	for (int i = 1; i < dictionary.size(); i++)
 	{
 		if( s == dictionary[i].az())
 		{
-			; 	//dictionary[i].az()
+			if(nl == 1)
+			{
+				cout << dictionary[i-1].word() << " ";
+			}
+			cout << dictionary[i].word() << " ";
+			nl = 0;
+		}
+		else
+		{
+			s = dictionary[i].az();
+			if(nl == 0)
+			{
+				nl = 1;
+				cout << endl;
+			}
 		}
 	}
 
+return 0;
 }
