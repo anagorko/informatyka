@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
 using namespace std;
 
 string alfabet(string s)
@@ -25,14 +26,14 @@ string alfabet(string s)
 
 class Slowo
 {
-	string n, q; 
+	string n, q;
 
 public:
 
 	Slowo (string _n)
 	{
 		n = _n;
-		q = alfabet(_n);	
+		q = alfabet(_n);
 	}
 
 	bool operator==(const Slowo& s) const
@@ -52,22 +53,53 @@ public:
 		}
 		else return false;
 	}
-	
-	ostream& operator<<(ostream& s)
+
+	/*ostream& operator<<(ostream& s)
 	{
 		s << n;
 		return s;
+	}*/
+
+	string print()
+	{
+	    return n;
 	}
 
-	
+    string pokaz_alfabet()
+    {
+        return q;
+    }
+
 };
 
 int main()
 {
+    vector <Slowo> v;
+    string p;
+
+    while(!cin.eof())
+    {
+        cin>>p;
+        Slowo a = Slowo(p);
+        v.push_back(a);
+        p = "0"
+    }
 
 
+    sort(v.begin(), v.end());
+
+    string z = v[0].pokaz_alfabet();
+    string y = v[0].print();
+    cout << y;
+    for(int i = 1; i < v.size(); i++)
+    {
+        if(z == v[i].pokaz_alfabet()) cout<<"  ";
+        else cout<<endl;
+        z = v[i].pokaz_alfabet();
+        y = v[i].print();
+        cout<<y;
+    }
 }
-
 
 
 
