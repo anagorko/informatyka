@@ -54,12 +54,6 @@ public:
 		else return false;
 	}
 
-	/*ostream& operator<<(ostream& s)
-	{
-		s << n;
-		return s;
-	}*/
-
 	string print()
 	{
 	    return n;
@@ -71,6 +65,12 @@ public:
     }
 
 };
+
+ostream& operator<<(ostream& s, Slowo a)
+{
+	s << a.print();
+	return s;
+}
 
 int main()
 {
