@@ -58,11 +58,11 @@ public:
 		else return false;
 	}
 	
-}
+};
 
 ostream& operator<<(ostream& s, Slowo a)
 {
-	s << a.getN;
+	s << a.getN();
 	return s;
 }
 
@@ -82,7 +82,7 @@ int main()
 	while(!cin.eof())
 	{
 		cin>>a;
-		if(cin.eof()) {break};
+		if(cin.eof()) {break;}
 		v.push_back(a);
 	}
 	
