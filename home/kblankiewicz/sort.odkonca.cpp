@@ -5,10 +5,10 @@ using namespace std;
 
 string odwrot(string s)
 {
-	string t;
+	string t = s;
 	for(int i = 0; i < s.length(); i++)
 	{
-		t[i] = s[s.length()-1];
+		t[i] = s[s.length() - 1 - i];
 	}
 	return t;
 }
@@ -19,17 +19,16 @@ class Slowo
 	string q; //słowo od tyłu
 public:
 
-	Slowo()
+	/*Slowo()
 	{
-		n = "";
-		q = "";	
-	}
+
+	}*/
 
 	Slowo(string _n)
 	{
 		set(_n);
 	}
-	
+
 	void set(string x)
 	{
 		n = x;
@@ -51,50 +50,50 @@ public:
 		if(q == s.q) return true;
 		else return false;
 	}
-	
+
 	bool operator<(const Slowo& s) const
 	{
 		if(q < s.q) return true;
 		else return false;
 	}
-	
+
 };
 
-ostream& operator<<(ostream& s, Slowo a)
+ostream& operator<<(ostream& s, Slowo d)
 {
-	s << a.getN();
+	s << d.getN();
 	return s;
 }
 
-istream& operator>>(istream& i, Slowo a)
+istream& operator>>(istream& i, Slowo m)
 {
 	string z;
 	i >> z;
-	a.set(z);
+	m.set(z);
 	return i;
 }
 
 int main()
 {
 	vector<Slowo> v;
-	Slowo a;
+	string k = "nic";
+	Slowo a(k);
 
 	while(!cin.eof())
 	{
-		cin>>a;
+		cin>>k;
+		a.set(k);
 		if(cin.eof()) {break;}
 		v.push_back(a);
 	}
-	
+
 	sort(v.begin(), v.end());
 
-	for(int i = 0; i < v.size(); i++)
-	{
-		cout<<v[i]<<endl;
-	}
+    cout<<endl<<"w kolejności od tyłu alfabetycznej:"<<endl;
+    for(int i = 0; i < v.size(); i++)
+        {
+            cout<<v[i]<<endl;
+        }
 }
-
-
-
 
 
