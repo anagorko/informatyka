@@ -21,12 +21,13 @@ class Anagram
 public:
 	string get() const;
 	string getl() const;
+	void set(string s);
     Anagram(string s);
+    Anagram(){};
     bool operator<(const Anagram&) const;
 };
 Anagram::Anagram(string s){
-	w = s;
-	l = sygnatura(w);
+	set(s);
 }
 string Anagram::get() const{
 	return w;
@@ -34,37 +35,30 @@ string Anagram::get() const{
 string Anagram::getl() const{
 	return l;
 }
-bool Anagram::operator<(const Anagram& a) const{
-	string c = sygnatura(a.get());
-
-	if(l.length() != c.length()) return l.length()<c.length()? 1:0;
-
-	for(int i=0;i<l.length();i++){
-		if(l[i]>c[i]) return 0;
-	}
-	return 1;
+void Anagram::set(string s){
+	w = s;
+	l = sygnatura(w);
 }
-vector <Anagram> L;
+bool Anagram::operator<(const Anagram& a) const{
+	return l < a.l;
+}
+istream& operator>>(istream& is, Anagram& a){
+	string s;
+	is >> s;
+	a.set(s);
+	return is;
+}
 
 int main(){
-	
-	cout<<"podaj ilość słów do słownika:";
-	int n;
-	cin>>n;
-	cout<<"a teraz słowa:";
+	vector <Anagram> L;	
 	//wczytywanie słownika
-	for(int i=0;i<n;i++){
-		string s;
-		cin>>s;
-		Anagram a(s);
-		L.push_back(a);
+	while(!cin.eof()){
+		Anagram A;
+		cin>>A;
+		L.push_back(A);
 	}
 	sort(L.begin(), L.end());
-
-//		for(int i=0;i<L.size();i++) cout<<L[i].get()<<endl;
-
-	cout<<"ANAGRAMY:\n";
-
+	//Wypisanie
 	cout<<L[0].get()<<": ";
 	for(int i=1;i<L.size();i++){
 		if(L[i-1].getl()==L[i].getl()){ cout<<L[i].get()<<", ";
