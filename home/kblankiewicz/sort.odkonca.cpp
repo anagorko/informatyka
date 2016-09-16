@@ -21,7 +21,6 @@ public:
 
 	/*Slowo()
 	{
-
 	}*/
 
 	Slowo(string _n)
