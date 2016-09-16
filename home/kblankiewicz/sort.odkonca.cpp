@@ -21,7 +21,6 @@ public:
 
 	/*Slowo()
 	{
-
 	}*/
 
 	Slowo(string _n)
@@ -65,7 +64,7 @@ ostream& operator<<(ostream& s, Slowo d)
 	return s;
 }
 
-istream& operator>>(istream& i, Slowo m)
+istream& operator>>(istream& i, Slowo& m)
 {
 	string z;
 	i >> z;
@@ -81,8 +80,8 @@ int main()
 
 	while(!cin.eof())
 	{
-		cin>>k;
-		a.set(k);
+		cin>>a;
+		//a.set(k);
 		if(cin.eof()) {break;}
 		v.push_back(a);
 	}
