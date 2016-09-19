@@ -47,4 +47,8 @@ int main()
 
 	sort( p.begin(), p.end() );
 
+	for ( int i = 0; i < p.size(); i++)
+	{
+		cout << "(" << p[i].x << "." << p[i].y << ")" << endl;
+	}
 }

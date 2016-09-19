@@ -68,4 +68,9 @@ int main()
 	}
 
 	sort( list.begin(), list.end() );
+
+	for ( int i = 0; i < list.size(); i++)
+	{
+		cout << list[i].s << endl;
+	}
 }

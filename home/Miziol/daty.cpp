@@ -47,4 +47,9 @@ int main()
 	}
 
 	sort ( base.begin(), base.end() );
+
+	for ( int i = 0; i < base.size(); i++)
+	{
+		cout << base[i].dd << "." << base[i].mm << "." << base[i].rrrr << endl;
+	}
 }
