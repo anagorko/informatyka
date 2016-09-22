@@ -78,10 +78,14 @@ int main()
 		cout<<"liczba parzystych jest"<<endl<<liczba_parzystych<<endl;
 	}
 
-	
-	/*k.z_dwojkowego(a);
-	cout<<k.getN()<<endl;
-	cout<<k.na_dwojkowy();*/
+	int b;
+	for(int i = 0; i < v.size(); i++)
+	{
+		if(v[i].getN()>b) b = v[i].getN();
+	}
+	cout<<"największa liczba"<<endl<<b<<endl;
+
+
 	
 
 }
