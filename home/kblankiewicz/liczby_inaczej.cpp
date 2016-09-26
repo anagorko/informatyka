@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 using namespace std;
 
 
@@ -10,7 +11,7 @@ public:
 	{
 		return n;
 	}
-	
+
 	void z_dwojkowego(string s)
 	{
 		int x = 0;
@@ -40,12 +41,10 @@ public:
 			if(z%2 == 0)
 			{
 				q = '0' + q;
-				cout<<"parzysta";
 			}
 			if(z%2 != 0)
 			{
-				q = "1"  + q;
-				cout<<"nieparzysta";
+				q = '1'  + q;
 			}
 			z = z/2;
 		}
@@ -60,7 +59,9 @@ int main()
 {
 	string a;
 	Liczba k;
-	int liczba_parzystych;
+	int liczba_parzystych = 0;
+	int liczba_9 = 0;
+	int suma_9 = 0;
 	vector<Liczba> v;
 
 	while(!cin.eof())
@@ -68,24 +69,35 @@ int main()
 		cin>>a;
 		if(!cin.eof())
 		{
-			if(a[a.length() - 1] == 0)
+			if(a[a.length() - 1] == '0')
 			{
-				liczba_parzystych += 1;
+                liczba_parzystych += 1;
 			}
 			k.z_dwojkowego(a);
 			v.push_back(k);
+			if(a.length() == 9)
+            {
+                liczba_9 += 1;
+                suma_9 += k.getN();
+            }
 		}
-		cout<<"liczba parzystych jest"<<endl<<liczba_parzystych<<endl;
 	}
+    cout<<"liczba parzystych:"<<endl<<liczba_parzystych<<endl;
 
-	int b;
+
+	int b = 0;
+	int i2 = 0;
 	for(int i = 0; i < v.size(); i++)
 	{
-		if(v[i].getN()>b) b = v[i].getN();
+		if(v[i].getN()>b)
+        {
+            b = v[i].getN();
+            i2 = i;
+        }
 	}
-	cout<<"największa liczba"<<endl<<b<<endl;
 
+    cout<<"kontrola";
+	cout<<"największa liczba"<<endl<<b<<" = "<<v[i2].na_dwojkowy()<<endl;
 
-	
-
+    cout<<"jest "<<liczba_9<<" liczb dziewięciocyfrowych"<<endl<<"ich suma to: "<<suma_9;
 }
