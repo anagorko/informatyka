@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main(){
+	int parzyste=0;
+	string najwieksza;
+	najwieksza[0]=1;
+	int dziewiecc=0;
+	for(int i=0; i<1000; i++){
+		string a;
+		cin >> a;
+		if(a[a.length()-1]=='0'){		//liczenie parzystych
+			parzyste++;
+		}
+		if(a.length()>najwieksza.length()){		//jeśli a dłuzsze od najwieksza
+			najwieksza=a;
+		}
+		if(a.length()==najwieksza.length()){		//jeśli a j=tej samej długości co najwieksza
+			for(int j=0; j<a.length(); j++){
+				if(a[j]>najwieksza[j]){
+					najwieksza=a;
+				}
+			}
+		}
+		if(a.length()==9){		//liczenie 9 cyfrowych
+			dziewiecc++;
+		}
+	}
+	cout << "a " << parzyste << endl << "b " << dziewiecc << " ";
+	int b[9];
+	if(dziewiecc>0){
+		for(int i=0; dziewiecc>0; i++){
+			b[i]=dziewiecc%2;
+			if(b[i]==1){
+				dziewiecc-=1;
+			}
+			dziewiecc=dziewiecc/2;
+		}
+		int l=0;
+		for(int i=9; i>=0; i--){
+			if(b[i]==1){
+				l++;
+			}
+			if(l>0){
+				cout << b[i];
+			}
+		}
+	}else{
+		cout << "0";
+	}
+	cout << endl << "c ";
+	//cout << najwieksza;
+	int z=0;
+	for(int i=0; i<najwieksza.length(); i++){
+		int n=1;
+		if(najwieksza[i]=='1'){
+			for(int j=0; j<najwieksza.length()-i-1; j++){
+				n*=2;
+			}
+			z+=n;
+		}
+	}
+	cout << z;
+}
