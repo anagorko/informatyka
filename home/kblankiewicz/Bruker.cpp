@@ -31,3 +31,4 @@ int main()
 	int zestawienie[];
 	bool koniec;
 }
+
