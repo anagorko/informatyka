@@ -1,0 +1,66 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	float kg=0;
+	float kb=0;
+	float zg=500;
+	float zb=200;
+	float pg=4.5;
+	float pb=3.5;
+	int cg=32;
+	int cb=28;
+	int dzien=5;
+	int a=0;		//ilość dowozów bazaltu
+	int b=0;		//dzień dowozu granitu
+	for(int i=1; i<276; i++){
+		if(dzien<6){
+			if(i<247){
+				cout << "d) " << zg << " " << zb << endl;
+			}
+			if(zg>=20*pg){
+				kg+=20*pg;		//układanie granitu
+				zg-=20*pg;
+			}else{
+				kg+=10*pg;		//układanie bazaltu
+				zg-=10*pg;
+				kb+=10*pb;
+				zb-=10*pb;
+			}
+			if(zg<40){		//dowożenie granitu
+				zg+=3*cg;
+				if(b==0){
+					b=i;
+				}
+			}
+			if(zg>=40 && zg<=100){
+				zg+=cg;
+			}
+			if(dzien==1 || dzien==3){		//dowożenie bazaltu
+				zb+=cb;
+				if(i<247)
+				a++;
+			}
+			if(i==32 || i==62 || i==96 || i==123 || i==154 || i==186 || i==215 || i==246){
+				cout << "c) " << kg << " " << kb << endl;
+			}
+		}
+		if(i==275){
+			cout << "e) ";
+			if(kb+kg<16500){
+				cout << kg+kb;
+			}else{
+				cout << "tak";
+			}
+			cout << endl;
+		}
+		if(dzien==7){		//zmiana dnia
+			dzien=1;
+		}else{
+			dzien++;
+		}
+	}
+	cout << "a) " << a << endl;
+	cout << "b) " << b << endl;
+}
