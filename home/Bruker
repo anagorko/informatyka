@@ -1,0 +1,33 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+	float kg=0;
+	float kb=0;
+	float zg=500;
+	float zb=200;
+	float pg=4.5;
+	float pb=3.5;
+	int cg=32;
+	int cb=28;
+	int dzien=5;
+	for(int i=1; i<276; i++){
+		if(zg>=20*pg){
+			kg+=20*pg;
+		}else{
+			kg+=10*pg;
+			kb+=10*pb;
+		}
+		
+		
+		if(dzien==1 || dzien==3){
+			zb+=cb;
+		}
+		if(dzien==7){
+			dzien=1;
+		}else{
+			dzien++;
+		}
+	}
+}
