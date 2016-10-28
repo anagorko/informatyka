@@ -1,33 +1,33 @@
 #Zadania - arkusz kalkulacyjny
 
-*Korek
+* Korek - korek.xlsx
 
-*Liczby
+* Liczby - liczby.xlsx
 
-*Demografia
+* Demografia - (wprowadzenie do arkusza kalkulacyjnego - to chyba zawiaera demografię)11.10.2016.xlsx
 
-*Bruker
+* Bruker - bruker.xlsx
 
 
 #Zadania - C++
 
-*Liczby
+* Liczby -
 
-*Bruker
+* Bruker - Bruker.cpp
 
-*PESEL
+* PESEL - PESEL.cpp
 
-*Trójkąt Pascala
+* Trójkąt Pascala - trojkat_pascala.cpp
 
-*Szyfr
+* Szyfr - szyfr_b_Matura2012.cpp i szyfr_Matura2012.cpp
 
-*Para słów
+* Para słów - 
 
-*Liczby binarne
+* Liczby binarne - bin.cpp
 
-*Anagramy
+* Anagramy - 
 
-*Sortowanie
+* Sortowanie - napisy.cpp liczny.cpp daty.cpp punkty.cpp
 
 
 
