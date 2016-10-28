@@ -1,37 +1,37 @@
 Zadania - arkusz kalkulacyjny :
 
 
-Korek 		- nie skończone
+* Korek 		- nie skończone
 
-Liczby
+* Liczby
 
-Demografia
+* Demografia
 
-Bruker
+* Bruker
 
-Telefony
+* Telefony
 
 
 Zadania - C++ :
 
 
-Liczby
+* Liczby
 
-Bruker		- nie
+* Bruker		- nie
 
-PESEL		- DONE
+* PESEL		- DONE
 
-Trójkąt Pascala	- DONE
+* Trójkąt Pascala	- DONE
 
-Szyfr 		- DONE
+* Szyfr 		- DONE
 
-Para słów 	- nie skończone
+* Para słów 	- nie skończone
 
-Liczby binarne 
+* Liczby binarne 
 
-Anagramy 	- DONE
+* Anagramy 	- DONE
 
-Sortowanie 	- 1/5 pierwsze ćwiczenie zrobion
+* Sortowanie 	- 1/5 pierwsze ćwiczenie zrobion
 
 
 ...........
