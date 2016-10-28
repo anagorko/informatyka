@@ -8,6 +8,8 @@
 
 * Bruker - bruker.xlsx
 
+* Telefony
+
 
 #Zadania - C++
 
@@ -25,7 +27,7 @@
 
 * Liczby binarne - bin.cpp
 
-* Anagramy - 
+* Anagramy - folder Anagramy
 
 * Sortowanie - napisy.cpp liczny.cpp daty.cpp punkty.cpp
 
