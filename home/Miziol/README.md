@@ -1,3 +1,36 @@
+#Zadania - arkusz kalkulacyjny
+
+*Korek
+
+*Liczby
+
+*Demografia
+
+*Bruker
+
+
+#Zadania - C++
+
+*Liczby
+
+*Bruker
+
+*PESEL
+
+*Trójkąt Pascala
+
+*Szyfr
+
+*Para słów
+
+*Liczby binarne
+
+*Anagramy
+
+*Sortowanie
+
+
+
 #Zrobione zadania
 
 * Wielomiany - [wielomiany.cpp](wielomiany.cpp) - nieskończony
