@@ -17,7 +17,7 @@ Zadania - C++ :
 6. Para słów (Matura maj 2009, zad 5)       - DONE
 7. Liczby binarne (Matura maj 2015, zad 4)  - DONE
 8. Anagramy                                 - DONE
-9. Sortowanie                               - 1/5
+9. Sortowanie                               - ALMOSTDONE ( problem z zadaniem 4)
 
 ...........
 
