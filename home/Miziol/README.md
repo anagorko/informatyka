@@ -23,7 +23,7 @@
 
 * Szyfr - szyfr_b_Matura2012.cpp i szyfr_Matura2012.cpp
 
-* Para słów - 
+* Para słów - para_slow.cpp (na razie bez podpunktu d)
 
 * Liczby binarne - bin.cpp
 
