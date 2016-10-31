@@ -9,7 +9,7 @@ Zadania - arkusz kalkulacyjny :
 
 Zadania - C++ :
 
-1. Liczby inaczej (Matura maj 2011, zad 6)
+1. Liczby inaczej (Matura maj 2011, zad 6)  - DONE
 2. Bruker (Informator, zad 17)              - nie
 3. PESEL (Matura 2010, zad 5)               - DONE
 4. Trójkąt Pascala (Matura maj 2012, zad 5) - DONE
