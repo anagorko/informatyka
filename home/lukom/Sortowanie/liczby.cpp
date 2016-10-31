@@ -3,13 +3,9 @@
 #include<algorithm>
 using namespace std;
 bool operator < ( string s1, string s2 ){
-	if(s1.length() == s2.length()){
-		return s1 < s2;
-
-	}else{
-		if(s1.length() < s2.length() ) return true;
-		else return false;
-	}
+	if(s1.length() < s2.length() ) return true;
+	if(s1.length() > s2.length() ) return false;
+	return s1 < s2;
 }
 int main(){
 	vector <string> V;
