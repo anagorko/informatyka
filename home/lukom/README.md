@@ -15,7 +15,7 @@ Zadania - C++ :
 4. Trójkąt Pascala (Matura maj 2012, zad 5) - DONE
 5. Szyfr (Matura maj 2012, zad 4)           - DONE
 6. Para słów (Matura maj 2009, zad 5)       - DONE
-7. Liczby binarne (Matura maj 2015, zad 4)  
+7. Liczby binarne (Matura maj 2015, zad 4)  - DONE
 8. Anagramy                                 - DONE
 9. Sortowanie                               - 1/5
 
