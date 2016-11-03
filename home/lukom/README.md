@@ -5,6 +5,7 @@ Zadania - arkusz kalkulacyjny :
 3. Demografia (Matura maj 2015, zad 5)
 4. Bruker (Informator, zad 17)
 5. Telefony
+6. Biblioteka podręczników                  - DONE
 
 
 Zadania - C++ :
