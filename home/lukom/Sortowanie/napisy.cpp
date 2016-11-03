@@ -12,9 +12,9 @@ public:
 	void set(string s);
 	string rev(string s) const;
 	rstring(){};
-    rstring(string s);
-    bool operator<(const rstring&) const;
-    bool operator==(const rstring&) const;
+    	rstring(string s);
+    	bool operator<(const rstring&) const;
+    	bool operator==(const rstring&) const;
 
 };
 rstring::rstring(string s){
@@ -64,14 +64,13 @@ int main(){
 	licz=0;
 	vector <rstring> L;
 	//wczytywanie z cin
-	while(!cin.eof()){
-		rstring W;
-		cin>>W;
+	rstring W;
+	while(cin>>W){
 		L.push_back(W);
 	}
 
 	//wyszukiwanie
-	cout<<"wyszukiwanie...\n";
+//	cout<<"wyszukiwanie...\n";
 	sort(L.begin(), L.end());
 	for(int i=0;i<L.size();i++){
 		cout<<L[i]<<endl;

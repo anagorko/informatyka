@@ -1,3 +1,38 @@
+#Zadania - arkusz kalkulacyjny
+
+* Korek - korek.xlsx
+
+* Liczby - liczby.xlsx
+
+* Demografia - (wprowadzenie do arkusza kalkulacyjnego - to chyba zawiaera demografię)11.10.2016.xlsx
+
+* Bruker - bruker.xlsx
+
+* Telefony
+
+
+#Zadania - C++
+
+* Liczby -
+
+* Bruker - Bruker.cpp
+
+* PESEL - PESEL.cpp
+
+* Trójkąt Pascala - trojkat_pascala.cpp
+
+* Szyfr - szyfr_b_Matura2012.cpp i szyfr_Matura2012.cpp
+
+* Para słów - para_slow.cpp (na razie bez podpunktu d)
+
+* Liczby binarne - bin.cpp
+
+* Anagramy - folder Anagramy
+
+* Sortowanie - napisy.cpp liczny.cpp daty.cpp punkty.cpp
+
+
+
 #Zrobione zadania
 
 * Wielomiany - [wielomiany.cpp](wielomiany.cpp) - nieskończony
