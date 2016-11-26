@@ -4,7 +4,7 @@ Zadania - arkusz kalkulacyjny :
 2. Liczby                                   - DONE
 3. Demografia (Matura maj 2015, zad 5)
 4. Bruker (Informator, zad 17)
-5. Telefony
+5. Telefony                                 - DONE
 6. Biblioteka podręczników                  - DONE
 
 
