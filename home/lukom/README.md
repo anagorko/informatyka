@@ -1,6 +1,6 @@
 Zadania - arkusz kalkulacyjny :
 
-1. Korek (Informator, zad 19)
+1. Korek (Informator, zad 19)               - DONE
 2. Liczby                                   - DONE
 3. Demografia (Matura maj 2015, zad 5)
 4. Bruker (Informator, zad 17)
