@@ -6,6 +6,7 @@ Zadania - arkusz kalkulacyjny :
 4. Bruker (Informator, zad 17)
 5. Telefony                                 - DONE
 6. Biblioteka podręczników                  - DONE
+7. Szkoła                                   - DONE
 
 
 Zadania - C++ :
