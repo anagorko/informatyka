@@ -1,0 +1,33 @@
+6.1:
+SELECT "Rok", "GrandPrix", "Imie", "Nazwisko", "Punkty" 
+FROM "wyscigi", "kierowcy", "wyniki" 
+WHERE "kierowcy".'Id_kierowcy' = "wyniki".'Id_kierowcy' 
+	AND "wyscigi".'Id_wyscigu' = "wyniki".'Id_wyscigu' 
+	AND "kierowcy".'Imie' = 'Robert' 
+	AND "kierowcy".'Nazwisko' = 'Kubica' 
+ORDER BY CAST("wyniki".'Punkty' AS INTEGER) DESC 
+LIMIT 1
+
+6.2:
+SELECT "GrandPrix", COUNT( "GrandPrix" ) "ile" 
+FROM "wyscigi" 
+GROUP BY "GrandPrix" 
+ORDER BY "ile" 
+LIMIT 1
+
+6.3:
+SELECT "Nazwisko", "Imie", COUNT( "Punkty" ) "Punkty" 
+FROM "kierowcy", "wyniki", "wyscigi" 
+WHERE "kierowcy"."Id_kierowcy" = "wyniki"."Id_kierowcy" 
+	AND "wyniki"."Id_wyscigu" = "wyscigi"."Id_wyscigu" 
+GROUP BY "Nazwisko", "Imie" 
+ORDER BY "Punkty" DESC
+
+6.4:
+SELECT "Kraj", COUNT( "kierowcy"."Id_kierowcy" ) "ile" 
+FROM "kierowcy", "wyniki", "wyscigi" 
+WHERE "wyscigi"."Rok" = 2012 
+	AND "kierowcy"."Id_kierowcy" = "wyniki"."Id_kierowcy" 
+	AND "wyscigi"."Id_wyscigu" = "wyniki"."Id_wyscigu" 
+GROUP BY "kierowcy"."Kraj" 
+ORDER BY "ile" DESC
