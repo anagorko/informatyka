@@ -65,6 +65,13 @@ FROM meldunek
 WHERE SUBSTRING(pesel, 10,1)%2<>0 \G
 
 #5.4
+SELECT imie, nazwisko 
+FROM studenci
+WHERE pesel NOT IN 
+	(SELECT meldunek.pesel
+	FROM meldunek, wypozyczenia
+	WHERE meldunek.pesel = wypozyczenia.pesel)
+ORDER BY nazwisko \G
 
 #5.5
 SELECT sum(x.nadwyzka)
