@@ -34,7 +34,7 @@ LOAD DATA LOCAL INFILE 'wypozyczenia.txt' INTO TABLE wypozyczenia IGNORE 1 LINES
 
 
 
-SELECT imie, nazwisko, count ( tytul )
+SELECT imie, nazwisko, COUNT ( tytul ) AS ile
 FROM studenci, wypozyczenia
 WHERE studenci.pesel = wypozyczenia.pesel
-GROUP BY studenci.pesel
+GROUP BY studenci.pesel;
