@@ -38,6 +38,14 @@ int main()
 		base[i].count();
 	}
 
+	int x=45;
+
+	cout << base[x].bin
+		<< base[x].dec
+		<< base[x].div
+		<< base[x].par
+		<< "\n";
+
 //rozwiazanie a i b
 
 	int a = 0, b = 0;
@@ -52,35 +60,27 @@ int main()
 
 //rozwiazanie c
 
-	string c = "000000000",rs;
-
-	char f = '0';
-
-	int r, l9 = 0;
+	int l9 = 0, sum = 0;
 
 	for ( int i = 0; i < 1000; i++)
 	{
 		if( base[i].div == true)
 		{
 			l9++;
-			r = 0;
-			rs = c;
-			c = "";
 
-			for ( int j = 8; j >= 0; j--)
-			{
-				r = rs[j] - '0' + base[i].bin[j] - '0' + r;
-				f = (r%2) + '0';
-
-				cout << f << endl;
-
-				c = f + c;
-				r = r - 2;
-			}
+			sum = sum + base[i].dec;
+			
 		}
 	}
 
-	cout << "c) " << l9 << " " << c << endl;
+	cout << "c) " << l9 << " ";
 
+	while ( sum > 0)
+	{
+		if ( sum % 2 == 0) cout << 0;
+		if ( sum % 2 == 1) cout << 1;
+		sum = sum / 2;
+	}
 
+return 0;
 }
