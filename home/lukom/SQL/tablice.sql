@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS uslugi;
 
 CREATE TABLE uslugi(
 nip VARCHAR(100),
-onz VARCHAR(100),
+ozn VARCHAR(100),
 nr VARCHAR(100),
 rodzaj VARCHAR(100),
 rata INT
@@ -46,20 +46,45 @@ INTO TABLE nip_firm IGNORE 1 LINES;
 
 SELECT SUM(rata) AS leasing
 FROM uslugi
-WHERE rodzaj='L';
+WHERE rodzaj ='L';
 SELECT SUM(rata) AS wynajem
 FROM uslugi
 WHERE rodzaj='W';
 
 #b)
 
-SELECT onz, nr
-FROM uslugi, nip_firm
+SELECT ozn, nr
+FROM nip_firm, uslugi
 WHERE nip_firm.nip = uslugi.nip
-	AND nip_firm.firma = 'BARTEX'
+	AND nip_firm.firma LIKE 'BARTEX%'
 ORDER BY nr;
 
 #c)
 
+SELECT firma, count(firma) AS ilosc
+FROM nip_firm, uslugi
+WHERE nip_firm.nip = uslugi.nip
+	AND uslugi.rodzaj = 'L'
+GROUP BY firma
+ORDER BY ilosc DESC
+LIMIT 1\G
+
 #d)
+
+SELECT powiat
+FROM uslugi, tablice
+WHERE uslugi.ozn = tablice.ozn
+	AND tablice.rodzaj LIKE 'z%'
+GROUP BY powiat;
+
+#e)
+
+SELECT x.firma, (x.suma/x.ilosc) AS 'srednia miesieczna rata'
+FROM
+	(SELECT firma, sum(rata) AS suma, count(firma) AS ilosc
+	FROM uslugi, nip_firm, tablice
+	WHERE nip_firm.nip = uslugi.nip
+		AND tablice.ozn = uslugi.ozn
+		AND tablice.powiat LIKE 'Konin%'
+	GROUP BY firma)x\G
 
