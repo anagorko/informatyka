@@ -40,12 +40,6 @@ int main()
 
 	int x=45;
 
-	cout << base[x].bin
-		<< base[x].dec
-		<< base[x].div
-		<< base[x].par
-		<< "\n";
-
 //rozwiazanie a i b
 
 	int a = 0, b = 0;
@@ -79,6 +73,7 @@ int main()
 	{
 		if ( sum % 2 == 0) cout << 0;
 		if ( sum % 2 == 1) cout << 1;
+		if ( sum == 1 ) sum = 0;
 		sum = sum / 2;
 	}
 
