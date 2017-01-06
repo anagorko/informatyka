@@ -48,7 +48,7 @@ FROM	(SELECT COUNT(imie) AS ilosc, klasa
 	WHERE imie LIKE '%a'
 	GROUP BY klasa) AS dziewczyny
 WHERE chlopaki.klasa = dziewczyny.klasa
-	AND chlopaki.ilosc < dziewczyny.ilosc;
+	AND chlopaki.ilosc < dziewczyny.ilosc \G	
 */
 
 #98.2
@@ -69,19 +69,16 @@ WHERE oceny.id_ucznia = uczniowie.id_ucznia
 	AND oceny.id_przedmiotu = przedmioty.id_przedmiotu 
 	AND przedmioty.nazwa_przedmiotu LIKE 'j.polski%'
 GROUP BY klasa \G
-*/
+*/	
 
 #98.4
-/*
-SELECT MONTH(data), COUNT(ocena) AS liczba_piatek
-FROM oceny, uczniowie
-WHERE oceny.id_ucznia = uczniowie.id_ucznia
-	AND MONTH(data) >= 9 
-	AND MONTH(data) <= 12
-	AND ocena = 5
-GROUP BY MONTH(data);
-*/
 
+SELECT nazwa_przedmiotu, month(data), COUNT(*)
+FROM oceny 
+JOIN przedmioty ON przedmioty.id_przedmiotu = oceny.id_przedmiotu
+WHERE ocena = 5
+GROUP BY nazwa_przedmiotu, MONTH(data);
+	
 #98.5
 /*
 SELECT imie, nazwisko
@@ -91,4 +88,5 @@ WHERE uczniowie.id_ucznia NOT IN (SELECT uczniowie.id_ucznia
         WHERE uczniowie.id_ucznia = oceny.id_ucznia
                 AND przedmioty.id_przedmiotu = oceny.id_przedmiotu
                 AND przedmioty.nazwa_przedmiotu LIKE 'sieci komputerowe%');
+	
 */
