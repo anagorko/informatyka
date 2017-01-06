@@ -61,4 +61,34 @@ HAVING COUNT(ocena) > 10;
 */
 
 #98.3
+/*
+SELECT ROUND(SUM(ocena)/COUNT(ocena),2) AS srednia_ocena, klasa 
+FROM oceny, uczniowie, przedmioty
+WHERE oceny.id_ucznia = uczniowie.id_ucznia
+	AND uczniowie.klasa LIKE 'IV%'
+	AND oceny.id_przedmiotu = przedmioty.id_przedmiotu 
+	AND przedmioty.nazwa_przedmiotu LIKE 'j.polski%'
+GROUP BY klasa \G
+*/
 
+#98.4
+/*
+SELECT MONTH(data), COUNT(ocena) AS liczba_piatek
+FROM oceny, uczniowie
+WHERE oceny.id_ucznia = uczniowie.id_ucznia
+	AND MONTH(data) >= 9 
+	AND MONTH(data) <= 12
+	AND ocena = 5
+GROUP BY MONTH(data);
+*/
+
+#98.5
+/*
+SELECT imie, nazwisko
+FROM uczniowie
+WHERE uczniowie.id_ucznia NOT IN (SELECT uczniowie.id_ucznia
+        FROM uczniowie, oceny, przedmioty
+        WHERE uczniowie.id_ucznia = oceny.id_ucznia
+                AND przedmioty.id_przedmiotu = oceny.id_przedmiotu
+                AND przedmioty.nazwa_przedmiotu LIKE 'sieci komputerowe%');
+*/
