@@ -1,0 +1,9 @@
+USE dziennik_ocen
+
+DROP TABLE IF EXIST aaa
+CREATE TABLE aaa(
+	ps format,
+
+);
+
+LOAD DATA LOCAL INFILE aaa.txt INTO TABLE aaa IGNORE 1 LINES;

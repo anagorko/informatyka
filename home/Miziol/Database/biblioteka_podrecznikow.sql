@@ -44,3 +44,17 @@ LIMIT 1 \G
 SELECT avg( count(pesel) )
 FROM meldunek
 GROUP BY id_pok \G
+
+SELECT plec, COUNT( plec ) AS ile
+FROM (
+	SELECT imie, nazwisko, MOD( FLOOR( MOD( pesel, 100) /10 ), 2 ) AS plec
+	FROM studenci ) sex
+GROUP BY plec \G
+
+SELECT imie, nazwisko
+FROM studenci, meldunek
+WHERE studenci.pesel != meldunek.pesel
+GROUP BY nazwisko, imie
+ORDER BY nazwisko \G
+
+SELECT
