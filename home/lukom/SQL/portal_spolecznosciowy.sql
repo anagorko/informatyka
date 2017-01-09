@@ -48,17 +48,14 @@ WHERE YEAR(data_dodania) = 2014;
 SELECT j.imie, j.nazwisko, j.kraj, d.imie, d.nazwisko, d.kraj
 FROM znajomosci,
 	(SELECT id_uzytkownika, imie, nazwisko, kraj
-	FROM znajomosci, uzytkownicy
-	WHERE znajomosci.znajomy2 = uzytkownicy.id_uzytkownika)d
+	FROM uzytkownicy)j
 	,
 	(SELECT id_uzytkownika, imie, nazwisko, kraj
-	FROM znajomosci, uzytkownicy
-	WHERE znajomosci.znajomy1 = uzytkownicy.id_uzytkownika)j
+	FROM uzytkownicy)d
 WHERE znajomy1 = j.id_uzytkownika
 	AND znajomy2 = d.id_uzytkownika
 	AND j.imie = d.imie
-GROUP BY znajomy1, znajomy2;
-#COS SKOMPLIKOWANEGO, NIE DZIAŁA
+GROUP BY znajomy1;
 */
 #102.3
 /*
