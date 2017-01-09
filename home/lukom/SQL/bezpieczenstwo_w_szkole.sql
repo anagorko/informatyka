@@ -39,12 +39,12 @@ LOAD DATA LOCAL INFILE '../../../zbior_zadan/99/gminy.txt'
 INTO TABLE gminy IGNORE 1 LINES;
 
 #99.1
-/*
+
 SELECT plec, COUNT(plec)
 FROM ankiety
-GROUP BY TRIM(plec)\G
+GROUP BY plec\G
 #tutaj plec 'k' liczy dwa razy. Dlaczego?
-*/
+
 #99.2
 /*
 SELECT rodzaj_szkoly, ROUND(AVG(ankiety.pyt1),2) AS 'pyt 1', ROUND(AVG(ankiety.pyt2),2) AS 'pyt 2', 
@@ -54,14 +54,13 @@ FROM ankiety JOIN szkoly ON ankiety.id_szkoly = szkoly.id_szkoly
 GROUP BY rodzaj_szkoly;
 */
 #99.3
-
-SELECT kod_gminy, ROUND(AVG(pyt6),2) AS 'średnia odpowiedzi'
+/*
+SELECT kod_gminy, ROUND(AVG(pyt6),2) AS srednia_odpowiedzi
 FROM ankiety
 	JOIN szkoly ON szkoly.id_szkoly = ankiety.id_szkoly
 GROUP BY kod_gminy
-ORDER BY 'średnia odpowiedzi' DESC\G
-#NIE WIEM CZEMU WYSWIETLA WYNIKI NIE W KOLEJNOSCI
-
+ORDER BY srednia_odpowiedzi;
+*/
 #99.4
 /*
 SELECT rodzaj_szkoly, COUNT(pyt3) AS ilosc
@@ -73,12 +72,12 @@ ORDER BY rodzaj_szkoly
 */
 #99.5
 /*
-SELECT nazwa_gminy, COUNT(nr_ankiety) AS 'ilosc uczniow'
+SELECT nazwa_gminy, COUNT(nr_ankiety) AS ilosc_uczniow
 FROM ankiety
 	JOIN szkoly ON ankiety.id_szkoly = szkoly.id_szkoly
 	JOIN gminy ON szkoly.kod_gminy = szkoly.kod_gminy
 GROUP BY nazwa_gminy
-ORDER BY 'ilosc uczniow' DESC LIMIT 1\G
+ORDER BY ilosc_uczniow DESC;
 */
 #99.6
 /*
