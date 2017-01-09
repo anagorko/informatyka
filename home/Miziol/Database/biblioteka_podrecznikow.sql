@@ -53,8 +53,5 @@ GROUP BY plec \G
 
 SELECT imie, nazwisko
 FROM studenci, meldunek
-WHERE studenci.pesel != meldunek.pesel
-GROUP BY nazwisko, imie
+WHERE studenci.pesel NOT EXISTS( meldunek.pesel)
 ORDER BY nazwisko \G
-
-SELECT
