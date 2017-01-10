@@ -10,7 +10,7 @@ klasa VARCHAR(100)
 );
 
 LOAD DATA LOCAL INFILE '../../../zbior_zadan/98/uczniowie.txt'
-INTO TABLE uczniowie IGNORE 1 LINES;
+INTO TABLE uczniowie LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
 
 DROP TABLE IF EXISTS przedmioty;
 
@@ -20,7 +20,7 @@ nazwa_przedmiotu VARCHAR(100)
 );
 
 LOAD DATA LOCAL INFILE '../../../zbior_zadan/98/przedmioty.txt'
-INTO TABLE przedmioty IGNORE 1 LINES;
+INTO TABLE przedmioty LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
 
 DROP TABLE IF EXISTS oceny;
 
@@ -33,7 +33,11 @@ ocena INT
 );
 
 LOAD DATA LOCAL INFILE '../../../zbior_zadan/98/oceny.txt'
-INTO TABLE oceny IGNORE 1 LINES;
+INTO TABLE oceny LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
+
+SELECT 
+  klasa, AVG(CASE WHEN imie LIKE '%a' THEN 1 ELSE 0 END) as procent
+FROM uczniowie GROUP BY klasa HAVING procent > 0.5;
 
 #98.1
 /*
@@ -73,11 +77,13 @@ GROUP BY klasa \G
 
 #98.4
 
+/*
 SELECT nazwa_przedmiotu, month(data), COUNT(*)
 FROM oceny 
 JOIN przedmioty ON przedmioty.id_przedmiotu = oceny.id_przedmiotu
 WHERE ocena = 5
 GROUP BY nazwa_przedmiotu, MONTH(data);
+*/
 	
 #98.5
 /*
