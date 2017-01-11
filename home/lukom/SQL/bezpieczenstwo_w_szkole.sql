@@ -15,7 +15,7 @@ plec VARCHAR(100)
 );
 
 LOAD DATA LOCAL INFILE '../../../zbior_zadan/99/ankiety.txt'
-INTO TABLE ankiety IGNORE 1 LINES;
+INTO TABLE ankiety LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
 
 DROP TABLE IF EXISTS szkoly;
 
@@ -26,7 +26,7 @@ kod_gminy VARCHAR(100)
 );
 
 LOAD DATA LOCAL INFILE '../../../zbior_zadan/99/szkoly.txt'
-INTO TABLE szkoly IGNORE 1 LINES;
+INTO TABLE szkoly LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
 
 DROP TABLE IF EXISTS gminy;
 
@@ -36,7 +36,7 @@ nazwa_gminy VARCHAR(100)
 );
 
 LOAD DATA LOCAL INFILE '../../../zbior_zadan/99/gminy.txt'
-INTO TABLE gminy IGNORE 1 LINES;
+INTO TABLE gminy LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
 
 #99.1
 
