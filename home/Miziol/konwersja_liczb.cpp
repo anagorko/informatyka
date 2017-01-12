@@ -6,6 +6,13 @@ string cyfry = "0123456789ABCDEF";
 string na_system(int n, int b)
 {
 	string l;
+	bool minus = false;
+
+	if( n < 0)
+	{
+		minus = true;
+		n = -n;
+	}
 
 	while( n != 0)
 	{
@@ -13,14 +20,23 @@ string na_system(int n, int b)
 		n = n / b;
 	}
 
+	if ( minus ) l = '-' + l;
+
 	return l;
 }
 
 int z_systemu(string l, int b)
 {
-	int n = 0, j;
+	int n = 0, j, i = 0;
+	bool minus = false;
 
-	for ( int i = 0; i < l.size(); i++)
+	if( l[0] = '-' )
+	{
+		minus = true;
+		i = 1;
+	}
+
+	for ( ; i < l.size(); i++)
 	{
 		for ( j = 0; j < cyfry.size(); j++)
 		{
@@ -29,6 +45,8 @@ int z_systemu(string l, int b)
 
 		n = n * b + j;
 	}
+
+	if( minus ) n = -n;
 
 	return n;
 }
