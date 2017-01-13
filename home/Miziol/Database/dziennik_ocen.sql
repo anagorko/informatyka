@@ -34,7 +34,6 @@ LOAD DATA LOCAL INFILE 'oceny.txt' INTO TABLE oceny IGNORE 1 LINES;
 
 SELECT ile_d.klasa
 FROM 
-	(SELECT klasa, COUNT( imie LIKE '%a') as d FROM uczniowie GROUP BY klasa) as ile_d,
-	(SELECT klasa, COUNT( imie NOT LIKE '%a') as m FROM uczniowie GROUP BY klasa) ile_m
-WHERE ile_d.klasa = ile_m.klasa AND ile_d.d < ile_m.m
-GROUP BY ile_d.klasa \G
+	(SELECT klasa, COUNT( imie ) as d FROM uczniowie WHERE imie LIKE '%a' GROUP BY klasa) as ile_d,
+	(SELECT klasa, COUNT( imie ) as m FROM uczniowie WHERE imie NOT LIKE '%a' GROUP BY klasa) ile_m
+WHERE ile_d.klasa = ile_m.klasa AND ile_d.d > ile_m.m \G
