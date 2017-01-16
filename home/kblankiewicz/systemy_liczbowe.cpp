@@ -85,27 +85,58 @@ bool kontrolagodziny(int godzina, int numerpomiaru)
 
 int podpunkt3 ()
 {
-	int r1 = 0;
-	int r2 = 0;
-	int r3 = 0;
+	int r1 = - 10000000;
+	int r2 = - 10000000;
+	int r3 = - 10000000;
 	int f = 0;
+	//int ch = 0;
 	for(int i = 0; i < 1095; i++){
 		if(s1[i][1] > r1){
 			r1 = s1[i][0];
-			f += 1;
-		}else{
-			if(s2[i][1] > r2){
-				r2 = s2[i][0];
-				f += 1;
-			}else{
-				if(s3[i][1] > r3){
-					r3 = s3[i][0];
-					f += 1;
-				}
-			}
+			//ch = 1;
+			f = f + 1;
 		}
+		if(s2[i][1] > r2){
+			r2 = s2[i][0];
+			//if(ch == 0){
+				f = f + 1;
+			//	ch = 1;
+			//}			
+		}
+		if(s3[i][1] > r3){
+			r3 = s3[i][0];
+			//if(ch == 0){
+				f = f + 1;
+			//	ch = 1;
+			//}
+		}
+		//ch = 0;
 	}
 	return f;
+}
+
+int podpunkt4()
+{	
+	int ti;
+	int tj;
+	int r;
+	int czas;//|i-j|
+	int skok;
+	int skok_max = 0;
+	for(int i = 0; i < 1095; i++){
+		for(int j = 0; j < 1095; j++){
+			if (i != j) {			
+				ti = s1[i][1];
+				tj = s1[j][1];
+				r = (ti - tj) * (ti - tj);
+				czas = abs(i - j);
+				skok = ceil(r / czas);
+				
+			}
+			if(skok > skok_max) {skok_max = skok;}
+		}
+	}
+	return skok_max;
 }
 
 int main()
@@ -156,4 +187,8 @@ int main()
 	//58.3
 	
 	cout << endl << "58.3" << endl << podpunkt3() << endl;
+	
+	//58.4
+	
+	cout<< endl << "58.4" << endl << podpunkt4() << endl;
 }
