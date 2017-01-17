@@ -121,7 +121,7 @@ int podpunkt4()
 	int tj;
 	int r;
 	int czas;//|i-j|
-	int skok;
+	int skok = 0;
 	int skok_max = 0;
 	for(int i = 0; i < 1095; i++){
 		for(int j = 0; j < 1095; j++){
