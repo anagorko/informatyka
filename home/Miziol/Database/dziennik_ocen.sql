@@ -31,7 +31,7 @@ CREATE TABLE oceny
 	);
 
 LOAD DATA LOCAL INFILE 'oceny.txt' INTO TABLE oceny LINES TERMINATED BY '\r\n' IGNORE 1 LINES;
-
+/*
 SELECT ile_d.klasa
 FROM 
 	(SELECT klasa, COUNT( imie ) as d FROM uczniowie WHERE imie LIKE '%a' GROUP BY klasa) as ile_d,
@@ -57,7 +57,7 @@ FROM przedmioty, oceny
 WHERE przedmioty.id_przedmiotu = oceny.id_przedmiotu
 	AND ocena = 5
 GROUP BY nazwa_przedmiotu, miesiac;
-
+*/
 SELECT imie, nazwisko
 FROM uczniowie, oceny, przedmioty
 WHERE oceny.id_przedmiotu = przedmioty.id_przedmiotu AND uczniowie.id_ucznia = oceny.id_ucznia
