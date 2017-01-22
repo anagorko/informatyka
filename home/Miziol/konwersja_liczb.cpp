@@ -30,7 +30,7 @@ int z_systemu(string l, int b)
 	int n = 0, j, i = 0;
 	bool minus = false;
 
-	if( l[0] = '-' )
+	if( l[0] == '-' )
 	{
 		minus = true;
 		i = 1;
