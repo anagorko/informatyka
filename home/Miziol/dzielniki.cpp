@@ -5,6 +5,7 @@ class liczba
 {
 public:
 	int n;
+	//bool d[2];
 	bool d[1000001];
 	bool f = false;
 
