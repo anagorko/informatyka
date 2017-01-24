@@ -7,7 +7,7 @@ public:
 	int n;
 	//bool d[2];
 	bool d[1000001];
-	bool f = false;
+	bool f;
 
 	void dzielniki()
 	{
@@ -34,25 +34,29 @@ public:
 		{
 			d[i] = false;
 		}
+		f = false;
 	}
 };
 
+
+liczba t[200];
+
+
 int main()
 {
-cout << "zaczynamy";
+//cout << "zaczynamy";
 	int l1 = 0, l2 = 0, m = 0;
 
-cout << "łykam inta";
+//cout << "łykam inta";
 
-	liczba t[200];
-cout << "zmienne";
+//cout << "zmienne";
 
 //wczytanie i podpunkt a
 
 	for ( int i = 0; i < 200; i++ )
 	{
 		cin >> t[i].n;
-cout << t[i].n << endl;
+//cout << t[i].n << endl;
 		if( t[i].n < 1000 )
 		{
 			m++;
@@ -72,11 +76,46 @@ cout << t[i].n << endl;
 		if( t[i].d[0] )
 		{
 			cout << t[i].n;
-			for( int i = 1; i <= t[i].n; i++)
+			for( int j = 1; j <= t[i].n; j++)
 			{
-				if( t[i].d[i] ) cout << " " << i;
+				if( t[i].d[j] ) cout << " " << j;
+			}
+			cout << endl;
+		}		
+	}
+
+//podpuknt 3
+
+	bool p[1000001][2];
+
+	for (int i = 2; i < 1000001; i++ )
+	{
+		p[i][0] = false;
+		p[i][1] = false;
+
+		for ( int j = 0; j < 200; j++ )
+		{
+			if( t[j].d[i] && p[i][0] )
+			{
+				p[i][1] = true;
+				break;
+			}
+
+			if( t[j].d[i] )
+			{
+				p[i][0] = true;
 			}
 		}
-		cout << endl;
+	}
+
+	for ( int i = 0; i < 200; i++ )
+	{
+		for ( int j = 2; j <= t[i].n; j++ )
+		{
+			if ( t[i].n == j && p[j][1] == false )
+				cout << t[i].n << endl;
+			if ( t[i].d[j] && p[j][1])
+				break;
+		}
 	}
 }
