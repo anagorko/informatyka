@@ -1,11 +1,9 @@
 #include<iostream>
+
 using namespace std;
+
 int main()
 {
-	int n;
-	string s;
-
-	cin >> n;
-	s = to_string(n);
-	cout << s;
+	int k,m,r;
+	cin >> k >> m >> r >> k >> m;
 }
