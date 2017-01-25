@@ -6,7 +6,7 @@ using namespace std;
 
 string korekta = "";
 
-int numer_obrazka = 0;
+int numer_obrazka = 1;
 
 char obrazek[20][20];
 
@@ -16,6 +16,7 @@ int rewersy = 0, rekurencyjne = 0, poprawna = 0, naprawialna = 0, nienaprawialna
 
 string int_char(int it)
 {
+//cout << "int to char" << endl;
 	string s = "";
 
 	if ( it == 0 ) return "0";
@@ -25,6 +26,9 @@ string int_char(int it)
 		s = (char) (it % 10 + 48) + s;
 		it = it / 10;
 	}
+//cout << "koniec int to char" << endl;
+
+	return s;
 }
 
 
@@ -110,12 +114,26 @@ void blendy_bit()
 	else if ( bl_wer < 2 && bl_kol < 2 )
 		{
 			naprawialna++;
-
-			if ( bl_wer == 0 && bl_kol == 1 ) korekta = korekta + int_char( numer_obrazka ) + " " + int_char( n_bl_kol ) + " 20\n";
-			if ( bl_wer == 1 && bl_kol == 0 ) korekta = korekta + int_char( numer_obrazka ) + " 20 " + int_char( n_bl_wer ) + "\n";
-			if ( bl_wer == 1 && bl_kol == 1 ) korekta = korekta + int_char( numer_obrazka ) + " " + int_char( n_bl_kol ) + " " + int_char( n_bl_wer ) + "\n"; 
+//cout << "naprawiam" << endl;
+			if ( bl_wer == 0 && bl_kol == 1 )
+				{
+//cout << int_char( numer_obrazka ) << endl;
+					korekta = korekta + int_char( numer_obrazka ) + " " + int_char( n_bl_kol ) + " 20\n";
+//cout << korekta << " DOKONANA" << endl;
+				}
+			else if ( bl_wer == 1 && bl_kol == 0 )
+				{
+					korekta = korekta + int_char( numer_obrazka ) + " 20 " + int_char( n_bl_wer ) + "\n";
+//cout << korekta << " DOKONANA" << endl;
+				}
+			else if ( bl_wer == 1 && bl_kol == 1 )
+				{
+					korekta = korekta + int_char( numer_obrazka ) + " " + int_char( n_bl_kol ) + " " + int_char( n_bl_wer ) + "\n";
+//cout << korekta << " DOKONANA" << endl;
+				}
+//cout << "naprawione" << endl;
 		}
-	else if ( bl > 2 ) nienaprawialna++;
+	else if ( bl_wer <= 2 || bl_kol <= 2 ) nienaprawialna++;
 
 	if ( bl > max_bit ) max_bit = bl;
 }
