@@ -59,21 +59,18 @@ bool punkt_wspolny( okrag o1, okrag o2 ){
 	if(odl <= o1.r + o2.r) return true;
 	else return false;
 }
-int d_l[2000];
 int dlugosc_lancucha(int ost, bool wolne[2000]){
-	if(d_l[ost] != -1) return d_l[ost];
 	wolne[ost] = false;
 	int dl=0;
 	for(int i=0;i<2000;i++){
 		if(!wolne[i]) continue;
 		if( punkt_wspolny(O[ost], O[i]) ){
 			int dl_spr = dlugosc_lancucha(i, wolne);
-			if(dl_spr > dl) dl= dl_spr;
+			if(dl_spr > dl) dl = dl_spr;
 		}
 	}
-	if(dl==0) d_l[ost] = 1;
-	else d_l[ost] = dl+1;
-	return d_l[ost];
+	dl++;
+	return dl;
 }
 void wczytanie(){
 	fstream plik;
@@ -83,7 +80,6 @@ void wczytanie(){
 		plik >> O[i].y;
 		plik >> O[i].r;
 //		cout<<O[i].x<<" "<<O[i].y<<" "<<O[i].r<<endl;
-		d_l[i] = -1;
 	}
 }
 void pyt1(){
@@ -127,15 +123,15 @@ void pyt4(){
 		bool wolne[2000];
 		for(int j=0;j<2000;j++) wolne[j] = true;
 		int dl = dlugosc_lancucha(i, wolne);
-		cout<<"długość łańcucha zaczynającego się od "<<i<<"-tego okręgu ma długość "<<dl<<endl;
+		cout<<"długość łańcucha zaczynającego się od "<<i<<"-tego okręgu ma długość "<<dl<<"\n";
 		if(dl > max_dl) max_dl = dl;
 	}
-	cout<<"\nmaksymalna dlugosc lancucha: "<<max_dl<<endl;
+	cout<<"\nmaksymalna dlugosc lancucha: "<<max_dl<<"\n";
 }
 int main(){
 	wczytanie();
 //	pyt1();
 //	pyt2();
 //	pyt3();
-//	pyt4();
+	pyt4();
 }
