@@ -1,9 +1,10 @@
 #include<iostream>
-
 using namespace std;
 
 int main()
 {
-	int k,m,r;
-	cin >> k >> m >> r >> k >> m;
+	string s;
+	getline(cin, s, '\r');
+
+	cout << s << "asdsfsdasdsafdf" << endl;
 }
