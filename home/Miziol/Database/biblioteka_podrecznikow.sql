@@ -41,15 +41,24 @@ GROUP BY studenci.pesel
 ORDER BY ile DESC
 LIMIT 1 \G
 
-SELECT avg( count(pesel) )
-FROM meldunek
-GROUP BY id_pok \G
+
+
+SELECT avg( ile_pok.ile )
+FROM
+	(
+	SELECT count(pesel) as ile
+	FROM meldunek
+	GROUP BY id_pok
+	) as ile_pok \G
+
 
 SELECT plec, COUNT( plec ) AS ile
 FROM (
 	SELECT imie, nazwisko, MOD( FLOOR( MOD( pesel, 100) /10 ), 2 ) AS plec
 	FROM studenci ) sex
 GROUP BY plec \G
+
+
 
 SELECT imie, nazwisko
 FROM studenci, meldunek
