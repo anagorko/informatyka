@@ -85,7 +85,7 @@ vector <int> compile( vector <int> v1, vector <int> v2){
 	}
 	return w;
 }
-vector <int> quick_sort(vector <int> v){
+vector <int> merge_sort(vector <int> v){
 		if(v.size() == 1) return v;
 
 		int half = v.size()/2;
@@ -96,8 +96,8 @@ vector <int> quick_sort(vector <int> v){
 		w1.erase( w1.begin() + half, w1.end());
 		w2.erase( w2.begin(), w2.begin() + half );
 
-		w1 = quick_sort(w1);
-		w2 = quick_sort(w2);
+		w1 = merge_sort(w1);
+		w2 = merge_sort(w2);
 
 		return compile(w1, w2);
 }
@@ -107,9 +107,32 @@ int  bucket_sort(vector <int> v, int l){
 	for(int i=0;i<v.size();i++) if(v[i] == l) ile++;
 	return ile;
 }
+vector <int> quick_sort(vector <int> &v, int a, int b){
+	cout<<":: "<<a<<" "<<b<<"\n";
+	int half = (a+b)/2;
+
+	//rozdzielanie
+	vector<int> v1,v2,w;
+	for(int i=a;i<b;i++){
+		if(i == half) continue;
+		if(v[i] < v[half]) v1.push_back(v[i]);
+		else v2.push_back(v[i]);
+	}
+
+	//scalanie
+	int miejsce = v1.size();
+	v1.push_back(v[half]);
+	for(int i=0;i<v2.size();i++) v1.push_back(v2[i]);
+	for(int i=a;i<b;i++) v[i] = v1[i-a];
+
+	if(a != miejsce) quick_sort(v, a, miejsce);
+	if(b != miejsce + 1) quick_sort(v, miejsce + 1, b);
+
+	return v;
+}
 int main(){
 	vector <int> v,v1;
 	int l;
 	while(cin>>l) v.push_back(l);
-	wypisz(quick_sort(v));
+	wypisz(quick_sort(v,0,v.size()) );
 }
