@@ -75,27 +75,97 @@ void merging_sort(int *t, int a, int b)
 {
 	if( a == b ) return;
 
+	int r;
+
 	int b1 = b - ( (b - a) / 2.00 );
 	int a2 = b + 1 - ( (b - a) / 2.00 );
 
 	merging_sort ( t, a, b1 );
 	merging_sort ( t, a2, b );
 
-	//tu ponieżej jest błąd
-
 	for ( int i = a; i < b; i++ )
 	{
 		if( t[a] > t[a2])
 		{
-			int r = t[a2];
-			t[a2] = t[i];
-			t[i] = r;
+			//tu ponieżej jest błąd
+			
+			r = t[a2];
+			
+			for ( int j = a2; j > a; j-- )
+			{
+				t[j] = t[j-1];
+			}
+
+			t[a] = r;
+
 			a++;
+			a2++;
+
+			//tu powyżej jest błąd
+		}
+	}
+}
+
+
+void quick_sort(int *t, int a, int b)//to żle działa
+{
+	if( a >= b ) return;
+	if( a + 1 == b)
+	{
+		if( t[a] > t[b] )
+		{
+			int r = t[a];
+			t[a] = t[b];
+			t[b] = r;
+		}
+		return;
+	}
+
+	int o_pos = (b -a + 1) / 2 + a;
+	int o = t[o_pos];
+
+	int p = 0, k = b;
+	int s[ (b - a + 1) ];
+
+	for ( int i = a; i < b+1; i++ )
+	{
+		if(i != o_pos)
+		{
+			if(t[i] <= o)
+			{
+				s[p] = t[i];
+				p++;
+			}
+
+			if(t[i] > o)
+			{
+				s[k] = t[i];
+				k--;
+			}
 		}
 	}
 
-	//tu powyżej jest błąd
+	o_pos = k;
+
+cout << "true " << a << " " << o_pos << " " << b << endl;
+char znak;
+cin >> znak;
+
+	s[o_pos] = o;
+
+	for ( int i = a; i <= b; i++ )
+	{
+		t[i] = s[i-a];
+	}
+
+cout << "teraz wywołam" << a << " " << o_pos - 1 << "and" << o_pos + 1 << " " << b << endl;
+
+	quick_sort( t, a, o_pos - 1 );
+	quick_sort( t, o_pos + 1, b );
+
+	return;
 }
+
 
 
 int main()
@@ -115,7 +185,9 @@ int main()
 
 	//insertion_sort(t, n);
 
-	merging_sort(t, 0, n);
+	//merging_sort(t, 0, n - 1);
+
+	quick_sort( t, 0, n-1);
 
 	for( int i = 0; i < n; i++ )
 	{
