@@ -108,9 +108,7 @@ int  bucket_sort(vector <int> v, int l){
 	return ile;
 }
 vector <int> quick_sort(vector <int> &v, int a, int b){
-	cout<<":: "<<a<<" "<<b<<"\n";
 	int half = (a+b)/2;
-
 	//rozdzielanie
 	vector<int> v1,v2,w;
 	for(int i=a;i<b;i++){
@@ -120,11 +118,10 @@ vector <int> quick_sort(vector <int> &v, int a, int b){
 	}
 
 	//scalanie
-	int miejsce = v1.size();
+	int miejsce = a + v1.size();
 	v1.push_back(v[half]);
 	for(int i=0;i<v2.size();i++) v1.push_back(v2[i]);
 	for(int i=a;i<b;i++) v[i] = v1[i-a];
-
 	if(a != miejsce) quick_sort(v, a, miejsce);
 	if(b != miejsce + 1) quick_sort(v, miejsce + 1, b);
 
