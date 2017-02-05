@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<fstream>
 using namespace std;
 
 vector <int> v;
@@ -53,18 +54,29 @@ int main()
 		v.push_back(n);
 	}
 
-	for(int i = 0; i < v.size(); i++)
+	/*for(int i = 0; i < v.size(); i++)
 	{
 		cout << v[i] << " ";
 	}
-	cout << endl;
+	cout << endl;*/
 
 	sort();
 
-	for(int i = 0; i < gotowe.size(); i++)
+	/*for(int i = 0; i < gotowe.size(); i++)
 	{
 		cout << gotowe[i] << " ";
 	}
-	cout << endl;
+	cout << endl;*/
+
+	ofstream plik;
+	plik.open("posortowane.txt", ios::trunc);
+	plik << "przez wstawianie - ";
+	for(int i = 0; i < v.size(); i++)
+	{
+		plik << v[i] << " ";
+	}
+	plik << endl;	
+	plik.close();
+
 
 }

@@ -1,32 +1,39 @@
 #include<iostream>
 #include<vector>
-#include<random>
+#include<fstream>
 using namespace std;
 
 vector <int> v;
-vector <int> gotowe;
 
 void zamiana(int x, int y){
 	int p, q;
-	p = gotowe[x];
-	q = gotowe[y];
-	gotowe[x] = q;
-	gotowe[y] = p;
+	p = v[x];
+	q = v[y];
+	v[x] = q;
+	v[y] = p;
+}
+
+int minimalna(int a, int b)
+{
+	int min = v[a];
+	int miejsce = a;
+	for(int i = a; i <= b; i++)
+	{
+		if(v[i] < min) {
+			min = v[i];
+			miejsce = i;
+		}	
+	}
+	return miejsce;
 }
 
 void sort()
 {
 	for(int i = 0; i < v.size(); i++)
-	{ 
-		gotowe.push_back(v[v.size() - 1]);
-		v.pop();
-		for(int j = gotowe.size() - 1; j >= 0; j--)
-		{
-			if(gotowe[j] < gotowe[j - 1]){
-				zamiana(j, j - 1);
-			}
-		}
-	}	
+	{
+		int min = minimalna(i, v.size() - 1);
+		zamiana(i, min);
+	}
 }
 
 int main()
@@ -37,18 +44,29 @@ int main()
 	{
 		v.push_back(n);
 	}
-	for(int i = 0; i < v.size(); i++)
-	{
-		cout << v[i] << " ";
-	}
-	cout << endl;
-	//cout<< v[0] << " " << v[1] << endl;	
 
-	//cout<< v[0] << " " << v[1] << endl;
-	sort();
-	for(int i = 0; i < v.size(); i++)
+	/*for(int i = 0; i < v.size(); i++)
 	{
 		cout << v[i] << " ";
 	}
-	cout << endl;
+	cout << endl;*/
+	
+	sort();
+		
+	/*for(int i = 0; i < v.size(); i++)
+	{
+		cout << v[i] << " ";
+	}
+	cout << endl;*/
+	
+	ofstream plik;
+	plik.open("posortowane.txt", ios::ate);
+	plik << "przez wybór - ";
+	for(int i = 0; i < v.size(); i++)
+	{
+		plik << v[i] << " ";
+	}
+	plik << endl;	
+	plik.close();
+
 }
