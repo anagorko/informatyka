@@ -71,14 +71,14 @@ FROM uzytkownicy,
 	( SELECT *
 	FROM zdjecia, znajomosci
 	WHERE zdjecia.id_uzytkownika = znajomosci.znajomy1
-		AND data < data_dodania
 	GROUP BY zdjecia.id_uzytkownika
+	HAVING MIN( data ) > data_dodania
 	ORDER BY id_uzytkownika ) as 1set,
 	( SELECT *
 	FROM zdjecia, znajomosci
 	WHERE zdjecia.id_uzytkownika = znajomosci.znajomy2
-		AND data < data_dodania
 	GROUP BY zdjecia.id_uzytkownika
+	HAVING MIN( data ) > data_dodania
 	ORDER BY id_uzytkownika ) as 2set
 WHERE uzytkownicy.id_uzytkownika = 1set.id_uzytkownika
 	OR uzytkownicy.id_uzytkownika = 2set.id_uzytkownika
