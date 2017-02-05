@@ -107,7 +107,7 @@ void merging_sort(int *t, int a, int b)
 }
 
 
-void quick_sort(int *t, int a, int b)//to żle działa
+void quick_sort(int *t, int a, int b)
 {
 	if( a >= b ) return;
 	if( a + 1 == b)
@@ -121,49 +121,59 @@ void quick_sort(int *t, int a, int b)//to żle działa
 		return;
 	}
 
-	int o_pos = (b -a + 1) / 2 + a;
-	int o = t[o_pos];
+	int size = b-a+1;
 
-	int p = 0, k = b;
-	int s[ (b - a + 1) ];
+	int s[size];
 
-	for ( int i = a; i < b+1; i++ )
+//wczytywanie
+
+	for( int i = 0; i <= b - a; i++)
 	{
-		if(i != o_pos)
+		s[i] = t[a + i];
+	}
+
+//sortowanie
+
+	int p = 0, k = b - a;
+
+	int s2[size];
+
+	int o_pos = (size) / 2;
+	int o = s[o_pos];
+
+	for (int i = 0; i < size; i++ )
+	{
+		if( i != o_pos)
 		{
-			if(t[i] <= o)
+			if( s[i] <= o )
 			{
-				s[p] = t[i];
+				s2[p] = s[i];
 				p++;
 			}
-
-			if(t[i] > o)
+			if( s[i] > o )
 			{
-				s[k] = t[i];
+				s2[k] = s[i];
 				k--;
 			}
 		}
 	}
 
-	o_pos = k;
+	s2[k] = o;
 
-cout << "true " << a << " " << o_pos << " " << b << endl;
-char znak;
-cin >> znak;
-
-	s[o_pos] = o;
-
-	for ( int i = a; i <= b; i++ )
+	for ( int i = 0; i < size; i++ )
 	{
-		t[i] = s[i-a];
+		s[i] = s2[i];
 	}
 
-cout << "teraz wywołam" << a << " " << o_pos - 1 << "and" << o_pos + 1 << " " << b << endl;
+	quick_sort( s, 0, o_pos - 1);
+	quick_sort( s, o_pos + 1, size - 1);
 
-	quick_sort( t, a, o_pos - 1 );
-	quick_sort( t, o_pos + 1, b );
+//zapisywanie
 
-	return;
+	for( int i = 0; i < size; i++)
+	{
+		t[a + i] = s[i];
+	}
 }
 
 
