@@ -21,7 +21,7 @@ void join(vector <int> & p, vector <int> & q, int z, vector <int> & r)
 void sort(vector <int> & s)
 {
 	if(s.size() <= 1){
-		return;
+		return;s
 	}
 	int a = s[0];
 	vector <int> m, w;
