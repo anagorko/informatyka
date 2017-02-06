@@ -62,7 +62,7 @@ LIMIT 1;
 */
 #108.3
 /*
-SELECT drogi.id_drogi, nazwa, COUNT(*) AS ilosc_stacji, dlugosc/COUNT(*) AS sr_odl
+SELECT drogi.id_drogi, nazwa, COUNT(*) AS ilosc_stacji, ROUND(dlugosc/COUNT(*),1) AS sr_odl
 FROM drogi
 	JOIN stacje ON stacje.id_drogi = drogi.id_drogi
 GROUP BY drogi.id_drogi
@@ -78,11 +78,13 @@ WHERE nazwa LIKE '%autostrada%'
 	AND kategoria NOT LIKE 'autostrada';
 */
 #108.5
+#wydaje mi się , że odpowiedzi nie uwzględniaja wszystkich danych
 /*
 SELECT nazwa_sieci, kategoria, COUNT(*) AS ilosc
 FROM sieci
 	JOIN stacje ON stacje.id_sieci = sieci.id_sieci
 	JOIN drogi ON drogi.id_drogi = stacje.id_drogi
 	JOIN kategorie ON kategorie.id_kategorii = drogi.id_kategorii
-GROUP BY sieci.id_sieci, kategorie.id_kategorii;
+GROUP BY sieci.id_sieci, kategorie.id_kategorii
+ORDER BY sieci.nazwa_sieci, kategoria;
 */
