@@ -3,16 +3,16 @@
 
 using namespace std;
 
-bool nieskracalne(int *t, int id)
+bool skracalne(int t[][2], int id)
 {
 	int limit = (t[id][0] < t[id][1]) ? t[id][0] : t[id][1];
 	for( int i = 0; i < limit; i++ )
 	{
 		if ( t[id][0] % i == 0 && t[id][1] % i == 0 )
-			return false;
+			return true;
 	}
 
-	return true;
+	return false;
 }
 
 
@@ -43,7 +43,7 @@ int main()
 			min = i;
 
 //65.2
-		if( nieskracalne( ulamki, i ) )
+		if( !skracalne( ulamki, i ) )
 			nieskracalne++;
 	}
 	
