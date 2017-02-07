@@ -3,8 +3,9 @@ using namespace std;
 
 int main()
 {
-	string s;
-	getline(cin, s, '\r');
+	int a = 5, b = 6;
 
-	cout << s << "asdsfsdasdsafdf" << endl;
+	int r = ( ((b - a) / 2.00 ) + ((b - a) / 2.00 ));
+
+	cout << ( ((b - a) / 2.00 ) + ((b - a) / 2.00 )) << " " << r << endl;
 }
