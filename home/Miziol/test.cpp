@@ -3,9 +3,9 @@ using namespace std;
 
 int main()
 {
-	int a = 5, b = 6;
+	char s = 'A';
 
-	int r = ( ((b - a) / 2.00 ) + ((b - a) / 2.00 ));
+	cout << (int) ( s - 65 ) << endl;
 
-	cout << ( ((b - a) / 2.00 ) + ((b - a) / 2.00 )) << " " << r << endl;
+	cout << s - 65 << endl;
 }
