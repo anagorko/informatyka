@@ -3,8 +3,9 @@ using namespace std;
 
 int main()
 {
-	string s;
-	getline(cin, s, '\r');
+	char s = 'A';
 
-	cout << s << "asdsfsdasdsafdf" << endl;
+	cout << (int) ( s - 65 ) << endl;
+
+	cout << s - 65 << endl;
 }
