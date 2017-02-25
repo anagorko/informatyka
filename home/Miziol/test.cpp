@@ -3,9 +3,19 @@ using namespace std;
 
 int main()
 {
-	char s = 'A';
+	char c;
 
-	cout << (int) ( s - 65 ) << endl;
+	cin >> c;
 
-	cout << s - 65 << endl;
+	switch(c)
+	{
+		case 'p':
+		case 'P':
+			cout << "p or P";
+			break;
+		case '1':
+			cout << "1";
+		default:
+		cout << "d" << endl;
+	}
 }
