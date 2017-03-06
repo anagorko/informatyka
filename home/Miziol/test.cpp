@@ -3,8 +3,19 @@ using namespace std;
 
 int main()
 {
-	string s;
-	getline(cin, s, '\r');
+	char c;
 
-	cout << s << "asdsfsdasdsafdf" << endl;
+	cin >> c;
+
+	switch(c)
+	{
+		case 'p':
+		case 'P':
+			cout << "p or P";
+			break;
+		case '1':
+			cout << "1";
+		default:
+		cout << "d" << endl;
+	}
 }
