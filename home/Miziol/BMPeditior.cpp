@@ -42,6 +42,22 @@ int chars2_to_int()
 }
 
 
+int char_to_int()
+{
+	int r;
+
+	in.get( table[0] );
+	
+	table[1] = (char) 0x00;
+	table[2] = (char) 0x00;
+	table[3] = (char) 0x00;
+
+	r = *((int *) (table));
+
+	return r;
+}
+
+
 void int_to_chars4(int x)
 {
 	char a = (char)(x & 0xff);
@@ -61,6 +77,16 @@ void int_to_chars2(int x)
 	char b = (char)((x >> 8) & 0xff);
 	
 	out << a << b;
+}
+
+
+void int_to_char(int x)
+{
+	string ret = "";
+
+	char a = (char)(x & 0xff);
+	
+	out << a;
 }
 
 
@@ -133,7 +159,7 @@ cout << important_color << endl;
 				for ( int j = 0; j < y; j++ )
 					for ( int k = 0; k < 4; k++)
 					{
-						obraz[i][j][k] = chars4_to_int();
+						obraz[i][j][k] = char_to_int();
 					}
 
 		in.close();
@@ -177,12 +203,12 @@ cout << "asd" << bits_pixel << endl;
 			int_to_chars4( important_color ); //ważne kolory (0 = wszystkie)
 		}
 
-		/*if ( bits_pixel == 32 )
+		if ( bits_pixel == 32 )
 			for ( int i = 0; i < x; i++ )
 				for ( int j = 0; j < y; j++ )
 					for ( int k = 0; k < 4; k++)
-						out << obraz[i][j][k];
-*/
+						int_to_char( obraz[i][j][k] );
+
 		in.close();
 	}
 
