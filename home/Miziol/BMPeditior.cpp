@@ -6,16 +6,20 @@ using namespace std;
 
 ifstream in;
 
+ofstream out;
+
 char trash;
 
 char table[4];
+
+int obraz[256][256][4];
 
 int chars4_to_int()
 {
 	int r;
 
 	for ( int i = 0; i < 4; i++ )
-		in >> table[i];
+		in.get( table[i] );
 	
 	r = *((int *) (table));
 
@@ -27,7 +31,7 @@ int chars2_to_int()
 	int r;
 
 	for ( int i = 0; i < 2; i++ )
-		in >> table[i];
+		in.get( table[i] );
 	
 	table[2] = (char) 0x00;
 	table[3] = (char) 0x00;
@@ -36,6 +40,29 @@ int chars2_to_int()
 
 	return r;
 }
+
+
+void int_to_chars4(int x)
+{
+	char a = (char)(x & 0xff);
+	char b = (char)((x >> 8) & 0xff);
+	char c = (char)((x >> 16) & 0xff);
+	char d = (char)((x >> 24) & 0xff);
+	
+	out << a << b << c << d;
+}
+
+
+void int_to_chars2(int x)
+{
+	string ret = "";
+
+	char a = (char)(x & 0xff);
+	char b = (char)((x >> 8) & 0xff);
+	
+	out << a << b;
+}
+
 
 
 class BMP
@@ -57,13 +84,13 @@ public:
 		in.open( "Windows-icon.bmp" );
 
 		for ( int i = 0; i < 2; i++ ) //wczytaj bity "BM"
-			in >> trash;
+			in.get( trash );
 
 		size = chars4_to_int();
 cout << size << endl;
 
 		for ( int i = 0; i < 4; i++ ) //unused
-			in >> trash;
+			in.get( trash );
 
 		begin_bitmap = chars4_to_int(); //numer pierwszego bity bitmapy
 cout << begin_bitmap << endl;
@@ -78,32 +105,102 @@ cout << DIB_size << endl;
 cout << "( " << x << ", " << y << " )\n";
 
 			number_of_planes = chars2_to_int();
-cout << number_of_planes << endl;
-
 			bits_pixel = chars2_to_int(); //bity na pixel
+cout << number_of_planes << endl;
 cout << bits_pixel << endl;
 		
 			compresion = chars4_to_int(); //poziom kompresji
+cout << compresion << endl;
 
 			size_bitmap = chars4_to_int(); //rozmiar bitmapy bez dancyh doklejonych
+cout << size_bitmap << endl;
 
 			print_x = chars4_to_int(); //pixele na metr druku x
 			print_y = chars4_to_int(); //pixele na metr druku y
+cout << print_x << " " << print_y << endl;
 
 			color_in_pallet = chars4_to_int(); //kolory w palecie
+cout << color_in_pallet << endl;
 
 			important_color = chars4_to_int(); //ważne kolory (0 = wszystkie)
-
+cout << important_color << endl;
 		}
+
+		//int obraz[x][y][4];
+
+		if ( bits_pixel == 32 )
+			for ( int i = 0; i < x; i++ )
+				for ( int j = 0; j < y; j++ )
+					for ( int k = 0; k < 4; k++)
+					{
+						obraz[i][j][k] = chars4_to_int();
+					}
+
+		in.close();
 	}
 
+	void export_DATA()
+	{
+		out.open( "Windows-icon2.bmp", ios::binary );
 
+		out << "BM"; //wypisz bity "BM"
+
+		int_to_chars4( size );	
+
+//cout << " size" << size << endl;
+
+		char unused = (char) 0x00;
+		out << unused << unused << unused << unused;
+
+		int_to_chars4( begin_bitmap );//numer pierwszego bity bitmapy
+
+		int_to_chars4( DIB_size );//bity kodujące dane na temat plik
+
+		if ( DIB_size == 40)
+		{
+			int_to_chars4( x );
+			int_to_chars4( y );
+
+			int_to_chars2( number_of_planes );
+			int_to_chars2( bits_pixel );//bity na pixel
+cout << "asd" << bits_pixel << endl;
+
+			int_to_chars4( compresion ); //poziom kompresji
+
+			int_to_chars4( size_bitmap );//rozmiar bitmapy bez dancyh doklejonych
+
+			int_to_chars4( print_x );//pixel na metr druku x
+			int_to_chars4( print_y );
+
+			int_to_chars4( color_in_pallet ); //kolory w palecie
+
+			int_to_chars4( important_color ); //ważne kolory (0 = wszystkie)
+		}
+
+		/*if ( bits_pixel == 32 )
+			for ( int i = 0; i < x; i++ )
+				for ( int j = 0; j < y; j++ )
+					for ( int k = 0; k < 4; k++)
+						out << obraz[i][j][k];
+*/
+		in.close();
+	}
+
+	void grey()
+	{
+		for ( int i = 0; i < x; i++ )
+			for ( int j = 0; j < y; j++ )
+			{
+				int sum = obraz[i][j][0] + obraz[i][j][1] + obraz[i][j][2];
+
+				obraz[i][j][0] = sum/3;
+				obraz[i][j][1] = sum/3;
+				obraz[i][j][2] = sum/3;
+			}
+	}
 };
 
-void grey()
-{
-	;
-}
+
 
 
 int main()
@@ -111,4 +208,8 @@ int main()
 	BMP picture1;
 
 	picture1.load_DATA();
+
+	picture1.grey();
+
+	picture1.export_DATA();
 }
