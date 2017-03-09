@@ -113,43 +113,43 @@ public:
 			in.get( trash );
 
 		size = chars4_to_int();
-cout << size << endl;
+//cout << size << endl;
 
 		for ( int i = 0; i < 4; i++ ) //unused
 			in.get( trash );
 
 		begin_bitmap = chars4_to_int(); //numer pierwszego bity bitmapy
-cout << begin_bitmap << endl;
+//cout << begin_bitmap << endl;
 
 		DIB_size = chars4_to_int(); //bity kodujące dane na temat plik
-cout << DIB_size << endl;
+//cout << DIB_size << endl;
 
 		if ( DIB_size == 40)
 		{
 			x = chars4_to_int();
 			y = chars4_to_int();
-cout << "( " << x << ", " << y << " )\n";
+//cout << "( " << x << ", " << y << " )\n";
 
 			number_of_planes = chars2_to_int();
 			bits_pixel = chars2_to_int(); //bity na pixel
-cout << number_of_planes << endl;
-cout << bits_pixel << endl;
+//cout << number_of_planes << endl;
+//cout << bits_pixel << endl;
 		
 			compresion = chars4_to_int(); //poziom kompresji
-cout << compresion << endl;
+//cout << compresion << endl;
 
 			size_bitmap = chars4_to_int(); //rozmiar bitmapy bez dancyh doklejonych
-cout << size_bitmap << endl;
+//cout << size_bitmap << endl;
 
 			print_x = chars4_to_int(); //pixele na metr druku x
 			print_y = chars4_to_int(); //pixele na metr druku y
-cout << print_x << " " << print_y << endl;
+//cout << print_x << " " << print_y << endl;
 
 			color_in_pallet = chars4_to_int(); //kolory w palecie
-cout << color_in_pallet << endl;
+//cout << color_in_pallet << endl;
 
 			important_color = chars4_to_int(); //ważne kolory (0 = wszystkie)
-cout << important_color << endl;
+//cout << important_color << endl;
 		}
 
 		//int obraz[x][y][4];
@@ -189,7 +189,7 @@ cout << important_color << endl;
 
 			int_to_chars2( number_of_planes );
 			int_to_chars2( bits_pixel );//bity na pixel
-cout << "asd" << bits_pixel << endl;
+//cout << "asd" << bits_pixel << endl;
 
 			int_to_chars4( compresion ); //poziom kompresji
 
@@ -219,9 +219,33 @@ cout << "asd" << bits_pixel << endl;
 			{
 				int sum = obraz[i][j][0] + obraz[i][j][1] + obraz[i][j][2];
 
-				obraz[i][j][0] = sum/3;
-				obraz[i][j][1] = sum/3;
-				obraz[i][j][2] = sum/3;
+				obraz[i][j][0] = sum/3; //B
+				obraz[i][j][1] = sum/3; //G
+				obraz[i][j][2] = sum/3; //R
+			}
+	}
+
+	void negative()
+	{
+		for ( int i = 0; i < x; i++ )
+			for ( int j = 0; j < y; j++ )
+			{
+				obraz[i][j][0] = 255 - obraz[i][j][0]; //B
+				obraz[i][j][1] = 255 - obraz[i][j][1]; //G
+				obraz[i][j][2] = 255 - obraz[i][j][2]; //R
+			}
+	}
+
+	void sepia()
+	{
+		for ( int i = 0; i < x; i++ )
+			for ( int j = 0; j < y; j++ )
+			{
+				int sum = obraz[i][j][0] + obraz[i][j][1] + obraz[i][j][2];
+
+				obraz[i][j][0] = sum/3*0.9; //B
+				obraz[i][j][1] = sum/3; //G
+				obraz[i][j][2] = sum/3*1.1; //R
 			}
 	}
 };
@@ -235,7 +259,11 @@ int main()
 
 	picture1.load_DATA();
 
-	picture1.grey();
+	//picture1.grey();
+
+	//picture1.negative();
+
+	picture1.sepia();
 
 	picture1.export_DATA();
 }
