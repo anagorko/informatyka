@@ -243,9 +243,12 @@ public:
 			{
 				int sum = obraz[i][j][0] + obraz[i][j][1] + obraz[i][j][2];
 
-				obraz[i][j][0] = sum/3*0.9; //B
+				obraz[i][j][0] = sum/3*0.85; //B
 				obraz[i][j][1] = sum/3; //G
-				obraz[i][j][2] = sum/3*1.1; //R
+				obraz[i][j][2] = (int) ( sum/3*1.15 ); //R
+
+				if( obraz[i][j][2] > 255 )
+					obraz[i][j][2] = 255;
 			}
 	}
 };
