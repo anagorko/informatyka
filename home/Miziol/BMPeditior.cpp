@@ -12,7 +12,9 @@ char trash;
 
 char table[4];
 
-int obraz[256][256][4];
+//int obraz[256][256][4];
+
+int *obraz;
 
 int chars4_to_int()
 {
@@ -71,9 +73,7 @@ void int_to_chars4(int x)
 
 void int_to_chars2(int x)
 {
-	string ret = "";
-
-	char a = (char)(x & 0xff);
+	char a = (char) (x & 0xff);
 	char b = (char)((x >> 8) & 0xff);
 	
 	out << a << b;
@@ -82,8 +82,6 @@ void int_to_chars2(int x)
 
 void int_to_char(int x)
 {
-	string ret = "";
-
 	char a = (char)(x & 0xff);
 	
 	out << a;
@@ -152,7 +150,9 @@ public:
 //cout << important_color << endl;
 		}
 
-		//int obraz[x][y][4];
+		int dane_tablicy[x][y][bits_pixel];
+
+		obraz = &dane_tablicy[0][0][0];
 
 		if ( bits_pixel == 32 )
 			for ( int i = 0; i < x; i++ )
@@ -251,6 +251,22 @@ public:
 					obraz[i][j][2] = 255;
 			}
 	}
+
+	void blue()
+	{
+		for ( int i = 0; i < x; i++ )
+			for ( int j = 0; j < y; j++ )
+			{
+				int sum = obraz[i][j][0] + obraz[i][j][1] + obraz[i][j][2];
+
+				obraz[i][j][0] = sum/3*1.1; //R
+				obraz[i][j][1] = sum/3; //G
+				obraz[i][j][2] = sum/3; //R
+
+				if( obraz[i][j][0] > 255 )
+					obraz[i][j][2] = 255;
+			}
+	}
 };
 
 
@@ -266,7 +282,9 @@ int main()
 
 	//picture1.negative();
 
-	picture1.sepia();
+	//picture1.sepia();
+
+	picture1.blue();
 
 	picture1.export_DATA();
 }
