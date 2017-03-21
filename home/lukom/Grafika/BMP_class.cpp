@@ -17,10 +17,21 @@ ostream& operator << (ostream& os, BMP B);
 
 ostream& operator << (ostream& os, BMP B) {
 	//nagłówek
-	//nie wiem jak posłać 4-bitowego intigera na strumień :/
 	os << "B"<<"M";
-	unsigned int a  = 7000;
-	os << a;
+	int a  = 17;
+	//size of file
+	os << (char)a << (char)(a << 8) << (char)(a << 16) << (char)(a << 24);
+	//waste
+	os << "00" << "00";
+	//offset where the bitmap can be found
+	a = 11;
+	os << (char)a << (char)(a << 8) << (char)(a << 16) << (char)(a << 24);
+	//set pixels
+	int r = 255;
+	int g = 0;
+	int b = 0;
+	a = r;
+	os << (char)0b11111111 << (char)0b00000000 << (char)0b00000000;
 }
 
 BMP::BMP(int width, int heigh, int count_pix){
