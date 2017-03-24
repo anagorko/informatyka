@@ -1,5 +1,5 @@
-all: wykres_ojdana
+all: cansat
 	# Done
-wykres_ojdana: wykres_ojdana.cpp
-	g++ wykres_ojdana.cpp -o wykres_ojdana  -I/usr/local/include/ -L/usr/local/lib -lallegro -lallegro_main -lallegro_primitives -lallegro_font -lallegro_ttf
+cansat: cansat_viewer.cpp
+	g++ cansat_viewer.cpp -o cansat_viewer  -I/usr/local/include/ -L/usr/local/lib -lallegro -lallegro_main -lallegro_primitives -lallegro_font -lallegro_ttf
 
