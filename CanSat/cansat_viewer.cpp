@@ -17,7 +17,7 @@ using namespace std;
 // Konfiguracja gry
 //
 
-ALLEGRO_DISPLAY *display = NULL;
+//ALLEGRO_DISPLAY *display = NULL;
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_FONT * font = NULL;
@@ -26,9 +26,6 @@ ALLEGRO_FONT * font = NULL;
 const int screen_w = 1366;   // szerokość ekranu (screen width)
 const int screen_h = 768;   // wysokość ekranu (screen height)
 
-/****************************************
- * Tu rozpoczyna się istotna część kodu *
- ****************************************/
  
 //
 // Struktury danych
@@ -42,8 +39,8 @@ class Button{
 public:
 
     Button(int _x, int _y, string s);
-    void calculate_pressed(int cursor_x, int cursor_y);//TODO
-    void calculate_released();
+    void calculate_pressed(int cursor_x, int cursor_y);
+    void calculate_released();//TODO WHAT TO DO?
     void draw(ALLEGRO_DISPLAY * display);
 };
 vector <Button> buttons;
@@ -51,8 +48,9 @@ vector <Button> buttons;
 
 struct Spectrum {
     int lfl[lfl_size];
+    int moment;
     Spectrum();
-}S;
+};
 
 class Graph {
 
@@ -87,6 +85,7 @@ void Button::calculate_pressed(int cursor_x, int cursor_y ) {
 Spectrum::Spectrum(){
     for(int i=0;i<lfl_size;i++) lfl[i] = rand()%1023;
     lfl[100] = 1023;
+    moment = 0;
 }
 
 Button::Button(int _x, int _y, string s) {
@@ -142,7 +141,7 @@ Graph::Graph() {
 // Rysowanie planszy
 //
 
-void rysuj_plansze()
+void rysuj_plansze(Spectrum S, ALLEGRO_DISPLAY * display)
 {
     al_clear_to_color(al_map_rgb(0,0,0));
     buttons[0].draw(display);
@@ -173,7 +172,7 @@ void co_robia_gracze()
 const float FPS = 1;       // Frames Per Second
 bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze
 
-int init()
+int init(ALLEGRO_DISPLAY * display)
 {
     if(!al_init()) {
         cerr << "Błąd podczas inicjalizacji allegro." << endl;
@@ -237,14 +236,18 @@ int init()
 
 int main(int argc, char ** argv)
 {
-    if (init() != 0) {
+    ALLEGRO_DISPLAY * display = NULL;
+    if (init(display) != 0) {
         cerr << "Inicjalizacja nie powiodła się." << endl;
         return -1;
     }
 
  
     bool przerysuj = true;
-    bool wyjdz = false;  
+    bool wyjdz = false;
+    Spectrum S;
+    
+
 
     //
     // Event loop - główna pętla programu
@@ -286,7 +289,7 @@ int main(int argc, char ** argv)
         if(przerysuj && al_is_event_queue_empty(event_queue)) {
             przerysuj = false;
 
-            rysuj_plansze();
+            rysuj_plansze(S, display);
 
             al_flip_display();
          }    
