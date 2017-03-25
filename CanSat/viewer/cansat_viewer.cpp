@@ -23,8 +23,6 @@ ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_FONT * font = NULL;
 
 
-const int screen_w = 1366;   // szerokość ekranu (screen width)
-const int screen_h = 768;   // wysokość ekranu (screen height)
 
  
 //
@@ -200,7 +198,7 @@ int init(ALLEGRO_DISPLAY * display)
         return -1;
     }
  
-    display = al_create_display(screen_w, screen_h);
+    display = al_create_display(viewer_width, viewer_height);
     if(!display) {
         cerr << "Błąd podczas inicjalizacji ekranu." << endl;
         al_destroy_timer(timer);
