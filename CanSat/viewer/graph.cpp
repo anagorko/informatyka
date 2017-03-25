@@ -1,14 +1,14 @@
 #include <allegro5/allegro_primitives.h>
 #include "graph.h"
 
-void Graph::draw(Spectrum s, ALLEGRO_DISPLAY * display) const {
+void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
 
     al_draw_rectangle(position_x, position_y, position_x + width, position_y + height, al_map_rgb(255,255,255), frame_thickness);
 
     float x1 = position_x + frame_thickness;
     
     
-    for(int i=0;i<lfl_size;i++){
+    for(int i=0;i< Spectrogram::resolution;i++){
         float y1 = (position_y + height - frame_thickness) - (s.lfl[i] * (height - 2 * frame_thickness))/1023;
         float x2 = x1 + column_thickness;
         float y2 = position_y + height - frame_thickness;
@@ -25,7 +25,7 @@ Graph::Graph() {
     position_x = 40;
     position_y = 30;
     frame_thickness = 5;
-    column_thickness = (width - 2 * frame_thickness)/lfl_size;
+    column_thickness = (width - 2 * frame_thickness)/Spectrogram::resolution;
 }
 
 

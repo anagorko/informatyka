@@ -1,7 +1,7 @@
 #ifndef __GRAPH__
 #define __GRAPH__
 
-#include "spectrum.h"
+#include "spectrogram.h"
 
 class Graph {
 
@@ -12,7 +12,7 @@ class Graph {
     float column_thickness;
 public:
     Graph();
-    void draw(Spectrum s, ALLEGRO_DISPLAY * display) const;
+    void draw(Spectrogram s, ALLEGRO_DISPLAY * display) const;
 };
 
 #endif /* __GRAPH__ */

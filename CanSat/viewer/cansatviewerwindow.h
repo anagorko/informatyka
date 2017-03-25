@@ -1,6 +1,8 @@
 #ifndef __CANSATVIEWERWINDOW__
 #define __CANSATVIEWERWINDOW__
 
+#include <math.h>
+
 class CanSatViewerWindow
 {
  	ALLEGRO_DISPLAY * display = NULL;
@@ -9,13 +11,17 @@ class CanSatViewerWindow
 
 	vector <Button> buttons;
 	Graph spectrograf;
-    bool przerysuj = true;
-    bool wyjdz = false;
-    Spectrum S;
+   	bool przerysuj = true;
+   	bool wyjdz = false;
+   	Spectrogram S;
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
 
 public:
-	CanSatViewerWindow() {}
+	CanSatViewerWindow() {
+		for (int i = 0; i < Spectrogram::resolution; i++) {
+			S.lfl[i] = sin((float) i/100.0) * 1000;
+		}
+	}
 
 	int init() {
 	    timer = al_create_timer(1.0 / FPS);

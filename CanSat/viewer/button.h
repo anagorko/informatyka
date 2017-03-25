@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-#include "spectrum.h"
+#include "spectrogram.h"
 
 class Button{
     float position_x, position_y;

@@ -18,12 +18,6 @@ void Button::calculate_pressed(int cursor_x, int cursor_y ) {
 
 }
 
-Spectrum::Spectrum(){
-    for(int i=0;i<lfl_size;i++) lfl[i] = rand()%1023;
-    lfl[100] = 1023;
-    moment = 0;
-}
-
 Button::Button(int _x, int _y, string s) {
     position_x = _x;
     position_y = _y;
