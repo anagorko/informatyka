@@ -12,6 +12,7 @@
 using namespace std;
 
 #include "config.h"
+#include "button.h"
 
 //
 // Konfiguracja gry
@@ -20,7 +21,7 @@ using namespace std;
 //ALLEGRO_DISPLAY *display = NULL;
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 ALLEGRO_TIMER *timer = NULL;
-ALLEGRO_FONT * font = NULL;
+
 
 
 
@@ -28,27 +29,8 @@ ALLEGRO_FONT * font = NULL;
 //
 // Struktury danych
 //
-class Button{
-    float position_x, position_y;
-    float width, height;
-    string inscription;
-    float px, py;//last pressed position
-    bool pressed;
-public:
-
-    Button(int _x, int _y, string s);
-    void calculate_pressed(int cursor_x, int cursor_y);
-    void calculate_released();//TODO WHAT TO DO?
-    void draw(ALLEGRO_DISPLAY * display);
-};
 vector <Button> buttons;
 
-
-struct Spectrum {
-    int lfl[lfl_size];
-    int moment;
-    Spectrum();
-};
 
 class Graph {
 
@@ -65,45 +47,6 @@ public:
 //
 // implementacja struktur
 //
-void Button::calculate_released() {
-    if(pressed){
-        pressed = false;
-    }
-}
-void Button::calculate_pressed(int cursor_x, int cursor_y ) {
-    if(cursor_x > position_x && cursor_x < position_x + width
-        &&  cursor_y > position_y && cursor_y < position_y + height){
-        pressed = true;
-        px = cursor_x;
-        py = cursor_y;
-    }
-
-}
-
-Spectrum::Spectrum(){
-    for(int i=0;i<lfl_size;i++) lfl[i] = rand()%1023;
-    lfl[100] = 1023;
-    moment = 0;
-}
-
-Button::Button(int _x, int _y, string s) {
-    position_x = _x;
-    position_y = _y;
-    inscription = s;
-    //cout<<"elo"<<endl;
-    if(inscription == "space"){
-        width = 150;
-        height = 50;
-    }
-    pressed = false;
-}
-void Button::draw(ALLEGRO_DISPLAY * display){
-    al_draw_filled_rounded_rectangle(position_x,position_y,position_x + width, position_y + height, 5 , 5, al_map_rgb(255,0,0));
-    al_draw_text(font, al_map_rgb(255,255,255),position_x + width/5 ,position_y, 0, inscription.c_str());
-
-}
-
-
 void Graph::draw(Spectrum s, ALLEGRO_DISPLAY * display) const {
 
     al_draw_rectangle(position_x, position_y, position_x + width, position_y + height, al_map_rgb(255,255,255), frame_thickness);
@@ -215,7 +158,7 @@ int init(ALLEGRO_DISPLAY * display)
     al_init_font_addon();
     al_init_ttf_addon();
 
-    font = al_load_ttf_font("FreeMono.ttf", 30, 12);
+	Button::loadFont();
   
     al_register_event_source(event_queue, al_get_display_event_source(display));  
     al_register_event_source(event_queue, al_get_timer_event_source(timer));  
