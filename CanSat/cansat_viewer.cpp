@@ -1,5 +1,5 @@
 //
-// Szablon gry w Allegro 5. (C) Kółko Informatyczne Szkoły Żagle
+// CanSat Viewer
 //
 
 #include <allegro5/allegro.h>
@@ -7,11 +7,11 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <vector>
-
 #include <iostream>
+
 using namespace std;
 
-#define lfl_size 256
+#include "config.h"
 
 //
 // Konfiguracja gry
