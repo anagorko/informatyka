@@ -19,14 +19,17 @@ class Button{
 	static ALLEGRO_FONT * font;
 
 public:
+    Button(int _x, int _y, string s);
+
 	static void loadFont() {
     	font = al_load_ttf_font("FreeMono.ttf", 30, 12);		
 	}
 
-    Button(int _x, int _y, string s);
-    void calculate_pressed(int cursor_x, int cursor_y);
-    void calculate_released();//TODO WHAT TO DO?
     void draw(ALLEGRO_DISPLAY * display);
+
+    void mousePressed(int x, int y);
+    void mouseReleased();
+	void mouseMoved(int x, int y);
 };
 
 #endif /* __BUTTON__ */

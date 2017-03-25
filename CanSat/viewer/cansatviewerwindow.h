@@ -87,13 +87,14 @@ public:
  	           }
  	       } else if(ev.keyboard.keycode == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
  	           for(int i=0;i<buttons.size();i++){
- 	               buttons[i].calculate_pressed(ev.mouse.x, ev.mouse.y);
+ 	               buttons[i].mousePressed(ev.mouse.x, ev.mouse.y);
  	           }
  	       } else if(ev.keyboard.keycode == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
  	           for(int i=0;i<buttons.size();i++){
- 	               buttons[i].calculate_released();
+ 	               buttons[i].mouseReleased();
  	           }
  	       }
+  		   // TODO: obsługa zdarzenia - przesunięcia wskaźnika myszki
 
  	       if(przerysuj && al_is_event_queue_empty(event_queue)) {
  	           przerysuj = false;
