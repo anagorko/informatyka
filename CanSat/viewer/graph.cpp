@@ -13,7 +13,6 @@ void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
         float x2 = x1 + column_thickness;
         float y2 = position_y + height - frame_thickness;
         al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
-        //cout<<x1 <<" "<<y1 << " "<<x2<<" "<<y2<<endl;
         x1 = x2;
     }
 

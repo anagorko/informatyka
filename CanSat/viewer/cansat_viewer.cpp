@@ -14,6 +14,7 @@ using namespace std;
 #include "config.h"
 #include "button.h"
 #include "graph.h"
+#include "timeline.h"
 #include "cansatviewerwindow.h"
 
 int init()

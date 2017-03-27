@@ -11,10 +11,19 @@ class CanSatViewerWindow
 
 	vector <Button> buttons;
 	Graph spectrograf;
+	TimeLine timeline;
    	bool przerysuj = true;
    	bool wyjdz = false;
    	Spectrogram S;
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
+
+	Spectrogram getSpectrogram(int m) {
+		Spectrogram tmp;
+		for (int i = 0; i < Spectrogram::resolution; i++) {
+			tmp.lfl[i] = sin((float) (i + m)/100.0) * 1000;
+		}		
+		return tmp;
+	}
 
 public:
 	CanSatViewerWindow() {
@@ -54,14 +63,25 @@ public:
 	    al_flip_display();  
 	    al_start_timer(timer);
 
-	    Button space(1000, 300, "space");
-	    buttons.push_back(space);
+	    Button wyjdz(1100, 30, "wyjdz");
+	    buttons.push_back(wyjdz);
+	    Button _play(900, 30, "play");
+	    buttons.push_back(_play);
+	    Button _stop(1000, 30, "stop");
+	    buttons.push_back(_stop);
+
 	}
 
 	void draw() {
 	    al_clear_to_color(al_map_rgb(0,0,0));
-	    buttons[0].draw(display);
+	    for(int i=0;i<buttons.size();i++){
+	    	buttons[i].draw(display);
+	    }
+
+	    S = getSpectrogram(timeline.moment);
+
 	    spectrograf.draw(S, display);
+	    timeline.draw(display);
 	}
 
 	void loop() {
@@ -76,6 +96,8 @@ public:
  	           //
  	           przerysuj = true;
 
+ 	           timeline.moment++;
+
 
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
@@ -85,16 +107,23 @@ public:
  	           if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
  	               wyjdz = true;
  	           }
- 	       } else if(ev.keyboard.keycode == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+ 	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
  	           for(int i=0;i<buttons.size();i++){
  	               buttons[i].mousePressed(ev.mouse.x, ev.mouse.y);
  	           }
- 	       } else if(ev.keyboard.keycode == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+ 	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
  	           for(int i=0;i<buttons.size();i++){
- 	               buttons[i].mouseReleased();
- 	           }
+ 	           		string action = buttons[i].mouseReleased();
+ 	               	if(action == "wyjdz"){
+ 	                    wyjdz = true;
+ 	             		break;
+ 	               	}
+ 	           }	
+ 	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
+ 	       		for(int i=0;i<buttons.size();i++){
+ 	       			buttons[i].mouseMoved(ev.mouse.x, ev.mouse.y);
+ 	       		}
  	       }
-  		   // TODO: obsługa zdarzenia - przesunięcia wskaźnika myszki
 
  	       if(przerysuj && al_is_event_queue_empty(event_queue)) {
  	           przerysuj = false;
