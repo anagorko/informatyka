@@ -1,28 +1,53 @@
 #include<iostream>
+#include<string>
 #include<sqlite3.h>
 
 
 using namespace std;
 
 
+int chars_to_int( char c1, char c2 )
+{
+	return ( (unsigned int) c1 * 256 ) + (unsigned int) c2;
+}
+
+
 
 struct spectrum
 {
+	string time;
+
 	int temperature;
 	int preasure;
 
 	int lfl[256];
 };
 
+
+std::ostream operator<< ( ostream& o, spectrum& in )
+{
+	o << in.time << " " << in.temperature << " " << in.preasure;
+
+	for ( int i = 0; i < 256; i++ )
+	{
+		o << " " << i << "." << in.lfl[i];
+	}
+
+	o << endl;
+}
+
+
 spectrum SELECT( char *query )
 {
 	spectrum uncode;
+
+	string lfl_string;
 
 	sqlite3 *database;
 
 	sqlite3_open( "CanSat.db", &database );
 
-//tu się zaczyna ctrl-c
+//tu się zaczyna ctrl-c, które działa ale nie do końca wiem jak
 
 	sqlite3_stmt *statement;
 
@@ -40,8 +65,26 @@ spectrum SELECT( char *query )
 				for ( int i = 0; i < ctotal; i++ ) 
 				{
 					string s = (char*)sqlite3_column_text(statement, i);
-                    // print or format the output as you want 
-					cout << s << " " ;
+					
+					//ponieżej jest moja część
+					switch ( i )
+					{
+						case 0:
+							uncode.time = s;
+							break;
+						case 1:
+							uncode.temperature = stoi( s, nullptr, 0 );
+							break;
+						case 2:
+							uncode.preasure = stoi( s, nullptr, 0 );
+							break;
+						case 3:
+							lfl_string = s;
+							break;
+					}
+					//wyżej jest moje :)
+
+					cout << s << " ";
 				}
 				cout << endl;
 			}
@@ -57,6 +100,13 @@ spectrum SELECT( char *query )
 //tu się kończy ctrl-v
 
 	sqlite3_close( database );
+
+	for ( int i = 0; i < 256; i++ )
+	{
+		uncode.lfl[i] = chars_to_int( lfl_string[ 2 * i ], lfl_string[ 2 * i + 1 ] );
+
+		cout << (unsigned int) lfl_string[2 * i] << " " << (unsigned int) lfl_string[2 * i + 1] << " " << uncode.lfl[i] << endl;
+	}
 
 	return uncode;
 }

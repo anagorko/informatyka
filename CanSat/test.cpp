@@ -8,5 +8,5 @@ int main()
 
 	s = lastRecord();
 
-	cout << s.temperature << endl;
+	cout << s.temperature << endl << endl;
 }
