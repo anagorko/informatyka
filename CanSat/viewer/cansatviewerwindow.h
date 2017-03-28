@@ -10,7 +10,8 @@ class CanSatViewerWindow
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
 
-	vector <Button> buttons;
+	vector <Button *> buttons;
+
 	Graph spectrograf;
 	TimeLine timeline;
    	bool przerysuj = true;
@@ -26,13 +27,12 @@ class CanSatViewerWindow
 		return tmp;
 	}
 
-    Button btnExit;
+    Button* btnExit;
 
 public:
-	CanSatViewerWindow() : btnExit(1100, 30, "Exit") {
-		for (int i = 0; i < Spectrogram::resolution; i++) {
-			S.lfl[i] = sin((float) i/100.0) * 1000;
-		}
+	CanSatViewerWindow() {
+		timeline.moment = 0;
+		S = getSpectrogram(timeline.moment);
 	}
 
 	int init() {
@@ -66,19 +66,22 @@ public:
 	    al_flip_display();  
 	    al_start_timer(timer);
 
+ 		btnExit = new Button(1100, 30, "Exit");
 	    buttons.push_back(btnExit);
-	    Button _play(900, 30, "play");
-	    buttons.push_back(_play);
-	    Button _stop(1000, 30, "stop");
-	    buttons.push_back(_stop);
+	    buttons.push_back(new Button(900, 30, "play"));
+	    buttons.push_back(new Button(1000, 30, "stop"));
 
 		return 0;
 	}
 
+	~CanSatViewerWindow() {
+		for (auto b: buttons) { delete b; }
+	}
+
 	void draw() {
 	    al_clear_to_color(al_map_rgb(0,0,0));
-	    for(auto &b: buttons){
-	    	b.draw(display);
+	    for(auto b: buttons){
+	    	b -> draw(display);
 	    }
 
 	    S = getSpectrogram(timeline.moment);
@@ -111,20 +114,20 @@ public:
  	               wyjdz = true;
  	           }
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
- 	           for(auto &b: buttons){
- 	               b.mousePressed(ev.mouse.x, ev.mouse.y);
+ 	           for(auto b: buttons){
+ 	               b -> mousePressed(ev.mouse.x, ev.mouse.y);
  	           }
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
- 	           for(auto &b: buttons){
- 	           		b.mouseReleased();
+ 	           for(auto b: buttons){
+ 	           		b -> mouseReleased();
  	           }	
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
- 	       		for(auto &b: buttons){
- 	       			b.mouseMoved(ev.mouse.x, ev.mouse.y);
+ 	       		for(auto b: buttons){
+ 	       			b -> mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
  	       }
 
-		   if (btnExit.isPressed()) { wyjdz = true; }
+		   if (btnExit -> isPressed()) { wyjdz = true; }
 
  	       if(przerysuj && al_is_event_queue_empty(event_queue)) {
  	           przerysuj = false;

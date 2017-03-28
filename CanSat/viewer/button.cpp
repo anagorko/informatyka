@@ -15,6 +15,8 @@ void Button::mousePressed(float x, float y ) {
         pressed = true;
         px = x;
         py = y;
+
+		cout << inscription << " pressed" << endl;
     }
 
 }
