@@ -18,7 +18,7 @@ using namespace std;
 #include "cansatviewerwindow.h"
 #include "../ground_arduino/serial.h"
 
-string portname = "/dev/ttyACM0";
+string portname = "/dev/ttyACM1";
 int fd;
 
 int serialInit()

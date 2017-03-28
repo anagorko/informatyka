@@ -3,6 +3,8 @@
 
 #include <math.h>
 #include "button.h"
+#include <fstream>
+#include <time.h>
 
 #include <sstream>
 using namespace std;
@@ -21,6 +23,10 @@ class CanSatViewerWindow
    	bool wyjdz = false;
    	Spectrogram S;
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
+
+	time_t rawtime;
+        struct tm * timeinfo;
+
 
 	Spectrogram getSpectrogram(int m) {
 		return S;
@@ -94,7 +100,10 @@ public:
 	stringstream ss;
 
 	void parseData(string line) {
-		cout << "Parsing: " << line << endl;
+
+ 
+
+		cout << "Parsing; " <<line;
 
 		Spectrogram result;
 
@@ -108,7 +117,7 @@ public:
 			result.lfl[i] = t;
 		}
 
-		cout << "Parse correct. " << endl;
+		//cout << "Parse correct. " << endl;
 
 		S = result;
 	}
@@ -150,7 +159,7 @@ public:
 
  	           timeline.moment++;
 
-			   serialRead(fd);
+			serialRead(fd);
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
 
