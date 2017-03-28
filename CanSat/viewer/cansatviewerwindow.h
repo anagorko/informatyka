@@ -5,6 +5,7 @@
 #include "button.h"
 #include <fstream>
 #include <time.h>
+#include "timeline.h"
 
 #include <sstream>
 using namespace std;
@@ -159,7 +160,7 @@ public:
 
  	           timeline.moment++;
 
-			serialRead(fd);
+			//serialRead(fd);
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
 
@@ -174,14 +175,17 @@ public:
  	           for(auto b: buttons){
  	               b -> mousePressed(ev.mouse.x, ev.mouse.y);
  	           }
+ 	           timeline.mousePressed(ev.mouse.x, ev.mouse.y);
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
  	           for(auto b: buttons){
  	           		b -> mouseReleased();
- 	           }	
+ 	           }
+ 	           timeline.mouseReleased();
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
  	       		for(auto b: buttons){
  	       			b -> mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
+ 	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y);
  	       }
 
 		   if (btnExit -> isPressed()) { wyjdz = true; }
