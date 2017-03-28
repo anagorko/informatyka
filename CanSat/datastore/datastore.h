@@ -20,5 +20,6 @@ Spectrogram lastRecord();
 /*void getTableData();
 */
 
+#include "datastore.cpp"
 
 #endif /* __DATABASE__ */
