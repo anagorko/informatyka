@@ -160,7 +160,7 @@ public:
 
  	           timeline.moment++;
 
-			//serialRead(fd);
+			serialRead(fd);
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
 
