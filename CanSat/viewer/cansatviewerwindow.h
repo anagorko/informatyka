@@ -2,6 +2,7 @@
 #define __CANSATVIEWERWINDOW__
 
 #include <math.h>
+#include "button.h"
 
 class CanSatViewerWindow
 {
@@ -25,10 +26,10 @@ class CanSatViewerWindow
 		return tmp;
 	}
 
-    Button btnExit(1100, 30, "Exit");
+    Button btnExit;
 
 public:
-	CanSatViewerWindow() {
+	CanSatViewerWindow() : btnExit(1100, 30, "Exit") {
 		for (int i = 0; i < Spectrogram::resolution; i++) {
 			S.lfl[i] = sin((float) i/100.0) * 1000;
 		}

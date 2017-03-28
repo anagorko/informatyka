@@ -14,7 +14,7 @@ class Button{
     float width, height;
     string inscription;
     float px, py;//last pressed position
-    bool pressed;
+    bool pressed, cursor_above, with_text;
 
 	static ALLEGRO_FONT * font;
 
@@ -27,9 +27,9 @@ public:
 
     void draw(ALLEGRO_DISPLAY * display);
 
-    void mousePressed(int x, int y);
+    void mousePressed(float x, float y);
     void mouseReleased();
-	void mouseMoved(int x, int y);
+	void mouseMoved(float x, float y);
 
 	bool isPressed() { return pressed; }
 };
