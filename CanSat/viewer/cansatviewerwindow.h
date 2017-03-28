@@ -72,12 +72,13 @@ public:
 	    Button _stop(1000, 30, "stop");
 	    buttons.push_back(_stop);
 
+		return 0;
 	}
 
 	void draw() {
 	    al_clear_to_color(al_map_rgb(0,0,0));
-	    for(int i=0;i<buttons.size();i++){
-	    	buttons[i].draw(display);
+	    for(auto &b: buttons){
+	    	b.draw(display);
 	    }
 
 	    S = getSpectrogram(timeline.moment);
@@ -110,16 +111,16 @@ public:
  	               wyjdz = true;
  	           }
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
- 	           for(int i=0;i<buttons.size();i++){
- 	               buttons[i].mousePressed(ev.mouse.x, ev.mouse.y);
+ 	           for(auto &b: buttons){
+ 	               b.mousePressed(ev.mouse.x, ev.mouse.y);
  	           }
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
- 	           for(int i=0;i<buttons.size();i++){
- 	           		buttons[i].mouseReleased();
+ 	           for(auto &b: buttons){
+ 	           		b.mouseReleased();
  	           }	
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
- 	       		for(int i=0;i<buttons.size();i++){
- 	       			buttons[i].mouseMoved(ev.mouse.x, ev.mouse.y);
+ 	       		for(auto &b: buttons){
+ 	       			b.mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
  	       }
 
