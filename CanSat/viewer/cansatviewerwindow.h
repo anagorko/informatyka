@@ -107,12 +107,14 @@ public:
 
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
- 	       } else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
- 	           key[ev.keyboard.keycode] = false;
- 	           
+
  	           if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
  	               wyjdz = true;
  	           }
+
+ 	       } else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
+ 	           key[ev.keyboard.keycode] = false;
+ 	           
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
  	           for(auto b: buttons){
  	               b -> mousePressed(ev.mouse.x, ev.mouse.y);
