@@ -25,6 +25,8 @@ class CanSatViewerWindow
 		return tmp;
 	}
 
+    Button btnExit(1100, 30, "Exit");
+
 public:
 	CanSatViewerWindow() {
 		for (int i = 0; i < Spectrogram::resolution; i++) {
@@ -63,8 +65,7 @@ public:
 	    al_flip_display();  
 	    al_start_timer(timer);
 
-	    Button wyjdz(1100, 30, "wyjdz");
-	    buttons.push_back(wyjdz);
+	    buttons.push_back(btnExit);
 	    Button _play(900, 30, "play");
 	    buttons.push_back(_play);
 	    Button _stop(1000, 30, "stop");
@@ -113,17 +114,15 @@ public:
  	           }
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
  	           for(int i=0;i<buttons.size();i++){
- 	           		string action = buttons[i].mouseReleased();
- 	               	if(action == "wyjdz"){
- 	                    wyjdz = true;
- 	             		break;
- 	               	}
+ 	           		buttons[i].mouseReleased();
  	           }	
  	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
  	       		for(int i=0;i<buttons.size();i++){
  	       			buttons[i].mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
  	       }
+
+		   if (btnExit.isPressed()) { wyjdz = true; }
 
  	       if(przerysuj && al_is_event_queue_empty(event_queue)) {
  	           przerysuj = false;

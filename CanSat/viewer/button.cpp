@@ -3,15 +3,10 @@
 #include <iostream>
 
 
-string Button::mouseReleased() {
-    string action = "";
+void Button::mouseReleased() {
     if(pressed){
         pressed = false;
-        if(inscription == "wyjdz"){
-            action = "wyjdz";
-        }
     }
-    return action;
 }
 void Button::mousePressed(float x, float y ) {
     if(!pressed && 

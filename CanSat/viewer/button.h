@@ -30,6 +30,8 @@ public:
     void mousePressed(int x, int y);
     void mouseReleased();
 	void mouseMoved(int x, int y);
+
+	bool isPressed() { return pressed; }
 };
 
 #endif /* __BUTTON__ */
