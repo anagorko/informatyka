@@ -1,7 +1,7 @@
 #include<iostream>
 #include<string>
 #include<sqlite3.h>
-
+#include "../spectrogram.h"
 
 using namespace std;
 
@@ -11,22 +11,9 @@ int chars_to_int( char c1, char c2 )
 	return ( (unsigned int) c1 * 256 ) + (unsigned int) c2;
 }
 
-
-
-struct spectrum
+std::ostream operator<< ( ostream& o, Spectrogram& in )
 {
-	string time;
-
-	int temperature;
-	int preasure;
-
-	int lfl[256];
-};
-
-
-std::ostream operator<< ( ostream& o, spectrum& in )
-{
-	o << in.time << " " << in.temperature << " " << in.preasure;
+	o << in.moment << " " << in.temperature << " " << in.pressure;
 
 	for ( int i = 0; i < 256; i++ )
 	{
@@ -37,9 +24,9 @@ std::ostream operator<< ( ostream& o, spectrum& in )
 }
 
 
-spectrum SELECT( char *query )
+Spectrogram SELECT( char *query )
 {
-	spectrum uncode;
+	Spectrogram uncode;
 
 	string lfl_string;
 
@@ -70,13 +57,13 @@ spectrum SELECT( char *query )
 					switch ( i )
 					{
 						case 0:
-							uncode.time = s;
+							uncode.moment = stoi(s);
 							break;
 						case 1:
 							uncode.temperature = stoi( s, nullptr, 0 );
 							break;
 						case 2:
-							uncode.preasure = stoi( s, nullptr, 0 );
+							uncode.pressure = stoi( s, nullptr, 0 );
 							break;
 						case 3:
 							lfl_string = s;
@@ -111,7 +98,7 @@ spectrum SELECT( char *query )
 	return uncode;
 }
 
-spectrum lastRecord()
+Spectrogram lastRecord()
 {
 	return SELECT( "SELECT * FROM data ORDER BY time DESC LIMIT 1" );
 }

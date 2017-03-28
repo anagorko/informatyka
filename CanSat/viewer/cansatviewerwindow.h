@@ -4,6 +4,9 @@
 #include <math.h>
 #include "button.h"
 
+#include <sstream>
+using namespace std;
+
 class CanSatViewerWindow
 {
  	ALLEGRO_DISPLAY * display = NULL;
@@ -20,11 +23,7 @@ class CanSatViewerWindow
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
 
 	Spectrogram getSpectrogram(int m) {
-		Spectrogram tmp;
-		for (int i = 0; i < Spectrogram::resolution; i++) {
-			tmp.lfl[i] = sin((float) (i + m)/100.0) * 1000;
-		}		
-		return tmp;
+		return S;
 	}
 
     Button* btnExit;
@@ -32,7 +31,9 @@ class CanSatViewerWindow
 public:
 	CanSatViewerWindow() {
 		timeline.moment = 0;
-		S = getSpectrogram(timeline.moment);
+		for (int i = 0; i < Spectrogram::resolution; i++) {
+			S.lfl[i] = sin((float) (i)/100.0) * 1000;
+		}		
 	}
 
 	int init() {
@@ -90,7 +91,52 @@ public:
 	    timeline.draw(display);
 	}
 
-	void loop() {
+	stringstream ss;
+
+	void parseData(string line) {
+		cout << "Parsing: " << line << endl;
+
+		Spectrogram result;
+
+		stringstream s; s << line;
+
+		s >> result.moment;
+
+		for (int i = 0; i < 256; i++) {
+			char c; s >> c; if (c != ';') { cout << "Parse error." << endl; return; }
+			int t; s >> t;
+			result.lfl[i] = t;
+		}
+
+		cout << "Parse correct. " << endl;
+
+		S = result;
+	}
+
+	void serialRead(int fd) {
+        unsigned char buf[80];
+        int rdlen;
+
+        rdlen = read(fd, buf, sizeof(buf) - 1);
+        if (rdlen > 0) {
+            buf[rdlen] = 0;
+//            printf("Read %d: \"%s\"\n", rdlen, buf);
+
+			for (int i = 0; i < rdlen; i++) {
+				ss << buf[i];
+
+				if (buf[i] == '\n') {
+					string line;
+					getline(ss,line);
+					parseData(line);
+				}
+			}
+        } else if (rdlen < 0) {
+            printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+        }
+	}
+
+	void loop(int fd) {
  	   while(!wyjdz)
  	   {
  	       ALLEGRO_EVENT ev;
@@ -104,7 +150,7 @@ public:
 
  	           timeline.moment++;
 
-
+			   serialRead(fd);
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
 

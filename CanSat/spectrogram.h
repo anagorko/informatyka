@@ -6,7 +6,9 @@ public:
 	static const int resolution = 256;
 
     int lfl[resolution];
+
     int moment;
+	int temperature, pressure;
 };
 
 #endif /* __SPECTROGRAM__ */

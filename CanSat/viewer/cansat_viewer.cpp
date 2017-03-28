@@ -16,8 +16,26 @@ using namespace std;
 #include "graph.h"
 #include "timeline.h"
 #include "cansatviewerwindow.h"
+#include "../ground_arduino/serial.h"
 
-int init()
+string portname = "/dev/ttyACM0";
+int fd;
+
+int serialInit()
+{
+    fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+    if (fd < 0) {
+        printf("Error opening %s: %s\n", portname.c_str(), strerror(errno));
+        return -1;
+    }
+    /*baudrate 115200, 8 bits, no parity, 1 stop bit */
+    set_interface_attribs(fd, B115200);
+	set_mincount(fd, 0);
+
+	return 0;
+}
+
+int allegroInit()
 {
     if(!al_init()) {
         cerr << "Błąd podczas inicjalizacji allegro." << endl;
@@ -49,15 +67,20 @@ int init()
 
 int main(int argc, char ** argv)
 {
-    if (init() != 0) {
-        cerr << "Inicjalizacja nie powiodła się." << endl;
+    if (allegroInit() != 0) {
+        cerr << "Inicjalizacja Allegro nie powiodła się." << endl;
         return -1;
     }
+
+	if (serialInit() != 0) {
+        cerr << "Inicjalizacja portu szeregowego nie powiodła się." << endl;
+        return -1;
+	}
 
 	CanSatViewerWindow w;
 
 	w.init();
-	w.loop(); 
+	w.loop(fd); 
 
     return 0;
 }
