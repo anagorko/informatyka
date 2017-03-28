@@ -1,7 +1,8 @@
 #ifndef __SPECTROGRAM__
 #define __SPECTROGRAM__
 
-struct Spectrogram {
+class Spectrogram {
+public:
 	static const int resolution = 256;
 
     int lfl[resolution];

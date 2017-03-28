@@ -1,7 +1,7 @@
 #ifndef __GRAPH__
 #define __GRAPH__
 
-#include "spectrogram.h"
+#include "../spectrogram.h"
 
 class Graph {
 
