@@ -1,5 +1,6 @@
 #include <allegro5/allegro_primitives.h>
 #include "button.h"
+#include "timeline.h"
 #include <iostream>
 
 
@@ -18,7 +19,6 @@ void Button::mousePressed(float x, float y ) {
 
 		cout << inscription << " pressed" << endl;
     }
-
 }
 void Button::mouseMoved(float x, float y) {
     if(x > position_x && x < position_x + width

@@ -34,6 +34,8 @@ class CanSatViewerWindow
 	}
 
     Button* btnExit;
+    Button* btnStop;
+    Button* btnPlay;
 
 public:
 	CanSatViewerWindow() {
@@ -76,8 +78,10 @@ public:
 
  		btnExit = new Button(1100, 30, "Exit");
 	    buttons.push_back(btnExit);
-	    buttons.push_back(new Button(900, 30, "play"));
-	    buttons.push_back(new Button(1000, 30, "stop"));
+	    btnPlay = new Button(900, 30, "play");
+	    buttons.push_back(btnPlay);
+	    btnStop = new Button(1000, 30, "stop");
+	    buttons.push_back(btnStop);
 
 		return 0;
 	}
@@ -157,10 +161,9 @@ public:
  	           // minęła 1/60 (1/FPS) część sekundy
  	           //
  	           przerysuj = true;
+ 	           if(timeline.timeRun) timeline.moment++;
 
- 	           timeline.moment++;
-
-			serialRead(fd);
+			//serialRead(fd);
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
 
@@ -189,6 +192,10 @@ public:
  	       }
 
 		   if (btnExit -> isPressed()) { wyjdz = true; }
+		   if (btnStop -> isPressed()) { timeline.timeRun = false; }
+		   if (btnPlay -> isPressed()) { timeline.timeRun = true; }
+
+
 
  	       if(przerysuj && al_is_event_queue_empty(event_queue)) {
  	           przerysuj = false;

@@ -61,6 +61,7 @@ int allegroInit()
     al_init_ttf_addon();
 
 	Button::loadFont();
+    TimeLine::loadFont();
   
     return 0;
 }
@@ -74,7 +75,7 @@ int main(int argc, char ** argv)
 
 	if (serialInit() != 0) {
         cerr << "Inicjalizacja portu szeregowego nie powiodła się." << endl;
-        return -1;
+  //      return -1;
 	}
 
 	CanSatViewerWindow w;
