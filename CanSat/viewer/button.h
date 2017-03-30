@@ -14,8 +14,9 @@ class Button{
     	float width, height;
     	string inscription;
     	float px, py;//last pressed position
-    	bool pressed, cursor_above, with_text;
+    	bool pressed, released, cursor_above, with_text;
         bool activated;
+        bool pressable, displayed;
 
 	static ALLEGRO_FONT * font;
 
@@ -25,7 +26,7 @@ public:
     	Button(int _x, int _y, string s);
 
 	static void loadFont() {
-    		font = al_load_ttf_font("FreeMono.ttf", 30, 12);		
+    		font = al_load_ttf_font("FreeMono.ttf", 25, 12);		
 	}
 
     	void draw(ALLEGRO_DISPLAY * display);
@@ -35,6 +36,9 @@ public:
 	void mouseMoved(float x, float y);
 
 	bool isPressed() { return pressed; }
+    bool wasPressed();
+    bool isActivated() { return activated; }
+    void changeStatus() { activated = (isActivated())? false : true; }
 };
 
 #endif /* __BUTTON__ */

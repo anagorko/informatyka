@@ -2,6 +2,7 @@
 #define __GRAPH__
 
 #include "../spectrogram.h"
+#include <vector>
 
 class Graph {
 
@@ -10,9 +11,12 @@ class Graph {
 
     float frame_thickness;
     float column_thickness;
+    vector <Spectrogram> V;
+    int graphType;
 public:
     Graph();
     void draw(Spectrogram s, ALLEGRO_DISPLAY * display) const;
+    void addSpec(Spectrogram s) { V.push_back(s); }
 };
 
 #endif /* __GRAPH__ */

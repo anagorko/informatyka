@@ -23,8 +23,9 @@ Graph::Graph() {
     height = 500;
     position_x = 40;
     position_y = 30;
-    frame_thickness = 5;
+    frame_thickness = 3;
     column_thickness = (width - 2 * frame_thickness)/Spectrogram::resolution;
+    graphType = 0;
 }
 
 

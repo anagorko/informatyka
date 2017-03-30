@@ -49,10 +49,14 @@ int CanSatViewerWindow::init() {
 
 	btnAbsolute = new Button(100, 550, "Absolute");
 	buttons.push_back(btnAbsolute);
+	btnAbsolute -> changeStatus();
+	
     btnDiffrent = new Button(300, 550, "diffrent");
     buttons.push_back(btnDiffrent);
     btnPercent = new Button(500, 550, "percent");
     buttons.push_back(btnPercent);
+    btnSet = new Button(650, 550, "set");
+    buttons.push_back(btnSet);
 
 	return 0;
 }
@@ -157,9 +161,29 @@ void CanSatViewerWindow::loop(int fd) {
  	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y, ev.mouse.dz);
  		}
 
-		if (btnExit -> isPressed()) { wyjdz = true; }
-		if (btnStop -> isPressed()) { timeline.timeRun = false; }
-		if (btnPlay -> isPressed()) { timeline.timeRun = true; }
+		if (btnExit -> wasPressed()) { wyjdz = true; }
+		if (btnStop -> wasPressed()) { timeline.timeRun = false; }
+		if (btnPlay -> wasPressed()) { timeline.timeRun = true; }
+
+		if (btnAbsolute -> wasPressed()) {
+			if (btnAbsolute -> isActivated()){// to znaczy że nie był aktywny przycisk, bo po wciśnięciu zmeniło status na aktywne
+				if (btnPercent -> isActivated()) btnPercent -> changeStatus();
+				if (btnDiffrent -> isActivated()) btnDiffrent -> changeStatus();
+			} else btnAbsolute -> changeStatus();
+		}
+		if (btnDiffrent -> wasPressed()) {
+			if (btnDiffrent -> isActivated()){// to znaczy że nie był aktywny przycisk, bo po wciśnięciu zmeniło status na aktywne
+				if (btnPercent -> isActivated()) btnPercent -> changeStatus();
+				if (btnAbsolute -> isActivated()) btnAbsolute -> changeStatus();
+			} else btnDiffrent -> changeStatus();
+		}
+		if (btnPercent -> wasPressed()) {
+			if (btnPercent -> isActivated()){// to znaczy że nie był aktywny przycisk, bo po wciśnięciu zmeniło status na aktywne
+				if (btnAbsolute -> isActivated()) btnAbsolute -> changeStatus();
+				if (btnDiffrent -> isActivated()) btnDiffrent -> changeStatus();
+			} else btnPercent -> changeStatus();
+		}
+
 
 	 	if(przerysuj && al_is_event_queue_empty(event_queue)) {
  			przerysuj = false;

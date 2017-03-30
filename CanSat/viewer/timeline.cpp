@@ -81,7 +81,7 @@ void TimeLine::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width
     && y > position_y && y < position_y + height){
         cursor_above = true;
-        cout<<"mouse wheel = " << z<<endl;
+        //cout<<"mouse wheel = " << z<<endl;
         range += 1.0 * z;
     } else {
         cursor_above = false;

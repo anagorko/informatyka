@@ -32,17 +32,16 @@ class CanSatViewerWindow
    	bool wyjdz = false;
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
 
-	time_t rawtime;
-        struct tm * timeinfo;
-
 
     	Button* btnExit;
     	Button* btnStop;
     	Button* btnPlay;
     	Button* btnChlor;
+
     	Button* btnAbsolute;
     	Button* btnDiffrent;
     	Button* btnPercent;
+    	Button* btnSet;
 
 	Datastore data;
 
