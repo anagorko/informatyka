@@ -15,10 +15,11 @@ class Datastore
 	string db_filename;
 
 public:
-	Datastore(string _fn) : db_filename(_fn) {
+	Datastore() {
 	}
 
-	int init() {
+	int init(string _fn) {
+		db_filename = _fn;
 	}
 
 	// Uwaga: moment to czas, jaki minal w 0.1s od 01.01.2017 00:00.1
@@ -31,16 +32,18 @@ public:
 
 	int string2moment(string s) {
 		// TODO: konwersja czasu na moment
+
+		return -1;
 	}
 
 	Spectrogram readClosest(int moment) {
 		// TODO: czytanie z bazy najblizszego odczytu
 		Spectrogram dummy;
 
-		moment = moment - (moment % 50);	// symulowany odczyt co 5s
+		//moment = moment - (moment % 50);	// symulowany odczyt co 5s
 
 		for (int i = 0; i < Spectrogram::resolution; i++) {
-			dummy.lfl[i] = sin((float)i/Spectrogram::resolution * 1.67) * 1024;
+			dummy.lfl[i] = sin((float)(i+moment)/Spectrogram::resolution * 1.67) * 512 + 512;
 		}
 
 		return dummy;

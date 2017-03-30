@@ -58,8 +58,6 @@ void CanSatViewerWindow::draw() {
 	    	b -> draw(display);
 	}
 
-	S = getSpectrogram(timeline.moment);
-
 	spectrograf.draw(S, display);
 	timeline.draw(display);
 }
@@ -118,6 +116,8 @@ void CanSatViewerWindow::loop(int fd) {
  	        	//
  	        	przerysuj = true;
  	        	if(timeline.timeRun) timeline.moment++;
+
+			S = getSpectrogram(timeline.moment);
 
 			//serialRead(fd);
 		} else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {

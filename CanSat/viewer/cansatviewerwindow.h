@@ -11,6 +11,7 @@
 using namespace std;
 
 #include "../spectrogram.h"
+#include "../datastore/datastore.h"
 #include "config.h"
 #include "button.h"
 #include "graph.h"
@@ -28,22 +29,25 @@ class CanSatViewerWindow
 	TimeLine timeline;
    	bool przerysuj = true;
    	bool wyjdz = false;
-   	Spectrogram S;
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
 
 	time_t rawtime;
         struct tm * timeinfo;
 
 
-	Spectrogram getSpectrogram(int m) {
-		return S;
-	}
-
     	Button* btnExit;
     	Button* btnStop;
     	Button* btnPlay;
 
+	Datastore data;
+
 	stringstream ss;
+   	Spectrogram S;
+
+	Spectrogram getSpectrogram(int m) {
+		cout << "read " << m << endl;
+		return data.readClosest(m);
+	}
 
 public:
 	CanSatViewerWindow();
