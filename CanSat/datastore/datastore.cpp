@@ -6,6 +6,55 @@
 
 using namespace std;
 
+Datastore::Datastore() 
+{
+}
+
+int Datastore::init(string _fn) {
+	db_filename = _fn;
+}
+
+// TODO: czytanie z bazy najblizszego odczytu
+Spectrogram Datastore::readClosest(int moment) 
+{
+	Spectrogram dummy;
+	moment = moment - (moment % 5);	// symulowany odczyt co 0.5s
+	for (int i = 0; i < Spectrogram::resolution; i++) {
+		dummy.lfl[i] = sin((float)(i+moment)/Spectrogram::resolution * 1.67) * 512 + 512;
+	}
+
+	return dummy;
+}
+
+// TODO: zapisywanie w bazie odczytu
+void Datastore::write(Spectrogram s) 
+{
+}
+
+// TODO: zlicza odczyty w zadanym odcinku czasu
+int Datastore::countSpectrograms(int from, int to) 
+{
+	return ((to-(to%5)) - (from-(from%5))) / 5; // symulowany odczyt co 0.5s
+}
+
+// TODO: zlicza odczyty z daną etykietą
+int Datastore::countSpectrograms(string tag) 
+{
+	return 0;
+}
+
+// TODO: średni odczyt z danego odcinka czasu
+Spectrogram Datastore::readInterval(int from, int to)
+{
+	return readClosest(from);
+}
+
+// TODO: średni odczyt dla danej etykiety
+Spectrogram Datastore::readTag(string tag) {
+	return readClosest(0);
+}
+
+
 
 int chars_to_int( char c1, char c2 )
 {

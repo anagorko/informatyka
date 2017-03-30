@@ -15,59 +15,31 @@ class Datastore
 	string db_filename;
 
 public:
-	Datastore() {
-	}
+	Datastore();
+	int init(string _fn);
 
-	int init(string _fn) {
-		db_filename = _fn;
-	}
+	// TODO: czytanie z bazy najblizszego odczytu
+	Spectrogram readClosest(int moment);
 
-	// Uwaga: moment to czas, jaki minal w 0.1s od 01.01.2017 00:00.1
-	//  (moment 0 to dokladnie ta data)
+	// TODO: zapisywanie w bazie odczytu
+	void write(Spectrogram s);
 
-	string moment2string(int moment) {
-		// TODO: konwersja momentu na prawdziwy czas
-		return "TODO";
-	}
+	// TODO: zlicza odczyty w zadanym odcinku czasu
+	int countSpectrograms(int from, int to);
 
-	int string2moment(string s) {
-		// TODO: konwersja czasu na moment
+	// TODO: zlicza odczyty z daną etykietą
+	int countSpectrograms(string tag);
 
-		return -1;
-	}
+	// TODO: średni odczyt z danego odcinka czasu
+	Spectrogram readInterval(int from, int to);
 
-	Spectrogram readClosest(int moment) {
-		// TODO: czytanie z bazy najblizszego odczytu
-		Spectrogram dummy;
-
-		//moment = moment - (moment % 50);	// symulowany odczyt co 5s
-
-		for (int i = 0; i < Spectrogram::resolution; i++) {
-			dummy.lfl[i] = sin((float)(i+moment)/Spectrogram::resolution * 1.67) * 512 + 512;
-		}
-
-		return dummy;
-	}
-
-	void write(Spectrogram s) {
-		// TODO: zapisywanie w bazie odczytu
-	}
-
-	void measurementTable(int from, int to, int resolution, bool data[]) {
-	}
+	// TODO: średni odczyt dla danej etykiety
+	Spectrogram readTag(string tag);
 };
 
 int chars_to_int( char c1, char c2 );
-
 std::ostream operator<< ( ostream& o, Spectrogram& in );
-
 Spectrogram SELECT( char *query );
-
 Spectrogram lastRecord();
-
-
-//Kod z internetu
-/*void getTableData();
-*/
 
 #endif /* __DATABASE__ */	
