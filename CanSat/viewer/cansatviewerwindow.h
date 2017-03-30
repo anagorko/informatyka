@@ -22,6 +22,7 @@ class CanSatViewerWindow
  	ALLEGRO_DISPLAY * display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_JOYSTICK * joystick = NULL;
 
 	vector <Button *> buttons;
 
@@ -41,23 +42,19 @@ class CanSatViewerWindow
 
 	Datastore data;
 
+	Spectrogram getSpectrogram(int m) {
+		return S;
+	}
+
 	stringstream ss;
    	Spectrogram S;
-
-	Spectrogram getSpectrogram(int m) {
-		cout << "read " << m << endl;
-		return data.readClosest(m);
-	}
 
 public:
 	CanSatViewerWindow();
 	~CanSatViewerWindow();
-
 	int init();
-
 	void draw();
 	void parseData(string line);
-	void serialRead(int fd);
 	void loop(int fd);
 };
 

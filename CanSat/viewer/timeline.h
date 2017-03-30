@@ -15,11 +15,14 @@ class TimeLine {
     bool pressed, cursor_above;
     float px, py, pmoment;
 
+    float moment;
+    float range;
+
     static ALLEGRO_FONT * font;
 
 public:
-    float moment;
-    float range;
+
+    
     bool timeRun;
 
 
@@ -32,8 +35,12 @@ public:
 
     void mousePressed(float x, float y);
     void mouseReleased();
-	void mouseMoved(float x, float y);
+	void mouseMoved(float x, float y, int z);
 
+    float getMoment() { return moment; }
+    void setMoment(float a) { moment = a; }
+
+    //void joystickMoved(int axis);
 	bool isPressed() { return pressed; }
 };
 

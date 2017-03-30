@@ -45,7 +45,7 @@ void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
         al_draw_line(x1 + distance, y1, x2 + distance, y2, al_map_rgb(22, 130, 70), 2);
 
         ss.str("");
-        ss << (int)((moment + time_distance * (i+1) )/60);
+        ss << (int)(moment / 60 + time_distance * (i+1) / 60 );
         pix_lenght = al_get_text_width(font, ss.str().c_str());
         al_draw_text(font, al_map_rgb(255,255,255),x1 + distance- pix_lenght / 2, y2 + text_distance , 0, ss.str().c_str());
         //po lewej stronie
@@ -53,13 +53,15 @@ void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
 
           
         ss.str("");
-        ss << (int)((moment - (time_distance * (i+1)) )/60);
+        ss << (int)(moment / 60 - (time_distance * (i+1)) / 60 );
         pix_lenght = al_get_text_width(font, ss.str().c_str());
         al_draw_text(font, al_map_rgb(255,255,255),x1 - distance- pix_lenght / 2, y2 + text_distance , 0, ss.str().c_str());  
 
         distance += width / (count_separators * 2);    
     }
-
+    ss.str("");
+    ss << "range : " << range;
+    al_draw_text(font, al_map_rgb(255,255,255),position_x + 20, position_y, 0, ss.str().c_str());
   
 }
 
@@ -70,15 +72,17 @@ TimeLine::TimeLine() {
     position_y = 600;
     moment = 0;
     pmoment = 0;
-    range = 60*3;
+    range = 60*2;
     cursor_above = false;
     pressed = false;
     timeRun = true;
 }
-void TimeLine::mouseMoved(float x, float y){
+void TimeLine::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width
     && y > position_y && y < position_y + height){
         cursor_above = true;
+        cout<<"mouse wheel = " << z<<endl;
+        range += 1.0 * z;
     } else {
         cursor_above = false;
     }
@@ -90,10 +94,7 @@ void TimeLine::mousePressed(float x, float y){
         pressed = true;
         px = x;
         py = y;
-        /*
-        width/2 --------- range
-        distance --------- X
-        */
+
         float distance = (position_x + width / 2) - x;
         pmoment = moment - ( distance * range / (width/2));
 
