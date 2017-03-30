@@ -39,7 +39,7 @@ class CanSatViewerWindow
 
 public:
 	CanSatViewerWindow() {
-		timeline.moment = 0;
+		timeline.setMoment(0);
 		for (int i = 0; i < Spectrogram::resolution; i++) {
 			S.lfl[i] = sin((float) (i)/100.0) * 1000;
 		}		
@@ -96,7 +96,7 @@ public:
 	    	b -> draw(display);
 	    }
 
-	    S = getSpectrogram(timeline.moment);
+	    S = getSpectrogram(timeline.getMoment());
 
 	    spectrograf.draw(S, display);
 	    timeline.draw(display);
@@ -114,7 +114,10 @@ public:
 
 		stringstream s; s << line;
 
-		s >> result.moment;
+		float _moment;
+		s >> _moment;
+		result.setMoment(_moment);
+
 
 		for (int i = 0; i < 256; i++) {
 			char c; s >> c; if (c != ';') { cout << "Parse error." << endl; return; }
@@ -161,9 +164,9 @@ public:
  	           // minęła 1/60 (1/FPS) część sekundy
  	           //
  	           przerysuj = true;
- 	           if(timeline.timeRun) timeline.moment++;
+ 	           if(timeline.timeRun) timeline.setMoment(timeline.getMoment() + 1);
 
-			//serialRead(fd);
+			serialRead(fd);
  	       } else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  	           key[ev.keyboard.keycode] = true;
 
