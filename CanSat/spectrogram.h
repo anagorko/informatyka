@@ -5,8 +5,8 @@
 using namespace std;
 
 class Spectrogram {
-	int moment;
 public:
+	int moment;
 	static const int resolution = 256;
 
 	int lfl[resolution];

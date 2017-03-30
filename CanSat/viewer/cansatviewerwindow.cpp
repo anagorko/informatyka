@@ -1,7 +1,7 @@
 #include "cansatviewerwindow.h"
 
 CanSatViewerWindow::CanSatViewerWindow() {
-	timeline.moment = 0;
+	timeline.setMoment(0);
 	for (int i = 0; i < Spectrogram::resolution; i++) {
 		S.lfl[i] = sin((float) (i)/100.0) * 1000;
 	}		
@@ -69,7 +69,9 @@ void CanSatViewerWindow::parseData(string line) {
 
 	stringstream s; s << line;
 
-	s >> result.moment;
+	int m;
+	s >> m;
+	result.setMoment(m);
 
 	for (int i = 0; i < 256; i++) {
 		char c; s >> c; if (c != ';') { cout << "Parse error." << endl; return; }
@@ -115,9 +117,10 @@ void CanSatViewerWindow::loop(int fd) {
  	        	// minęła 1/60 (1/FPS) część sekundy
  	        	//
  	        	przerysuj = true;
- 	        	if(timeline.timeRun) timeline.moment++;
+ 	        	if(timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
+cout << timeline.getMoment()<<endl;
 
-			S = getSpectrogram(timeline.moment);
+			S = getSpectrogram(timeline.getMoment());
 
 			//serialRead(fd);
 		} else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -142,7 +145,7 @@ void CanSatViewerWindow::loop(int fd) {
  	       		for(auto b: buttons){
  	       			b -> mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
- 	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y);
+ 	       		//timeline.mouseMoved(ev.mouse.x, ev.mouse.y);
  		}
 
 		if (btnExit -> isPressed()) { wyjdz = true; }

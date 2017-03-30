@@ -43,7 +43,7 @@ class CanSatViewerWindow
 	Datastore data;
 
 	Spectrogram getSpectrogram(int m) {
-		return S;
+		return data.readClosest(m);
 	}
 
 	stringstream ss;
@@ -56,6 +56,7 @@ public:
 	void draw();
 	void parseData(string line);
 	void loop(int fd);
+	void serialRead(int fd);
 };
 
 #endif /* __CANSATVIEWERWINDOW__ */
