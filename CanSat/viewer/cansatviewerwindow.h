@@ -15,6 +15,7 @@ class CanSatViewerWindow
  	ALLEGRO_DISPLAY * display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_JOYSTICK * joystick = NULL;
 
 	vector <Button *> buttons;
 
@@ -187,11 +188,11 @@ public:
  	           		b -> mouseReleased();
  	           }
  	           timeline.mouseReleased();
- 	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
+ 	       } else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES) {
  	       		for(auto b: buttons){
  	       			b -> mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
- 	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y);
+ 	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y, ev.mouse.dz);
  	       }
 
 		   if (btnExit -> isPressed()) { wyjdz = true; }

@@ -59,7 +59,9 @@ void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
 
         distance += width / (count_separators * 2);    
     }
-
+    ss.str("");
+    ss << "range : " << range;
+    al_draw_text(font, al_map_rgb(255,255,255),position_x + 20, position_y, 0, ss.str().c_str());
   
 }
 
@@ -75,10 +77,12 @@ TimeLine::TimeLine() {
     pressed = false;
     timeRun = true;
 }
-void TimeLine::mouseMoved(float x, float y){
+void TimeLine::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width
     && y > position_y && y < position_y + height){
         cursor_above = true;
+        cout<<"mouse wheel = " << z<<endl;
+        range += 1.0 * z;
     } else {
         cursor_above = false;
     }
@@ -90,10 +94,7 @@ void TimeLine::mousePressed(float x, float y){
         pressed = true;
         px = x;
         py = y;
-        /*
-        width/2 --------- range
-        distance --------- X
-        */
+
         float distance = (position_x + width / 2) - x;
         pmoment = moment - ( distance * range / (width/2));
 
