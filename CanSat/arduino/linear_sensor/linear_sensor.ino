@@ -11,7 +11,7 @@ short int pixels[256];
 
 void ClockPulse()
 {
-    delayMicroseconds(1);
+    delayMicroseconds(60);
     digitalWrite(pinCLK, HIGH);
     digitalWrite(pinCLK, LOW);
   }
@@ -61,7 +61,7 @@ digitalWrite(pinSI, HIGH);
     ClockPulse(); 
     digitalWrite(pinSI, LOW);
 
-for(int i = 0; i < 256; i += 10)
+for(int i = 0; i < 256; i += 1)
 {
       Serial.print((int) pixels[i]); Serial.print(";");
     }
