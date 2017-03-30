@@ -12,11 +12,12 @@ class Graph {
     float frame_thickness;
     float column_thickness;
     vector <Spectrogram> V;
-    int graphType;
+    int typeShow;
 public:
     Graph();
     void draw(Spectrogram s, ALLEGRO_DISPLAY * display) const;
     void addSpec(Spectrogram s) { V.push_back(s); }
+    void setShow(int d) { typeShow = d; };
 };
 
 #endif /* __GRAPH__ */

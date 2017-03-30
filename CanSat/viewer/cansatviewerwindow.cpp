@@ -50,7 +50,7 @@ int CanSatViewerWindow::init() {
 	btnAbsolute = new Button(100, 550, "Absolute");
 	buttons.push_back(btnAbsolute);
 	btnAbsolute -> changeStatus();
-	
+
     btnDiffrent = new Button(300, 550, "diffrent");
     buttons.push_back(btnDiffrent);
     btnPercent = new Button(500, 550, "percent");
@@ -170,18 +170,21 @@ void CanSatViewerWindow::loop(int fd) {
 				if (btnPercent -> isActivated()) btnPercent -> changeStatus();
 				if (btnDiffrent -> isActivated()) btnDiffrent -> changeStatus();
 			} else btnAbsolute -> changeStatus();
+			spectrograf.setShow(0);
 		}
 		if (btnDiffrent -> wasPressed()) {
 			if (btnDiffrent -> isActivated()){// to znaczy że nie był aktywny przycisk, bo po wciśnięciu zmeniło status na aktywne
 				if (btnPercent -> isActivated()) btnPercent -> changeStatus();
 				if (btnAbsolute -> isActivated()) btnAbsolute -> changeStatus();
 			} else btnDiffrent -> changeStatus();
+			spectrograf.setShow(1);
 		}
 		if (btnPercent -> wasPressed()) {
 			if (btnPercent -> isActivated()){// to znaczy że nie był aktywny przycisk, bo po wciśnięciu zmeniło status na aktywne
 				if (btnAbsolute -> isActivated()) btnAbsolute -> changeStatus();
 				if (btnDiffrent -> isActivated()) btnDiffrent -> changeStatus();
 			} else btnPercent -> changeStatus();
+			spectrograf.setShow(2);
 		}
 
 
