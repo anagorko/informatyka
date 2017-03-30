@@ -1,6 +1,9 @@
 #ifndef __SPECTROGRAM__
 #define __SPECTROGRAM__
 
+#include <string>
+using namespace std;
+
 class Spectrogram {
 public:
 	static const int resolution = 256;
