@@ -6,7 +6,11 @@ using namespace std;
 #include "timeline.h"
 
 void Button::mouseReleased() {
-	pressed = false;
+    if(pressed){
+	   pressed = false;
+       if(activated) activated = false;
+       else activated = true;
+    }
 }
 
 bool Button::isInside(float x, float y) {
@@ -40,13 +44,24 @@ Button::Button(int _x, int _y, string s) {
     	height = al_get_font_line_height(font);
 
     	pressed = false;
+        activated = false;
 }
 
 void Button::draw(ALLEGRO_DISPLAY * display){
-    	float color_red = 50;
-    	float color_green = 50;
-    	float color_blue = 50;
-    
+        float color_red;
+        float color_green;
+        float color_blue;
+    if(activated){
+        color_red = 50;
+        color_green = 50;
+        color_blue = 100;
+
+    }else{	
+        color_red = 50;
+        color_green = 50;
+        color_blue = 50;
+    }
+
 	if(cursor_above) {
         	color_red = (int)(color_red + 50) % 256;
         	color_green = (int)(color_green + 50) % 256;

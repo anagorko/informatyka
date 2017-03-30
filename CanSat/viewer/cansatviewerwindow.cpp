@@ -44,6 +44,15 @@ int CanSatViewerWindow::init() {
 	buttons.push_back(btnPlay);
 	btnStop = new Button(1000, 30, "stop");
 	buttons.push_back(btnStop);
+	btnChlor = new Button(900, 100, "chlor");
+	buttons.push_back(btnChlor);
+
+	btnAbsolute = new Button(100, 550, "Absolute");
+	buttons.push_back(btnAbsolute);
+    btnDiffrent = new Button(300, 550, "diffrent");
+    buttons.push_back(btnDiffrent);
+    btnPercent = new Button(500, 550, "percent");
+    buttons.push_back(btnPercent);
 
 	return 0;
 }

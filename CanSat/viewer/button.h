@@ -15,6 +15,7 @@ class Button{
     	string inscription;
     	float px, py;//last pressed position
     	bool pressed, cursor_above, with_text;
+        bool activated;
 
 	static ALLEGRO_FONT * font;
 

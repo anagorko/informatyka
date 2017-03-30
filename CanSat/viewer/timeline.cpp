@@ -75,7 +75,7 @@ TimeLine::TimeLine() {
     range = 60*2;
     cursor_above = false;
     pressed = false;
-    timeRun = true;
+    timeRun = false;
 }
 void TimeLine::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width

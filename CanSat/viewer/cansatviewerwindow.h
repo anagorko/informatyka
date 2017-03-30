@@ -39,6 +39,10 @@ class CanSatViewerWindow
     	Button* btnExit;
     	Button* btnStop;
     	Button* btnPlay;
+    	Button* btnChlor;
+    	Button* btnAbsolute;
+    	Button* btnDiffrent;
+    	Button* btnPercent;
 
 	Datastore data;
 
