@@ -2,6 +2,7 @@
 #include<string>
 #include<sqlite3.h>
 #include "../spectrogram.h"
+#include "datastore.h"
 
 using namespace std;
 
