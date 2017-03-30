@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS data;
 CREATE TABLE data
 (
-	time DATATIME,
+	timestamp DATATIME,
 	temperature INT,
-	preasure INT,
-	spectrum BLOB
+	pressure INT,
+	spectrogram BLOB
 );
 
 INSERT INTO data VALUES ( "1998-05-02 19:34:32.000", 12, 12, X'65656565' );
