@@ -10,25 +10,27 @@ using namespace std;
 #include "../spectrogram.h"
 
 class Button{
-    float position_x, position_y;
-    float width, height;
-    string inscription;
-    float px, py;//last pressed position
-    bool pressed, cursor_above, with_text;
+    	float position_x, position_y;
+    	float width, height;
+    	string inscription;
+    	float px, py;//last pressed position
+    	bool pressed, cursor_above, with_text;
 
 	static ALLEGRO_FONT * font;
 
+	bool isInside(float, float);
+
 public:
-    Button(int _x, int _y, string s);
+    	Button(int _x, int _y, string s);
 
 	static void loadFont() {
-    	font = al_load_ttf_font("FreeMono.ttf", 30, 12);		
+    		font = al_load_ttf_font("FreeMono.ttf", 30, 12);		
 	}
 
-    void draw(ALLEGRO_DISPLAY * display);
+    	void draw(ALLEGRO_DISPLAY * display);
 
-    void mousePressed(float x, float y);
-    void mouseReleased();
+    	void mousePressed(float x, float y);
+    	void mouseReleased();
 	void mouseMoved(float x, float y);
 
 	bool isPressed() { return pressed; }
