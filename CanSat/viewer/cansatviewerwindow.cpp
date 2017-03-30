@@ -118,7 +118,7 @@ void CanSatViewerWindow::loop(int fd) {
  	        	//
  	        	przerysuj = true;
  	        	if(timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
-cout << timeline.getMoment()<<endl;
+				//cout << timeline.getMoment()<<endl;
 
 			S = getSpectrogram(timeline.getMoment());
 
@@ -145,7 +145,7 @@ cout << timeline.getMoment()<<endl;
  	       		for(auto b: buttons){
  	       			b -> mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
- 	       		//timeline.mouseMoved(ev.mouse.x, ev.mouse.y);
+ 	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y, ev.mouse.dz);
  		}
 
 		if (btnExit -> isPressed()) { wyjdz = true; }

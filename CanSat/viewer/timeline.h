@@ -40,7 +40,6 @@ public:
     float getMoment() { return moment; }
     void setMoment(float a) { moment = a; }
 
-    //void joystickMoved(int axis);
 	bool isPressed() { return pressed; }
 };
 
