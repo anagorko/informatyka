@@ -26,7 +26,7 @@ public:
     	Button(int _x, int _y, string s);
 
 	static void loadFont() {
-    		font = al_load_ttf_font("FreeMono.ttf", 25, 12);		
+    		font = al_load_ttf_font("FreeMono.ttf", 20, 12);		
 	}
 
     	void draw(ALLEGRO_DISPLAY * display);

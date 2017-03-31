@@ -62,6 +62,7 @@ int allegroInit()
 
 	Button::loadFont();
     TimeLine::loadFont();
+    Graph::loadFont();
   
     return 0;
 }

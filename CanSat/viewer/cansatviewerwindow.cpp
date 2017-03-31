@@ -161,6 +161,7 @@ void CanSatViewerWindow::loop(int fd) {
  	       			b -> mouseMoved(ev.mouse.x, ev.mouse.y);
  	       		}
  	       		timeline.mouseMoved(ev.mouse.x, ev.mouse.y, ev.mouse.dz);
+ 	       		spectrograf.mouseMoved(ev.mouse.x, ev.mouse.y, ev.mouse.dz);
  		}
 
 		if (btnExit -> wasPressed()) { wyjdz = true; }
