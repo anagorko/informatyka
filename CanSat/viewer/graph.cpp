@@ -60,15 +60,30 @@ void Graph::draw(ALLEGRO_DISPLAY * display) const {
     stringstream ss;
     int font_height = al_get_font_line_height(font);
     float value=0;
-    float stickLen = stick_y2 - stick_y1;
+    float stickLen = (stick_y2 - stick_y1)/((typeShow==0)? 1 : 2);
     
     for(int i=0;i<5;i++){
-    ss.str("");
-    ss << (int)value;
-    al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y2 - (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
-    ss.str("");
+        switch(typeShow){
+            case 0:
+                ss.str("");
+                ss << (int)value;
+                al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y2 - (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
+                value += 1.0/4.0 * range;
+                break;
+            case 1:
+                ss.str("");
+                ss << (int)value;
+                al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 + stickLen - (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
+                ss.str("");
+                ss << "-" << (int)value;
+                if(i!=0)
+                al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 + stickLen + (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
 
-    value += 1.0/4.0 * range;
+                value += 1.0/4.0 * range;
+                break;
+        }
+
+    
     }
 }
 
