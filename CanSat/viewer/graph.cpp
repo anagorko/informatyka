@@ -23,11 +23,13 @@ void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
             switch(typeShow){
                 case 0://absolute
                     value = V[j].lfl[i];
-                    y1 = (position_y + height - frame_thickness) - (value * (height - 2 * frame_thickness))/range;
+                    y1 = (position_y + height + frame_thickness) - (value * (height - 2 * frame_thickness))/range;
                     x2 = x1 + column_thickness;
                     y2 = position_y + height - frame_thickness;
-                    if(y1 < position_y) y1 = (position_y + height - frame_thickness) - (height - 2 * frame_thickness) ; 
-                        al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
+
+                    if(y1 < position_y + frame_thickness) y1 = (position_y + height - frame_thickness) - (height - 2 * frame_thickness) ; 
+                   
+                    al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
                     x1 = x2;
                     break;  
                 case 1://diffrent
@@ -35,6 +37,10 @@ void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
                     y1 = (position_y + height / 2 - frame_thickness) - (value * (height / 2 - 2 * frame_thickness))/range;
                     x2 = x1 + column_thickness;
                     y2 = position_y + height / 2 - frame_thickness;
+                    
+                    if ( y1 < position_y + frame_thickness) y1 = (position_y + height / 2 - frame_thickness) - (height / 2 - 2 * frame_thickness);
+                    if ( y1 > position_y + height) y1 = position_y + height;
+                    
                     al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
                     x1 = x2;
                     break;
@@ -43,6 +49,10 @@ void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
                     y1 = (position_y + height / 2 - frame_thickness) - (value * (height / 2 - 2 * frame_thickness))/range;
                     x2 = x1 + column_thickness;
                     y2 = position_y + height / 2 - frame_thickness;
+
+                    if ( y1 < position_y + frame_thickness) y1 = (position_y + height / 2 - frame_thickness) - (height / 2 - 2 * frame_thickness);
+                    if ( y1 > position_y + height) y1 = position_y + height;
+                    
                     al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
                     x1 = x2;
                     break;

@@ -46,6 +46,8 @@ int CanSatViewerWindow::init() {
 	buttons.push_back(btnPlay);
 	btnStop = new Button(1000, 30, "stop");
 	buttons.push_back(btnStop);
+	btnStop -> changeStatus();
+
 	btnChlor = new Button(900, 100, "chlor");
 	buttons.push_back(btnChlor);
 
@@ -165,8 +167,14 @@ void CanSatViewerWindow::loop(int fd) {
  		}
 
 		if (btnExit -> wasPressed()) { wyjdz = true; }
-		if (btnStop -> wasPressed()) { timeline.timeRun = false; }
-		if (btnPlay -> wasPressed()) { timeline.timeRun = true; }
+		if (btnStop -> wasPressed()) { 
+			timeline.timeRun = false; 
+			if (btnPlay -> isActivated()) btnPlay -> changeStatus();
+		}
+		if (btnPlay -> wasPressed()) { 
+			timeline.timeRun = true; 
+			if (btnStop -> isActivated()) btnStop -> changeStatus();
+		}
 
 		if (btnAbsolute -> wasPressed()) {
 			if (btnAbsolute -> isActivated()){// to znaczy że nie był aktywny przycisk, bo po wciśnięciu zmeniło status na aktywne
