@@ -1,7 +1,7 @@
 #ifndef __SPECTROGRAM__
 #define __SPECTROGRAM__
 
-//#include <iostream>
+#include <iostream>
 using namespace std;
 
 class Spectrogram {
