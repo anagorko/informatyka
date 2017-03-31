@@ -24,37 +24,37 @@ void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
                 case 0://absolute
                     value = V[j].lfl[i];
                     y1 = (position_y + height + frame_thickness) - (value * (height - 2 * frame_thickness))/range;
-                    x2 = x1 + column_thickness;
+                    x2 = x1 + column_thickness/2;
                     y2 = position_y + height - frame_thickness;
 
-                    if(y1 < position_y + frame_thickness) y1 = (position_y + height - frame_thickness) - (height - 2 * frame_thickness) ; 
+                    if(y1 < position_y + frame_thickness) y1 = (position_y + height - frame_thickness) - (height - 2 * frame_thickness);
                    
-                    al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
-                    x1 = x2;
+                    al_draw_filled_circle(x1, y1, 3, al_map_rgb(23,255,100));
+                    x1 = x1 + column_thickness;
                     break;  
                 case 1://diffrent
                     value = V[j].lfl[i] - basis.lfl[i];
                     y1 = (position_y + height / 2 - frame_thickness) - (value * (height / 2 - 2 * frame_thickness))/range;
-                    x2 = x1 + column_thickness;
+                    x2 = x1 + column_thickness/2;
                     y2 = position_y + height / 2 - frame_thickness;
                     
                     if ( y1 < position_y + frame_thickness) y1 = (position_y + height / 2 - frame_thickness) - (height / 2 - 2 * frame_thickness);
                     if ( y1 > position_y + height) y1 = position_y + height;
                     
-                    al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
-                    x1 = x2;
+                    al_draw_filled_circle(x1, y1, 3, al_map_rgb(23,255,100));
+                    x1 += column_thickness;
                     break;
                 case 2://percent TODO
                     value = V[j].lfl[i] - basis.lfl[i];
                     y1 = (position_y + height / 2 - frame_thickness) - (value * (height / 2 - 2 * frame_thickness))/range;
-                    x2 = x1 + column_thickness;
+                    x2 = x1 + column_thickness/2;
                     y2 = position_y + height / 2 - frame_thickness;
 
                     if ( y1 < position_y + frame_thickness) y1 = (position_y + height / 2 - frame_thickness) - (height / 2 - 2 * frame_thickness);
                     if ( y1 > position_y + height) y1 = position_y + height;
                     
-                    al_draw_filled_rectangle(x1, y1, x2, y2,al_map_rgb(23,255,100));
-                    x1 = x2;
+                    al_draw_filled_circle(x1, y1, 3, al_map_rgb(23,255,100));
+                    x1 += column_thickness;
                     break;
             }
         }
@@ -66,15 +66,15 @@ void Graph::draw(Spectrogram s, ALLEGRO_DISPLAY * display) const {
         stringstream ss;
         ss.str("");
         ss << (int)range;
-        al_draw_text(font, al_map_rgb(255,100,100),position_x + width + 2 * frame_thickness + 10, stick_y1 - 20, 0, ss.str().c_str());
+        al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 - 20, 0, ss.str().c_str());
 
         ss.str("");
         ss << "0";
-        al_draw_text(font, al_map_rgb(255,100,100),position_x + width + 2 * frame_thickness + 10, stick_y2 - 20, 0, ss.str().c_str());
+        al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y2 - 20, 0, ss.str().c_str());
 
         ss.str("");
         ss << (int)(range/2);
-        al_draw_text(font, al_map_rgb(255,100,100),position_x + width + 2 * frame_thickness + 10, stick_y1 + ( stick_y2 - stick_y1) /2, 0, ss.str().c_str());
+        al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 + ( stick_y2 - stick_y1) /2, 0, ss.str().c_str());
 
     }
 

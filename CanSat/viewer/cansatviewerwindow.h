@@ -22,7 +22,6 @@ class CanSatViewerWindow
  	ALLEGRO_DISPLAY * display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
-	ALLEGRO_JOYSTICK * joystick = NULL;
 
 	vector <Button *> buttons;
 
@@ -42,6 +41,7 @@ class CanSatViewerWindow
     	Button* btnDiffrent;
     	Button* btnPercent;
     	Button* btnSet;
+    	Button* btnAdd;
 
 	Datastore data;
 

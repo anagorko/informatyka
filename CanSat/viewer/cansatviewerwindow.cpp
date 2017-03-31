@@ -61,6 +61,8 @@ int CanSatViewerWindow::init() {
     buttons.push_back(btnPercent);
     btnSet = new Button(650, 550, "set");
     buttons.push_back(btnSet);
+    btnAdd = new Button(700, 550, "add");
+    buttons.push_back(btnAdd);
 
 	return 0;
 }
@@ -134,7 +136,9 @@ void CanSatViewerWindow::loop(int fd) {
  	        	// minęła 1/60 (1/FPS) część sekundy
  	        	//
  	        	przerysuj = true;
- 	        	if(timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
+ 	        	if (!btnSet -> isActivated()){
+ 	        		if (timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
+				}
 				//cout << timeline.getMoment()<<endl;
 			spectrograf.clearSet();
 			spectrograf.addSpec(getSpectrogram(timeline.getMoment()));
@@ -196,6 +200,18 @@ void CanSatViewerWindow::loop(int fd) {
 				if (btnDiffrent -> isActivated()) btnDiffrent -> changeStatus();
 			} else btnPercent -> changeStatus();
 			spectrograf.setShow(2);
+		}
+		if (btnSet -> wasPressed()) {
+			if(btnPlay -> isActivated()) {
+				timeline.timeRun = false;
+				btnPlay -> changeStatus();
+				btnStop -> changeStatus();
+			}
+		}
+		if (btnAdd -> wasPressed()) {
+			if(btnSet -> isActivated()){
+				spectrograf.addSpec(getSpectrogram(timeline.getMoment()));
+			}
 		}
 
 
