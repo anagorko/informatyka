@@ -38,6 +38,8 @@ int CanSatViewerWindow::init() {
 	al_flip_display();  
 	al_start_timer(timer);
 
+	spectrograf.setBasis(getSpectrogram(timeline.getMoment()));
+
  	btnExit = new Button(1100, 30, "Exit");
 	buttons.push_back(btnExit);
 	btnPlay = new Button(900, 30, "play");
@@ -132,8 +134,8 @@ void CanSatViewerWindow::loop(int fd) {
  	        	przerysuj = true;
  	        	if(timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
 				//cout << timeline.getMoment()<<endl;
-
-			S = getSpectrogram(timeline.getMoment());
+			spectrograf.clearSet();
+			spectrograf.addSpec(getSpectrogram(timeline.getMoment()));
 
 			//serialRead(fd);
 		} else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
