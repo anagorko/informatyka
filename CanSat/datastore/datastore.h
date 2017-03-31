@@ -40,6 +40,7 @@ public:
 int chars_to_int( char c1, char c2 );
 std::ostream operator<< ( ostream& o, Spectrogram& in );
 Spectrogram SELECT( char *query );
+void INSERT( Spectrogram in );
 Spectrogram lastRecord();
 
 #endif /* __DATABASE__ */	
