@@ -1,0 +1,13 @@
+all: recorder import
+	# Done
+recorder: recorder.o serial.o
+	g++ -o recorder recorder.o serial.o
+recorder.o: recorder.cpp
+	g++ -Wall -c -std=c++11 recorder.cpp
+serial.o: serial.cpp serial.h
+	g++ -Wall -c -std=c++11 serial.cpp
+import: import.o
+	g++ -o import import.o
+import.o: import.cpp
+	g++ -c -Wall -std=c++11 import.cpp
+
