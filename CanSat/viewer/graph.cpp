@@ -56,20 +56,20 @@ void Graph::draw(ALLEGRO_DISPLAY * display) const {
     float stick_y2 = position_y + height;
     al_draw_line(position_x + width + 10, stick_y1, position_x + width + 10, stick_y2, al_map_rgb(255, 255, 255), 2);  
 
+
     stringstream ss;
+    int font_height = al_get_font_line_height(font);
+    float value=0;
+    float stickLen = stick_y2 - stick_y1;
+    
+    for(int i=0;i<5;i++){
     ss.str("");
-    ss << (int)range;
-    al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 - 20, 0, ss.str().c_str());
-
+    ss << (int)value;
+    al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y2 - (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
     ss.str("");
-    ss << "0";
-    al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y2 - 20, 0, ss.str().c_str());
 
-    ss.str("");
-    ss << (int)(range/2);
-    al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 + ( stick_y2 - stick_y1) /2, 0, ss.str().c_str());
-
-
+    value += 1.0/4.0 * range;
+    }
 }
 
 Graph::Graph() {
