@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<sqlite3.h>
+#include<sstream>
 #include "../spectrogram.h"
 #include "datastore.h"
 
@@ -27,8 +28,47 @@ Spectrogram Datastore::readClosest(int moment)
 }
 
 // TODO: zapisywanie w bazie odczytu
-void Datastore::write(Spectrogram s) 
+void Datastore::write(Spectrogram in) //samouczek chce żeby to była fukcja int
 {
+	sqlite3 *database;
+
+	sqlite3_open( db_filename, &database );
+
+	stringstream strm;
+
+	strm << "INSERT INTO data VALUES ( \"" << in.id_serial << "\", "<< in.id_measurement << ", \""  << in.time << "\", " << in.temperature << ", " << in.pressure << ", ";
+
+	for ( int i = 0; i < in.resolution; i++ )
+	{
+		strm << in.lfl[i] << ", ";
+	}
+
+	strm << "\"" << in.tag << "\" )";
+
+	string insert = strm.str();
+
+	//tu zaczyna się ctrl-v
+
+	char *query = &insert[0];
+
+	sqlite3_stmt *statement;
+
+	int result;
+
+	{
+		if(sqlite3_prepare(database,query,-1,&statement,0)==SQLITE_OK)
+		{
+			int res=sqlite3_step(statement);
+			result=res;
+			sqlite3_finalize(statement);
+		}
+		return result;
+	}
+	return 0;
+
+	//tu się kończyć ctrl-v
+
+	sqlite3_close( database );
 }
 
 // TODO: zlicza odczyty w zadanym odcinku czasu
@@ -110,10 +150,10 @@ Spectrogram SELECT( char *query )
 							uncode.id_serial = s[0];
 							break;
 						case 1:
-							uncode.id_measurement = chars_to_int ( s[0], s[1] );
+							uncode.id_measurement = stoi( s, nullptr, 0 );
 							break;
 						case 2:
-							uncode.time = stoi( s, nullptr, 0 );
+							uncode.time = s;
 							break;
 						case 3:
 							uncode.temperature = stoi( s, nullptr, 0 );

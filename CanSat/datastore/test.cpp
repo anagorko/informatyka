@@ -1,12 +1,12 @@
-#include"database_operations.h"
+#include"datastore.h"
 
 using namespace std;
 
 int main()
 {
-	spectrum s;
+	Spectrogram s;
 
 	s = lastRecord();
 
-	cout << s.temperature << endl << endl;
+	cout << s << endl;
 }
