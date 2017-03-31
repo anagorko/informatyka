@@ -28,8 +28,47 @@ Spectrogram Datastore::readClosest(int moment)
 }
 
 // TODO: zapisywanie w bazie odczytu
-void Datastore::write(Spectrogram s) 
+void Datastore::write(Spectrogram in) //samouczek chce żeby to była fukcja int
 {
+	sqlite3 *database;
+
+	sqlite3_open( db_filename, &database );
+
+	stringstream strm;
+
+	strm << "INSERT INTO data VALUES ( \"" << in.id_serial << "\", "<< in.id_measurement << ", \""  << in.time << "\", " << in.temperature << ", " << in.pressure << ", ";
+
+	for ( int i = 0; i < in.resolution; i++ )
+	{
+		strm << in.lfl[i] << ", ";
+	}
+
+	strm << "\"" << in.tag << "\" )";
+
+	string insert = strm.str();
+
+	//tu zaczyna się ctrl-v
+
+	char *query = &insert[0];
+
+	sqlite3_stmt *statement;
+
+	int result;
+
+	{
+		if(sqlite3_prepare(database,query,-1,&statement,0)==SQLITE_OK)
+		{
+			int res=sqlite3_step(statement);
+			result=res;
+			sqlite3_finalize(statement);
+		}
+		return result;
+	}
+	return 0;
+
+	//tu się kończyć ctrl-v
+
+	sqlite3_close( database );
 }
 
 // TODO: zlicza odczyty w zadanym odcinku czasu
@@ -159,53 +198,6 @@ Spectrogram SELECT( char *query )
 
 	return uncode;
 }
-
-//TO JESZCZE NIE DZIAŁA
-
-void INSERT( Spectrogram in )
-{
-	sqlite3 *database;
-
-	sqlite3_open( "CanSat.db", &database );
-
-	stringstream strm;
-
-	strm << "INSERT INTO data VALUES ( \"" << in.id_serial << "\", "<< in.id_measurement << ", \""  << in.time << "\", " << in.temperature << ", " << in.pressure << ", ";
-
-	for ( int i = 0; i < in.resolution; i++ )
-	{
-		strm << in.lfl[i] << ", ";
-	}
-
-	strm << "\"" << in.tag << "\" )";
-
-	string insert = strm.str();
-
-	//tu zaczyna się ctrl-v
-
-	char *query = &insert[0];
-
-	sqlite3_stmt *statement;
-
-	int result;
-
-	{
-		if(sqlite3_prepare(database,query,-1,&statement,0)==SQLITE_OK)
-		{
-			int res=sqlite3_step(statement);
-			result=res;
-			sqlite3_finalize(statement);
-		}
-		//return result;
-	}
-	//return 0;
-
-	//tu się kończyć ctrl-v
-}
-
-
-// ||Ale to już działa :) 
-// \/
 
 Spectrogram lastRecord()
 {

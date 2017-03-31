@@ -22,7 +22,7 @@ public:
 	Spectrogram readClosest(int moment);
 
 	// TODO: zapisywanie w bazie odczytu
-	void write(Spectrogram s);
+	void write(Spectrogram in);
 
 	// TODO: zlicza odczyty w zadanym odcinku czasu
 	int countSpectrograms(int from, int to);
@@ -40,7 +40,6 @@ public:
 int chars_to_int( char c1, char c2 );
 std::ostream operator<< ( ostream& o, Spectrogram& in );
 Spectrogram SELECT( char *query );
-void INSERT( Spectrogram in );
 Spectrogram lastRecord();
 
 #endif /* __DATABASE__ */	
