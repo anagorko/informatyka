@@ -9,11 +9,16 @@ public:
 	int moment;
 	static const int resolution = 256;
 
+	char id_serial;
+	char[2] id_measurement;
+
 	int lfl[resolution];
 	
 	int temperature, pressure;
 
 	std::string time;
+
+	std::string tag;
 
 	float getMoment() { return moment; }
 	void setMoment(int a) { moment = a; }
