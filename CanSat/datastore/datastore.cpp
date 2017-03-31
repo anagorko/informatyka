@@ -28,11 +28,11 @@ Spectrogram Datastore::readClosest(int moment)
 }
 
 // TODO: zapisywanie w bazie odczytu
-void Datastore::write(Spectrogram in) //samouczek chce żeby to była fukcja int
+int Datastore::write(Spectrogram in) //samouczek chce żeby to była fukcja int
 {
 	sqlite3 *database;
 
-	sqlite3_open( db_filename, &database );
+	sqlite3_open( db_filename.c_str(), &database );
 
 	stringstream strm;
 

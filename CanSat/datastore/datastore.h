@@ -22,7 +22,7 @@ public:
 	Spectrogram readClosest(int moment);
 
 	// TODO: zapisywanie w bazie odczytu
-	void write(Spectrogram in);
+	int write(Spectrogram in);
 
 	// TODO: zlicza odczyty w zadanym odcinku czasu
 	int countSpectrograms(int from, int to);
