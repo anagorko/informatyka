@@ -1,7 +1,7 @@
 #ifndef __SPECTROGRAM__
 #define __SPECTROGRAM__
 
-#include <iostream>
+//#include <iostream>
 using namespace std;
 
 class Spectrogram {
@@ -10,7 +10,8 @@ public:
 	static const int resolution = 256;
 
 	char id_serial;
-	char id_measurement[2];
+
+	int id_measurement;
 
 	int lfl[resolution];
 	

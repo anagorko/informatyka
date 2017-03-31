@@ -63,14 +63,14 @@ int chars_to_int( char c1, char c2 )
 
 std::ostream operator<< ( ostream& o, Spectrogram& in )
 {
-	o << in.moment << " " << in.temperature << " " << in.pressure;
+	o << in.id_serial << " " << in.id_measurement << " " << in.time << " " << in.temperature << " " << in.pressure;
 
 	for ( int i = 0; i < 256; i++ )
 	{
-		o << " " << i << "." << in.lfl[i];
+		o << " " << in.lfl[i];
 	}
 
-	o << endl;
+	o << " " << in.tag << endl;
 }
 
 
@@ -107,16 +107,25 @@ Spectrogram SELECT( char *query )
 					switch ( i )
 					{
 						case 0:
-							uncode.moment = stoi(s);
+							uncode.id_serial = s[0];
 							break;
 						case 1:
-							uncode.temperature = stoi( s, nullptr, 0 );
+							uncode.id_measurement = chars_to_int ( s[0], s[1] );
 							break;
 						case 2:
-							uncode.pressure = stoi( s, nullptr, 0 );
+							uncode.time = stoi( s, nullptr, 0 );
 							break;
 						case 3:
+							uncode.temperature = stoi( s, nullptr, 0 );
+							break;
+						case 4:
+							uncode.pressure = stoi( s, nullptr, 0 );
+							break;
+						case 5:
 							lfl_string = s;
+							break;
+						case 6:
+							uncode.tag = s;
 							break;
 					}
 					//wyżej jest moje :)
@@ -142,8 +151,10 @@ Spectrogram SELECT( char *query )
 	{
 		uncode.lfl[i] = chars_to_int( lfl_string[ 2 * i ], lfl_string[ 2 * i + 1 ] );
 
-		cout << (unsigned int) lfl_string[2 * i] << " " << (unsigned int) lfl_string[2 * i + 1] << " " << uncode.lfl[i] << endl;
+//cout << (unsigned int) lfl_string[2 * i] << " " << (unsigned int) lfl_string[2 * i + 1] << " " << uncode.lfl[i] << endl;
 	}
+
+	//TODO time => momnet
 
 	return uncode;
 }
