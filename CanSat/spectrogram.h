@@ -10,7 +10,7 @@ public:
 	static const int resolution = 256;
 
 	char id_serial;
-	char[2] id_measurement;
+	char id_measurement[2];
 
 	int lfl[resolution];
 	
