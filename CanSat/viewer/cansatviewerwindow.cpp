@@ -63,6 +63,11 @@ int CanSatViewerWindow::init() {
     buttons.push_back(btnSet);
     btnAdd = new Button(700, 550, "add");
     buttons.push_back(btnAdd);
+    btnClear = new Button(750, 550, "clear");
+    buttons.push_back(btnClear);
+    btnLive = new Button(850, 550, "live");
+    buttons.push_back(btnLive);
+    btnLive -> changeStatus();
 
 	return 0;
 }
@@ -77,7 +82,7 @@ void CanSatViewerWindow::draw() {
 	    	b -> draw(display);
 	}
 
-	spectrograf.draw(S, display);
+	spectrograf.draw(display);
 	timeline.draw(display);
 }
 
@@ -136,12 +141,13 @@ void CanSatViewerWindow::loop(int fd) {
  	        	// minęła 1/60 (1/FPS) część sekundy
  	        	//
  	        	przerysuj = true;
- 	        	if (!btnSet -> isActivated()){
- 	        		if (timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
-				}
+ 	        	
+ 	        	if (timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
 				//cout << timeline.getMoment()<<endl;
-			spectrograf.clearSet();
-			spectrograf.addSpec(getSpectrogram(timeline.getMoment()));
+				if(spectrograf.countSpec() > 0)
+					spectrograf.changeSpec(0, getSpectrogram(timeline.getMoment()));
+				else
+					spectrograf.addSpec(getSpectrogram(timeline.getMoment()));
 
 			//serialRead(fd);
 		} else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -171,6 +177,7 @@ void CanSatViewerWindow::loop(int fd) {
  		}
 
 		if (btnExit -> wasPressed()) { wyjdz = true; }
+
 		if (btnStop -> wasPressed()) { 
 			timeline.timeRun = false; 
 			if (btnPlay -> isActivated()) btnPlay -> changeStatus();
@@ -178,6 +185,7 @@ void CanSatViewerWindow::loop(int fd) {
 		if (btnPlay -> wasPressed()) { 
 			timeline.timeRun = true; 
 			if (btnStop -> isActivated()) btnStop -> changeStatus();
+			if (btnSet -> isActivated()) btnSet -> changeStatus();
 		}
 
 		if (btnAbsolute -> wasPressed()) {
@@ -202,16 +210,20 @@ void CanSatViewerWindow::loop(int fd) {
 			spectrograf.setShow(2);
 		}
 		if (btnSet -> wasPressed()) {
-			if(btnPlay -> isActivated()) {
-				timeline.timeRun = false;
-				btnPlay -> changeStatus();
-				btnStop -> changeStatus();
-			}
+			spectrograf.clearSet();
 		}
 		if (btnAdd -> wasPressed()) {
 			if(btnSet -> isActivated()){
 				spectrograf.addSpec(getSpectrogram(timeline.getMoment()));
 			}
+			btnAdd -> changeStatus();
+		}
+		if (btnClear -> wasPressed()) {
+			spectrograf.clearSet();
+			btnClear -> changeStatus();
+		}
+		if (btnLive -> wasPressed()) {
+			spectrograf.changeLive();
 		}
 
 

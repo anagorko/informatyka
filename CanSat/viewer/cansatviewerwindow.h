@@ -42,6 +42,8 @@ class CanSatViewerWindow
     	Button* btnPercent;
     	Button* btnSet;
     	Button* btnAdd;
+    	Button* btnClear;
+    	Button* btnLive;
 
 	Datastore data;
 

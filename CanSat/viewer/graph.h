@@ -14,7 +14,7 @@ class Graph {
     Spectrogram basis;
     vector <Spectrogram> V;
     int typeShow;
-    bool cursorAbove;
+    bool cursorAbove, live;
 
     float range;
 
@@ -25,9 +25,13 @@ public:
 
     void mouseMoved(float x, float y, int z);
 
-    void draw(Spectrogram s, ALLEGRO_DISPLAY * display) const;
-    
+    void draw(ALLEGRO_DISPLAY * display) const;
+
     void addSpec(Spectrogram s) { V.push_back(s); }
+    int countSpec() { return V.size(); }
+    void changeSpec(int d, Spectrogram s);
+    void changeLive() { live = (live == true)? false : true; }
+    bool isLive() { return live; }
     void setBasis(Spectrogram s) { basis = s; }
     void setShow(int d) { typeShow = d; };
     void clearSet() { V.clear(); }
