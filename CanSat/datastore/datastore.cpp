@@ -18,11 +18,16 @@ int Datastore::init(string _fn) {
 // TODO: czytanie z bazy najblizszego odczytu
 Spectrogram Datastore::readClosest(int moment) 
 {
-	Spectrogram dummy;
-	moment = moment - (moment % 5);	// symulowany odczyt co 0.5s
-	for (int i = 0; i < Spectrogram::resolution; i++) {
-		dummy.lfl[i] = sin((float)(i+moment)/Spectrogram::resolution * 1.67) * 512 + 512;
+	static Spectrogram dummy;
+	static int last_moment=0;
+
+	if(moment-last_moment>30) {
+		last_moment=moment;
+		for (int i = 0; i < Spectrogram::resolution; i++) {
+			dummy.lfl[i] = sin((float)(i)/Spectrogram::resolution * 4.0) * 512 + 512 + (rand() % 50) - 25;
+		}
 	}
+	dummy.setMoment(moment);
 
 	return dummy;
 }

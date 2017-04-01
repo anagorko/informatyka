@@ -8,18 +8,19 @@
 using namespace std;
 
 void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
+	ALLEGRO_COLOR bg;
+	if (cursor_above) {
+		if (pressed) {
+			bg = al_map_rgba(0x20,0x20,0x20,0x80);
+		} else {
+			bg = al_map_rgba(0x10,0x10,0x10,0x80);
+		}
+	} else {
+		bg = al_map_rgba(0x00,0x00,0x00,0x80);
+	}
 
-    if(cursor_above){
-        float color_red = 10;
-        float color_green = 10;
-        float color_blue = 10;
-        if(pressed){
-            color_red = (int)(color_red + 10) % 256;
-            color_green = (int)(color_green + 10) % 256;
-            color_blue = (int)(color_blue + 10) % 256;
-        }
-        al_draw_filled_rounded_rectangle(position_x,position_y,position_x + width, position_y + height, 5 , 5, al_map_rgb(color_red,color_green,color_blue));
-    }
+        al_draw_filled_rectangle(position_x,position_y,position_x + width, position_y + height, bg);
+	al_draw_rectangle(position_x,position_y,position_x+width,position_y+height,al_map_rgb(0x00,0x00,0x30),1);
 
     float x1 = position_x + width / 2;
     float y1 = position_y;
@@ -35,21 +36,21 @@ void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
     ss << (int)(moment/60);
 
     float pix_lenght = al_get_text_width(font, ss.str().c_str());
-    al_draw_line(x1, y1, x2, y2, al_map_rgb(200, 0, 0), 1);
+    al_draw_line(x1, y1, x2, y2, al_map_rgba(0x00, 0x00, 0x30, 0x80), 3);
     al_draw_text(font, al_map_rgb(255,255,255),x1 - pix_lenght / 2, y2 + text_distance , 0, ss.str().c_str());
 
     distance += width / (count_separators * 2);
     
     for(int i=0;i<count_separators;i++){
         //po prawej stronie    
-        al_draw_line(x1 + distance, y1, x2 + distance, y2, al_map_rgb(22, 130, 70), 2);
+        al_draw_line(x1 + distance, y1, x2 + distance, y2, al_map_rgba(0x00,0x00,0x30,0x80), 1);
 
         ss.str("");
         ss << (int)(moment / 60 + time_distance * (i+1) / 60 );
         pix_lenght = al_get_text_width(font, ss.str().c_str());
         al_draw_text(font, al_map_rgb(255,255,255),x1 + distance- pix_lenght / 2, y2 + text_distance , 0, ss.str().c_str());
         //po lewej stronie
-        al_draw_line(x1 - distance, y1, x2 - distance, y2, al_map_rgb(22, 130, 70), 3);
+        al_draw_line(x1 - distance, y1, x2 - distance, y2, al_map_rgba(0x00,0x00,0x30,0x80), 1);
 
           
         ss.str("");
@@ -59,14 +60,15 @@ void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
 
         distance += width / (count_separators * 2);    
     }
-    ss.str("");
+ 
+	ss.str("");
     ss << "range : " << range;
-    al_draw_text(font, al_map_rgb(255,255,255),position_x + 20, position_y, 0, ss.str().c_str());
+    al_draw_text(font, al_map_rgb(0x00,0x00,0x00),position_x + 20, position_y, 0, ss.str().c_str());
   
 }
 
 TimeLine::TimeLine() {
-    width = viewer_width * ((float)90/(float)100);
+    width = viewer_width - 16;
     height = viewer_height * ((float)10/(float)100);
     position_x = (viewer_width - width)/2;
     position_y = 600;

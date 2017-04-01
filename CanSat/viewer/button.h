@@ -18,15 +18,20 @@ class Button{
         bool activated;
         bool pressable, displayed;
 
-	static ALLEGRO_FONT * font;
+	ALLEGRO_COLOR bg;
 
 	bool isInside(float, float);
 
 public:
+	static ALLEGRO_FONT * font;
+
     	Button(int _x, int _y, string s);
+	Button(int,int,string,int);
+	Button(int,int,string,int, ALLEGRO_COLOR);
+	Button(int,int,string,ALLEGRO_COLOR);
 
 	static void loadFont() {
-    		font = al_load_ttf_font("FreeMono.ttf", 20, 12);		
+    		font = al_load_ttf_font("Inconsolata-Regular.ttf", 20, 12);		
 	}
 
     	void draw(ALLEGRO_DISPLAY * display);

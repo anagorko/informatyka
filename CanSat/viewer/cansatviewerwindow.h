@@ -22,6 +22,7 @@ class CanSatViewerWindow
  	ALLEGRO_DISPLAY * display = NULL;
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_BITMAP *background = NULL;
 
 	vector <Button *> buttons;
 
@@ -44,15 +45,17 @@ class CanSatViewerWindow
     	Button* btnAdd;
     	Button* btnClear;
     	Button* btnLive;
+	Button* btnSetReference;
 
 	Datastore data;
 
-	Spectrogram getSpectrogram(int m) {
-		return data.readClosest(m);
+	GraphData gd;
+
+	void getSpectrogram(int m) {
+		gd.setData(data.readClosest(m));
 	}
 
 	stringstream ss;
-   	Spectrogram S;
 
 public:
 	CanSatViewerWindow();

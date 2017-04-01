@@ -4,6 +4,7 @@
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <vector>
@@ -42,6 +43,11 @@ int allegroInit()
         return -1;
     }
   
+    if(!al_init_image_addon()) {
+        cerr << "Błąd podczas inicjalizacji dodatku 'image'." << endl;
+        return -1;
+    }
+
     if (!al_init_primitives_addon()) {
         cerr << "Błąd podczas inicjalizacji dodatku 'primitives'." << endl;
         return -1;

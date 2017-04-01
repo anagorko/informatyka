@@ -29,7 +29,7 @@ public:
     TimeLine();
 
     static void loadFont() {
-        font = al_load_ttf_font("FreeMono.ttf", 20, 15);        
+        font = al_load_ttf_font("Inconsolata-Regular.ttf", 12, 0);        
     }
     void draw(ALLEGRO_DISPLAY * display) const;
 

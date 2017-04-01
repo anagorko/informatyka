@@ -3,103 +3,103 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include "graph.h"
+#include "config.h"
 #include "../spectrogram.h"
 #include <string>
 #include <sstream>
-void Graph::draw(ALLEGRO_DISPLAY * display) const {
+#include <iomanip>
 
-    al_draw_rectangle(position_x, position_y, position_x + width, position_y + height, al_map_rgb(255,255,255), frame_thickness);
+void Graph::draw(ALLEGRO_DISPLAY * display) {
+
+	al_draw_filled_rectangle(position_x,position_y,position_x+width,position_y+height, colorBackground);
+	al_draw_rectangle(position_x, position_y, position_x + width, position_y + height, colorBoundary,
+			  frame_thickness);
     
-    float x1 = position_x + frame_thickness;
+    	float x1 = position_x + frame_thickness;
 
-    for(int i=0;i< Spectrogram::resolution;i++){
+        for(auto &gd: v){
+		gd.setMode(typeShow);
+	}
 
-        
-        for(int j=0;j<V.size();j++){
-            if(live == false && j==0) continue;
-            float y1;
-            float value;
-            float r = 3;
-            switch(typeShow){
-                case 0://absolute
-                    value = V[j].lfl[i];
-                    y1 = (position_y + height + frame_thickness) - (value * (height - 2 * frame_thickness))/range;
+	drawScale();
 
-                    if(y1 < position_y + frame_thickness) y1 = (position_y + height - frame_thickness) - (height - 2 * frame_thickness);
-                   
-                    al_draw_filled_circle(x1, y1, r, al_map_rgb(23,255,100));
-                    break;  
-                case 1://diffrent
-                    value = V[j].lfl[i] - basis.lfl[i];
-                    y1 = (position_y + height / 2 - frame_thickness) - (value * (height / 2 - 2 * frame_thickness))/range;
-                    
-                    if ( y1 < position_y + frame_thickness) y1 = (position_y + height / 2 - frame_thickness) - (height / 2 - 2 * frame_thickness);
-                    if ( y1 > position_y + height) y1 = position_y + height;
-                    
-                    al_draw_filled_circle(x1, y1, r, al_map_rgb(23,255,100));
-                    break;
-                case 2://percent TODO
-                    value = V[j].lfl[i] - basis.lfl[i];
-                    y1 = (position_y + height / 2 - frame_thickness) - (value * (height / 2 - 2 * frame_thickness))/range;
+	float max = maxValue(), min = minValue();
 
-                    if ( y1 < position_y + frame_thickness) y1 = (position_y + height / 2 - frame_thickness) - (height / 2 - 2 * frame_thickness);
-                    if ( y1 > position_y + height) y1 = position_y + height;
-                    
-                    al_draw_filled_circle(x1, y1, r, al_map_rgb(23,255,100));
-                    break;
-            }
-             
-        }
-        x1 += column_thickness;
-    }
+        for(auto &gd: v){
+		float px, py; bool first=true;
+		x1 = position_x + frame_thickness;
+
+    		for(int i=0;i< Spectrogram::resolution;i++){
+       	     		float y1;
+            		float r = column_thickness;
+            		
+			float relative_y;
+
+			gd.setMode(typeShow);
+			if (max == min) { 
+				relative_y = 0.5; 
+			} else {
+				relative_y = (gd.getValue(i) - min) / (max - min);
+			}
+
+			y1 = position_y + height - frame_thickness - relative_y * height;
+
+			al_draw_filled_rectangle(x1,position_y+height-frame_thickness, x1+r, y1, colorUnderGraph);
+			al_draw_filled_rectangle(x1,y1-1, x1+r, y1+1, colorUnderGraph);
+                    	al_draw_filled_circle(x1+r/2, y1, r*0.8, colorGraph);
+			if (!first) {
+				al_draw_line(x1,y1,px,py,colorGraph,r);
+			}
+	        	x1 += column_thickness;
+			px=x1; py=y1; first = false;
+        	}
+    	}
+}
+
+void Graph::drawScale() const {
     float stick_y1 = position_y;
     float stick_y2 = position_y + height;
-    al_draw_line(position_x + width + 10, stick_y1, position_x + width + 10, stick_y2, al_map_rgb(255, 255, 255), 2);  
+    al_draw_line(position_x + width + 10, stick_y1, position_x + width + 10, stick_y2, al_map_rgb(0, 0, 0), 2);  
 
 
     stringstream ss;
     int font_height = al_get_font_line_height(font);
     float value=0;
-    float stickLen = (stick_y2 - stick_y1)/((typeShow==0)? 1 : 2);
+    float stickLen = stick_y2 - stick_y1;
     
-    for(int i=0;i<5;i++){
-        switch(typeShow){
-            case 0:
-                ss.str("");
-                ss << (int)value;
-                al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y2 - (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
-                value += 1.0/4.0 * range;
-                break;
-            case 1:
-                ss.str("");
-                ss << (int)value;
-                al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 + stickLen - (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
-                ss.str("");
-                ss << "-" << (int)value;
-                if(i!=0)
-                al_draw_text(font, al_map_rgb(255,255,255),position_x + width + 2 * frame_thickness + 10, stick_y1 + stickLen + (stickLen * value) / range - font_height /2, 0, ss.str().c_str());
+    	for(int i=0;i<5;i++){
+		float value = (float) i * (maxValue() - minValue()) / 4.0;
+		float h = stickLen / (maxValue() - minValue()) * value;
 
-                value += 1.0/4.0 * range;
-                break;
-        }
+        	ss.str("");
+        	ss << setw(4) << (minValue()+value);
+	
+		al_draw_line(position_x + frame_thickness, stick_y2-h, 
+			     position_x + width-frame_thickness,stick_y2-h, al_map_rgba(0,0,0,0x40),1);
+        	al_draw_text(font, al_map_rgb(0,0,0),position_x + width + 2 * frame_thickness + 10, stick_y2 - h - font_height /2, 0, ss.str().c_str());
 
-    
-    }
+	}
 }
 
 Graph::Graph() {
-    width = 700;
-    height = 500;
-    position_x = 40;
-    position_y = 30;
-    frame_thickness = 3;
-    column_thickness = (width - 2 * frame_thickness)/Spectrogram::resolution;
-    typeShow = 0;
-    cursorAbove = false;
-    range = 1023;
-    Spectrogram s;
-    V.push_back(s);
-    live = true;
+	colorBoundary = al_map_rgb(0x00,0x00,0x30);
+	colorBackground = al_map_rgb(0xF0, 0xF0, 0xF0);
+	colorGraph = al_map_rgb(0x00, 0x00, 0x80);
+	colorUnderGraph = al_map_rgba(0x00, 0x00, 0x80, 0x20);
+	frame_thickness = 1;
+
+    	width = 4*256+2;
+    	height = 384;
+    	position_x = 6;
+	position_y = 8;
+
+    	column_thickness = (float)(width - 2 * frame_thickness)/Spectrogram::resolution;
+    	setShow(GraphData::modeA);
+    	cursorAbove = false;
+    	range = 1023;
+    	Spectrogram s;
+	addData(s);
+    	live = true;
 }
 void Graph::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width
@@ -111,9 +111,10 @@ void Graph::mouseMoved(float x, float y, int z){
         cursorAbove = false;
     }
 }
-void Graph::changeSpec(int d, Spectrogram s) {
-    if(d >= V.size()) cout<<" próbuję dostać się do nieistniejącego spectrogramu\n";
-    V[d] = s; 
+void Graph::changeData(size_t d, Spectrogram s) {
+    	if(d >= v.size()) cout<<" próbuję dostać się do nieistniejącego spectrogramu\n";
+    	v[d].setData(s); 
+	v[d].setReference(s);
 }
 
 ALLEGRO_FONT * Graph::font;
