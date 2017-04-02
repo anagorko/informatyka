@@ -300,8 +300,8 @@ string moment_to_time( int moment )
 
 	time_t now = mktime( &zero ) + ( moment / 10 );
 
-	char buff[19];
-	strftime(buff, 19, "%Y-%m-%d %H:%M:%S", localtime( &now ) );
+	char buff[100];
+	strftime(buff, 100, "%Y-%m-%d %H:%M:%S", localtime( &now ) );
 
 	string s = buff;
 

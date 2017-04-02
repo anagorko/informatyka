@@ -50,6 +50,83 @@ public:
 		return line;
 	}
 
+	int time_to_moment( string time )
+	{
+		int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, moment = 0;
+
+		int controler = 0;
+
+		for ( int i = 0; i < time.size(); i++ )
+		{
+			if ( time[i] == '-' || time[i] == ':' || time[i] == ' ' || time[i] == '.' )
+				controler++;
+			else
+			{
+				switch ( controler )
+				{
+					case 0:
+						year = year * 10 + ( (int) time[i] - '0' );
+						break;
+					case 1:
+						month = month * 10 + ( (int) time[i] - '0' );
+						break;
+					case 2:
+						day = day * 10 + ( (int) time[i] - '0' );
+						break;
+					case 3:
+						hour = hour * 10 + ( (int) time[i] - '0' );
+						break;
+					case 4:
+						minute = minute * 10 + ( (int) time[i] - '0' );
+						break;
+					case 5:
+						second = second * 10 + ( (int) time[i] - '0' );
+						break;
+					case 6:
+						moment = moment * 10 + ( (int) time[i] - '0' );
+						break;
+				}
+			}
+		}
+
+		struct tm now, zero;
+		zero.tm_year = 2017;
+		zero.tm_mon = 0;
+		zero.tm_mday = 1;
+		zero.tm_hour = 0;
+		zero.tm_min = 0;
+		zero.tm_sec = 0;
+
+		now.tm_year = year;
+		now.tm_mon = month - 1;
+		now.tm_mday = day;
+		now.tm_hour = hour;
+		now.tm_min = minute;
+		now.tm_sec = second;
+
+		return ( ( difftime( mktime(&now), mktime(&zero)) * 10 ) + moment );
+	}
+
+	string moment_to_time( int moment )
+	{
+		struct tm zero;
+		zero.tm_year = 117;
+		zero.tm_mon = 0;
+		zero.tm_mday = 1;
+		zero.tm_hour = 0;
+		zero.tm_min = 0;
+		zero.tm_sec = 0;
+
+		time_t now = mktime( &zero ) + ( moment / 10 );
+
+		char buff[100];
+		strftime(buff, 100, "%Y-%m-%d %H:%M:%S", localtime( &now ) );
+
+		string s = buff;
+
+		return s + '.' + (char) ( (moment % 10) + '0' );
+	}
+
 	string magnitudeRepresentation(int) {
 		return fullRepresentation();
 	}
