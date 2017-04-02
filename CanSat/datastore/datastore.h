@@ -42,4 +42,7 @@ std::ostream operator<< ( ostream& o, Spectrogram& in );
 Spectrogram SELECT( char *query );
 Spectrogram lastRecord();
 
+int time_to_moment( string time );
+string moment_to_time( int moment );
+
 #endif /* __DATABASE__ */	
