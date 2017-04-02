@@ -19,6 +19,25 @@ int Datastore::init(string _fn) {
 // TODO: czytanie z bazy najblizszego odczytu
 Spectrogram Datastore::readClosest(int moment) 
 {
+	Spectrogram earlier, later;
+
+	string select_earlier, select_later
+
+	select_earlier = "SELECT * FROM data WHERE timestamp < '" + moment_to_time( moment ) + "' ORDER BY timestamp DESC LIMIT 1";
+
+	select_earlier = "SELECT * FROM data WHERE timestamp >= '" + moment_to_time( moment ) + "' ORDER BY timestamp LIMIT 1";
+
+	earlier = SELECT( select_earlier );
+
+	later = SELECT( select_later );
+
+	if ( moment - earlier.moment < later.moment - moment )
+		return later;
+	else
+		return earlier;
+
+
+	/*
 	static Spectrogram dummy;
 	static int last_moment=0;
 
@@ -30,11 +49,11 @@ Spectrogram Datastore::readClosest(int moment)
 	}
 	dummy.setMoment(moment);
 
-	return dummy;
+	return dummy; */
 }
 
-// TODO: zapisywanie w bazie odczytu
-int Datastore::write(Spectrogram in) //samouczek chce żeby to była fukcja int
+
+int Datastore::write(Spectrogram in)
 {
 	sqlite3 *database;
 
@@ -200,14 +219,14 @@ Spectrogram SELECT( char *query )
 //cout << (unsigned int) lfl_string[2 * i] << " " << (unsigned int) lfl_string[2 * i + 1] << " " << uncode.lfl[i] << endl;
 	}
 
-	//TODO time => momnet
+	uncode.moment = time_to_moment( uncode.time );
 
 	return uncode;
 }
 
 Spectrogram lastRecord()
 {
-	return SELECT( "SELECT * FROM data ORDER BY time DESC LIMIT 1" );
+	return SELECT( "SELECT * FROM data ORDER BY timestamp DESC LIMIT 1" );
 }
 
 
