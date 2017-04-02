@@ -19,25 +19,6 @@ int Datastore::init(string _fn) {
 // TODO: czytanie z bazy najblizszego odczytu
 Spectrogram Datastore::readClosest(int moment) 
 {
-	Spectrogram earlier, later;
-
-	string select_earlier, select_later
-
-	select_earlier = "SELECT * FROM data WHERE timestamp < '" + moment_to_time( moment ) + "' ORDER BY timestamp DESC LIMIT 1";
-
-	select_earlier = "SELECT * FROM data WHERE timestamp >= '" + moment_to_time( moment ) + "' ORDER BY timestamp LIMIT 1";
-
-	earlier = SELECT( select_earlier );
-
-	later = SELECT( select_later );
-
-	if ( moment - earlier.moment < later.moment - moment )
-		return later;
-	else
-		return earlier;
-
-
-	/*
 	static Spectrogram dummy;
 	static int last_moment=0;
 
@@ -49,7 +30,26 @@ Spectrogram Datastore::readClosest(int moment)
 	}
 	dummy.setMoment(moment);
 
-	return dummy; */
+	return dummy; 
+
+	Spectrogram earlier, later;
+
+	string select_earlier, select_later;
+
+	select_earlier = "SELECT * FROM data WHERE timestamp < '" + moment_to_time( moment ) + "' ORDER BY timestamp DESC LIMIT 1";
+
+	select_earlier = "SELECT * FROM data WHERE timestamp >= '" + moment_to_time( moment ) + "' ORDER BY timestamp LIMIT 1";
+
+	earlier = SELECT( select_earlier.c_str() );
+
+	later = SELECT( select_later.c_str() );
+
+	if ( moment - earlier.moment < later.moment - moment )
+		return later;
+	else
+		return earlier;
+
+
 }
 
 
@@ -139,7 +139,7 @@ std::ostream operator<< ( ostream& o, Spectrogram& in )
 }
 
 
-Spectrogram SELECT( char *query )
+Spectrogram SELECT( const char *query )
 {
 	Spectrogram uncode;
 

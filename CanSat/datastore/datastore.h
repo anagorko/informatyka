@@ -39,7 +39,7 @@ public:
 
 int chars_to_int( char c1, char c2 );
 std::ostream operator<< ( ostream& o, Spectrogram& in );
-Spectrogram SELECT( char *query );
+Spectrogram SELECT( const char *query );
 Spectrogram lastRecord();
 
 int time_to_moment( string time );
