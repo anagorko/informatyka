@@ -26,10 +26,10 @@ public:
 
 	int init(string _fn, bool writable);
 
-	// TODO: czytanie z bazy najblizszego odczytu
+	// czytanie z bazy najblizszego odczytu
 	Spectrogram readClosest(int moment);
 
-	// TODO: zapisywanie w bazie odczytu
+	// zapisywanie w bazie odczytu
 	int write(Spectrogram in);
 
 	// TODO: zlicza odczyty w zadanym odcinku czasu
