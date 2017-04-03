@@ -30,7 +30,12 @@
 //for bmp
 #include <SFE_BMP180.h>
 #include <Wire.h>
-
+//for sd card
+#include <SPI.h>
+#include <SD.h>
+constexpr int pin_CS = 4;
+File plik;
+//end sd card
 
 #define IS_RFM69HCW   true
 
@@ -104,12 +109,18 @@ void get_lfl(){
 }
 void send_to_radio(){
     radio.send(TargetID,data,packagesize);
-    for(int i=0;i<10;i++)
-    Serial.println((char)data[i]);
+    
+    for(int i=0;i<packagesize;i++) Serial.println((char)data[i]);
     Serial.println("");
+    
     delay(50);
 }
-void sent_to_SD_card(){};
+void sent_to_SD_card(){
+  
+  plik = SD.open("wyniki.csv", FILE_WRITE);
+  plik.println(seria);
+
+};
 
 
 void kompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
@@ -162,7 +173,7 @@ void kompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
     }
 
     spektrometr += 2;
-  }
+  } 
 }
 
 
@@ -211,16 +222,15 @@ void setup(){
 }
   
 void loop(){
- // Serial.println("elo");
 
   pomiar++;
   
   get_bmp();
   get_lfl();
 
-  
-
+  kompresja( &seria, &pomiar,(int) &T, (int) &P, pixels );
   send_to_radio();
+  
   sent_to_SD_card();
   
 }
