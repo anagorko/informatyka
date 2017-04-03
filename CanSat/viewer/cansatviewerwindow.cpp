@@ -61,6 +61,8 @@ int CanSatViewerWindow::init() {
 	al_flip_display();  
 	al_start_timer(timer);
 
+	data.init("../CanSat.db", false);
+
 	getSpectrogram(timeline.getMoment());
 	spectrograf.setBasis(gd.getData());
 

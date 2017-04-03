@@ -5,21 +5,27 @@
 #include<time.h>
 #include "../spectrogram.h"
 #include "datastore.h"
+#include "../viewer/moment.h"
 
 using namespace std;
 
-Datastore::Datastore() 
-{
-}
-
-int Datastore::init(string _fn) {
+int Datastore::init(string _fn, bool writable) {
 	db_filename = _fn;
+
+	int flags = writable ? SQLITE_OPEN_READWRITE : SQLITE_OPEN_READONLY;
+
+	if (sqlite3_open_v2(db_filename.c_str(), &database, flags, NULL) != SQLITE_OK) {
+		cout << "Error opening database." << endl;
+		return -1;
+	}
+
+	return 0;
 }
 
 // TODO: czytanie z bazy najblizszego odczytu
 Spectrogram Datastore::readClosest(int moment) 
 {
-	static Spectrogram dummy;
+/*	static Spectrogram dummy;
 	static int last_moment=0;
 
 	if(moment-last_moment>30) {
@@ -31,14 +37,14 @@ Spectrogram Datastore::readClosest(int moment)
 	dummy.setMoment(moment);
 
 	return dummy; 
-
+*/
 	Spectrogram earlier, later;
 
 	string select_earlier, select_later;
 
 	select_earlier = "SELECT * FROM data WHERE timestamp < '" + moment_to_time( moment ) + "' ORDER BY timestamp DESC LIMIT 1";
 
-	select_earlier = "SELECT * FROM data WHERE timestamp >= '" + moment_to_time( moment ) + "' ORDER BY timestamp LIMIT 1";
+	select_later = "SELECT * FROM data WHERE timestamp >= '" + moment_to_time( moment ) + "' ORDER BY timestamp LIMIT 1";
 
 	earlier = SELECT( select_earlier.c_str() );
 
@@ -55,10 +61,6 @@ Spectrogram Datastore::readClosest(int moment)
 
 int Datastore::write(Spectrogram in)
 {
-	sqlite3 *database;
-
-	sqlite3_open( db_filename.c_str(), &database );
-
 	stringstream strm;
 
 	strm << "INSERT INTO data VALUES ( \"" << in.id_serial << "\", "<< in.id_measurement << ", \""  << in.time << "\", " << in.temperature << ", " << in.pressure << ", ";
@@ -71,6 +73,8 @@ int Datastore::write(Spectrogram in)
 	strm << "\"" << in.tag << "\" )";
 
 	string insert = strm.str();
+
+	cout << insert<<endl;
 
 	//tu zaczyna się ctrl-v
 
@@ -85,15 +89,19 @@ int Datastore::write(Spectrogram in)
 		{
 			int res=sqlite3_step(statement);
 			result=res;
+			cout << "res " << res << endl;
 			sqlite3_finalize(statement);
 		}
+
+		sqlite3_finalize(statement);
+
+		cout << "ERROR"<<endl;
 		return result;
 	}
 	return 0;
 
 	//tu się kończyć ctrl-v
 
-	sqlite3_close( database );
 }
 
 // TODO: zlicza odczyty w zadanym odcinku czasu
@@ -139,24 +147,25 @@ std::ostream operator<< ( ostream& o, Spectrogram& in )
 }
 
 
-Spectrogram SELECT( const char *query )
+Spectrogram Datastore::SELECT( const char *query )
 {
 	Spectrogram uncode;
 
 	string lfl_string;
 
-	sqlite3 *database;
+	cout << "query " << query << endl;
 
-	sqlite3_open( "CanSat.db", &database );
+	const char **tail;
 
 //tu się zaczyna ctrl-c, które działa ale nie do końca wiem jak
 
 	sqlite3_stmt *statement;
 
-	if ( sqlite3_prepare( database, query, -1, &statement, 0 ) == SQLITE_OK ) 
+	if ( sqlite3_prepare_v2( database, query, 1000, &statement, tail ) == SQLITE_OK ) 
 	{
 		int ctotal = sqlite3_column_count(statement);
 		int res = 0;
+		cout << "ctotal " << ctotal << endl;
 
 		while ( 1 )         
 		{
@@ -205,12 +214,17 @@ Spectrogram SELECT( const char *query )
 				cout << "done " << endl;
 				break;
 			}
+
+			if ( res == SQLITE_MISUSE) {
+				cout << "misuse"<<endl;
+				exit(0);
+			}
 		}
 	}
 
 //tu się kończy ctrl-v
 
-	sqlite3_close( database );
+	sqlite3_finalize(statement);
 
 	for ( int i = 0; i < 256; i++ )
 	{
@@ -221,15 +235,17 @@ Spectrogram SELECT( const char *query )
 
 	uncode.moment = time_to_moment( uncode.time );
 
+	cout << "moment " << uncode.moment << " " << uncode.time << endl;
+
 	return uncode;
 }
 
-Spectrogram lastRecord()
+Spectrogram Datastore::lastRecord()
 {
 	return SELECT( "SELECT * FROM data ORDER BY timestamp DESC LIMIT 1" );
 }
 
-
+	
 
 int time_to_moment( string time )
 {

@@ -8,6 +8,7 @@ using namespace std;
 // Brak mechanizmu przekazywania czasu początku pomiaru (TODO)
 
 #include "../spectrogram.h"
+#include "../datastore/datastore.h"
 
 char serial = 0;
 int moment = 0;
@@ -47,6 +48,9 @@ int main(int argc, char* argv[])
 		tag = string(argv[1]);
 	}
 
+	Datastore data;
+	data.init("../CanSat.db", true);
+
 	string line;
 	while (!cin.eof()) {
 		getline(cin, line, (char) 0x0D);
@@ -54,7 +58,7 @@ int main(int argc, char* argv[])
 		if (parse(line, s)) {
 			cout << "Parse ok" << endl;
 
-			// TODO: wrzucenie spektrogramu do bazy
+			data.write(s);
 		} else {
 			cout << "Parse failed: " << line << endl;
 		}
