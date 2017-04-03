@@ -10,7 +10,6 @@ int time_to_moment( string time )
 
 	for ( int i = 0; i < time.size(); i++ )
 	{
-		cout<<"parsing "<<time[i]<<" ("<<i<<")"<<endl;
 		if ( time[i] == '-' || time[i] == ':' || time[i] == ' ' || time[i] == '.' )
 			controler++;
 		else
@@ -50,6 +49,7 @@ int time_to_moment( string time )
 	zero.tm_hour = 0;
 	zero.tm_min = 0;
 	zero.tm_sec = 0;
+	zero.tm_isdst = -1;
 
 	now.tm_year = year - 1900;
 	now.tm_mon = month - 1;
@@ -57,6 +57,7 @@ int time_to_moment( string time )
 	now.tm_hour = hour;
 	now.tm_min = minute;
 	now.tm_sec = second;
+	now.tm_isdst = -1;
 
 /*cout << zero.tm_year << " " << now.tm_year << endl;
 cout << zero.tm_mon << " " << now.tm_mon << endl;
@@ -67,7 +68,7 @@ cout << zero.tm_sec << " " << now.tm_sec << endl;
 */
 	time_t now_mk = mktime(&now), zero_mk = mktime(&zero);
 
-//cout << now_mk << " " << zero_mk << endl;
+// cout << now_mk << " " << zero_mk << endl;
 	
 	int time_return = ( ( difftime( now_mk, zero_mk ) * 10 ) + moment );
 
@@ -83,7 +84,6 @@ int time_to_moment2( string time )
 
 	for ( int i = 0; i < time.size(); i++ )
 	{
-		cout<<"parsing "<<time[i]<<" ("<<i<<")"<< "year " << year<<endl;
 
 		if ( time[i] == '-' || time[i] == ':' || time[i] == ' ' || time[i] == '.' )
 			controler++;
@@ -124,6 +124,7 @@ int time_to_moment2( string time )
 	zero.tm_hour = 0;
 	zero.tm_min = 0;
 	zero.tm_sec = 0;
+	zero.tm_isdst = -1;
 
 	now.tm_year = year - 1900;
 	now.tm_mon = month - 1;
@@ -131,6 +132,7 @@ int time_to_moment2( string time )
 	now.tm_hour = hour;
 	now.tm_min = minute;
 	now.tm_sec = second;
+	now.tm_isdst = -1;
 
 cout << zero.tm_year << " " << now.tm_year << endl;
 cout << zero.tm_mon << " " << now.tm_mon << endl;
@@ -153,5 +155,6 @@ int main()
 {
 	string s = "2017-01-01 00:00:05.0";
 
-	cout << time_to_moment( s ) << endl << time_to_moment2( s ) << endl;;
+	cout << time_to_moment( s ) << endl;
+	cout << time_to_moment2( s ) << endl;;
 }
