@@ -51,61 +51,68 @@ public:
 	}
 
 	int time_to_moment( string time )
+{
+	int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, moment = 0;
+
+	int controler = 0;
+
+	for ( int i = 0; i < time.size(); i++ )
 	{
-		int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, moment = 0;
-
-		int controler = 0;
-
-		for ( int i = 0; i < time.size(); i++ )
+		if ( time[i] == '-' || time[i] == ':' || time[i] == ' ' || time[i] == '.' )
+			controler++;
+		else
 		{
-			if ( time[i] == '-' || time[i] == ':' || time[i] == ' ' || time[i] == '.' )
-				controler++;
-			else
+			switch ( controler )
 			{
-				switch ( controler )
-				{
-					case 0:
-						year = year * 10 + ( (int) time[i] - '0' );
-						break;
-					case 1:
-						month = month * 10 + ( (int) time[i] - '0' );
-						break;
-					case 2:
-						day = day * 10 + ( (int) time[i] - '0' );
-						break;
-					case 3:
-						hour = hour * 10 + ( (int) time[i] - '0' );
-						break;
-					case 4:
-						minute = minute * 10 + ( (int) time[i] - '0' );
-						break;
-					case 5:
-						second = second * 10 + ( (int) time[i] - '0' );
-						break;
-					case 6:
-						moment = moment * 10 + ( (int) time[i] - '0' );
-						break;
-				}
+				case 0:
+					year = year * 10 + ( (int) time[i] - '0' );
+					break;
+				case 1:
+					month = month * 10 + ( (int) time[i] - '0' );
+					break;
+				case 2:
+					day = day * 10 + ( (int) time[i] - '0' );
+					break;
+				case 3:
+					hour = hour * 10 + ( (int) time[i] - '0' );
+					break;
+				case 4:
+					minute = minute * 10 + ( (int) time[i] - '0' );
+					break;
+				case 5:
+					second = second * 10 + ( (int) time[i] - '0' );
+					break;
+				case 6:
+					moment = moment * 10 + ( (int) time[i] - '0' );
+					break;
 			}
 		}
-
-		struct tm now, zero;
-		zero.tm_year = 2017;
-		zero.tm_mon = 0;
-		zero.tm_mday = 1;
-		zero.tm_hour = 0;
-		zero.tm_min = 0;
-		zero.tm_sec = 0;
-
-		now.tm_year = year;
-		now.tm_mon = month - 1;
-		now.tm_mday = day;
-		now.tm_hour = hour;
-		now.tm_min = minute;
-		now.tm_sec = second;
-
-		return ( ( difftime( mktime(&now), mktime(&zero)) * 10 ) + moment );
 	}
+
+	struct tm now, zero;
+	
+	zero.tm_year = 117;
+	zero.tm_mon = 0;
+	zero.tm_mday = 1;
+	zero.tm_hour = 0;
+	zero.tm_min = 0;
+	zero.tm_sec = 0;
+	zero.tm_isdst = -1;
+
+	now.tm_year = year - 1900;
+	now.tm_mon = month - 1;
+	now.tm_mday = day;
+	now.tm_hour = hour;
+	now.tm_min = minute;
+	now.tm_sec = second;
+	now.tm_isdst = -1;
+
+	time_t now_mk = mktime(&now), zero_mk = mktime(&zero);
+	
+	int time_return = ( ( difftime( now_mk, zero_mk ) * 10 ) + moment );
+
+	return time_return;
+}
 
 	string moment_to_time( int moment )
 	{

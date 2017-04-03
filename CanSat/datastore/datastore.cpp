@@ -12,12 +12,13 @@ using namespace std;
 int Datastore::init(string _fn, bool writable) {
 	db_filename = _fn;
 
-	int flags = writable ? SQLITE_OPEN_READWRITE : SQLITE_OPEN_READONLY;
+	int flags = writable ? SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE : SQLITE_OPEN_READONLY;
 
 	if (sqlite3_open_v2(db_filename.c_str(), &database, flags, NULL) != SQLITE_OK) {
 		cout << "Error opening database." << endl;
 		return -1;
 	}
+	cout << "Opened " << db_filename <<endl;
 
 	return 0;
 }
@@ -63,40 +64,42 @@ int Datastore::write(Spectrogram in)
 {
 	stringstream strm;
 
-	strm << "INSERT INTO data VALUES ( \"" << in.id_serial << "\", "<< in.id_measurement << ", \""  << in.time << "\", " << in.temperature << ", " << in.pressure << ", ";
+	strm << "INSERT INTO data VALUES ( \"test" << (int) in.id_serial << "\", "<< (int) in.id_measurement << ", \""  << in.time << "\", " << (int) in.temperature << ", " << (int) in.pressure << ", ";
 
+	strm << "X'";
 	for ( int i = 0; i < in.resolution; i++ )
 	{
-		strm << in.lfl[i] << ", ";
+		strm << hex << setw(2) << setfill('0') << (unsigned int) in.lfl[i];
 	}
+	strm << "', ";
 
-	strm << "\"" << in.tag << "\" )";
+	strm << "\"testtag" << in.tag << "\" );";
 
-	string insert = strm.str();
-
+	string insert;
+	getline(strm, insert);
 	cout << insert<<endl;
-
+	
 	//tu zaczyna się ctrl-v
 
-	char *query = &insert[0];
-
 	sqlite3_stmt *statement;
+	const char ** tail=NULL;
 
 	int result;
 
 	{
-		if(sqlite3_prepare(database,query,-1,&statement,0)==SQLITE_OK)
+		if ( (result = sqlite3_prepare_v2( database, insert.c_str(), insert.size(), &statement, tail)) == SQLITE_OK ) 
 		{
+			cout << "INSIDE" << endl;
+
 			int res=sqlite3_step(statement);
 			result=res;
 			cout << "res " << res << endl;
 			sqlite3_finalize(statement);
+			return result;
 		}
 
+		cout << "ERROR " << result << endl;
 		sqlite3_finalize(statement);
-
-		cout << "ERROR"<<endl;
-		return result;
 	}
 	return 0;
 
@@ -155,7 +158,7 @@ Spectrogram Datastore::SELECT( const char *query )
 
 	cout << "query " << query << endl;
 
-	const char **tail;
+	const char **tail = NULL;
 
 //tu się zaczyna ctrl-c, które działa ale nie do końca wiem jak
 
@@ -287,21 +290,28 @@ int time_to_moment( string time )
 	}
 
 	struct tm now, zero;
-	zero.tm_year = 2017;
+	
+	zero.tm_year = 117;
 	zero.tm_mon = 0;
 	zero.tm_mday = 1;
 	zero.tm_hour = 0;
 	zero.tm_min = 0;
 	zero.tm_sec = 0;
+	zero.tm_isdst = -1;
 
-	now.tm_year = year;
+	now.tm_year = year - 1900;
 	now.tm_mon = month - 1;
 	now.tm_mday = day;
 	now.tm_hour = hour;
 	now.tm_min = minute;
 	now.tm_sec = second;
+	now.tm_isdst = -1;
 
-	return ( ( difftime( mktime(&now), mktime(&zero)) * 10 ) + moment );
+	time_t now_mk = mktime(&now), zero_mk = mktime(&zero);
+	
+	int time_return = ( ( difftime( now_mk, zero_mk ) * 10 ) + moment );
+
+	return time_return;
 }
 
 string moment_to_time( int moment )
