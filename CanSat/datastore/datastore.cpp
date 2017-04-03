@@ -290,21 +290,28 @@ int time_to_moment( string time )
 	}
 
 	struct tm now, zero;
-	zero.tm_year = 2017;
+	
+	zero.tm_year = 117;
 	zero.tm_mon = 0;
 	zero.tm_mday = 1;
 	zero.tm_hour = 0;
 	zero.tm_min = 0;
 	zero.tm_sec = 0;
+	zero.tm_isdst = -1;
 
-	now.tm_year = year;
+	now.tm_year = year - 1900;
 	now.tm_mon = month - 1;
 	now.tm_mday = day;
 	now.tm_hour = hour;
 	now.tm_min = minute;
 	now.tm_sec = second;
+	now.tm_isdst = -1;
 
-	return ( ( difftime( mktime(&now), mktime(&zero)) * 10 ) + moment );
+	time_t now_mk = mktime(&now), zero_mk = mktime(&zero);
+	
+	int time_return = ( ( difftime( now_mk, zero_mk ) * 10 ) + moment );
+
+	return time_return;
 }
 
 string moment_to_time( int moment )

@@ -59,16 +59,7 @@ int time_to_moment( string time )
 	now.tm_sec = second;
 	now.tm_isdst = -1;
 
-/*cout << zero.tm_year << " " << now.tm_year << endl;
-cout << zero.tm_mon << " " << now.tm_mon << endl;
-cout << zero.tm_mday << " " << now.tm_mday << endl;
-cout << zero.tm_hour << " " << now.tm_hour << endl;
-cout << zero.tm_min << " " << now.tm_min << endl;
-cout << zero.tm_sec << " " << now.tm_sec << endl;
-*/
 	time_t now_mk = mktime(&now), zero_mk = mktime(&zero);
-
-// cout << now_mk << " " << zero_mk << endl;
 	
 	int time_return = ( ( difftime( now_mk, zero_mk ) * 10 ) + moment );
 
