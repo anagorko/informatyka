@@ -22,7 +22,7 @@ bool parse(string line, Spectrogram &s)
 	s.id_measurement = measurement;
 	s.temperature = 0;
 	s.pressure = 0;
-	s.time = "";
+	s.time = "2017-01-01 00:00:00.5";
 	s.tag = tag;
 
 	stringstream ss; ss << line;
