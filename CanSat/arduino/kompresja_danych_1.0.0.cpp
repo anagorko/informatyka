@@ -181,5 +181,5 @@ cout << endl << "po" << endl;
 	dekompresja( &s, &p, &t, &c, &tablica[0] );
 
 cout << s << " " << p << endl << t << endl << c << endl;
-cout << tablica[0] << " " << tablica[1] << " " << tablica[2] << endl;
+cout << tablica[0] << " " << tablica[1] << " " << tablica[2] << " " << tablica[3] << " " << tablica[4] << " " << tablica[5] << endl;
 }
