@@ -20,6 +20,11 @@ void Graph::fixMinMax(float &min, float &max, float integ) const {
 	} else {
 		min += (integ-a/2.0) / Spectrogram::resolution;
 	}
+
+	if (max-min < 10.0) {
+		max += 5.0;
+		min += -5.0;
+	}
 }
 
 void Graph::draw(ALLEGRO_DISPLAY * display) {

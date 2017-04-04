@@ -134,14 +134,6 @@ void CanSatViewerWindow::loop(int fd) {
 				time_fraction=0;
 			}
 
-			gd.setData(timeline.getSpectrogram(data));
-
-			if (graph.countData() > 0) {
-				graph.changeGraphData(0, gd);
-			} else {
-				gd.setReference(gd.getData());
-				graph.addGraphData(gd);
-			}
 		} else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {
  		        key[ev.keyboard.keycode] = true;
 
@@ -243,6 +235,14 @@ void CanSatViewerWindow::loop(int fd) {
 
 	 	if(przerysuj && al_is_event_queue_empty(event_queue)) {
  			przerysuj = false;
+			gd.setData(timeline.getSpectrogram(data));
+
+			if (graph.countData() > 0) {
+				graph.changeGraphData(0, gd);
+			} else {
+				gd.setReference(gd.getData());
+				graph.addGraphData(gd);
+			}
 	
  		        draw();
 	
