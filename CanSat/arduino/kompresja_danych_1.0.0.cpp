@@ -16,12 +16,40 @@ unsigned char data[ilosc_bajtow];
 
 void kompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
 {
-	data[0] = (char) *seria;
-	data[1] = (char) ( *pomiar / 256 );
-	data[2] = (char) ( *pomiar % 256 );
+	if ( *seria >= 256 )
+		*seria = *seria % 256;
+	while ( *seria  < 0 )
+		*seria = *seria + 256;
+
+	if ( *pomiar >= 65536 )
+		*pomiar = *pomiar % 65536;
+	while ( *pomiar  < 0 )
+		*pomiar = *pomiar + 65536;
 
 	int t = *temp - temp_zero;
 	int p = *pres - pres_zero;
+
+	if ( t >= 1024 )
+		t = t % 1024;
+	while ( t  < 0 )
+		t = t + 1024;
+
+	if ( p >= 1024 )
+		p = p % 1024;
+	while ( p  < 0 )
+		p = p + 1024;
+
+	for ( int i = 0; i < 256; i++ )
+	{
+		if ( spekt[i] >= 1024 )
+			spekt[i] = 1023;
+		while ( spekt[i]  < 0 )
+			spekt[i] = spekt[i] + 1024;
+	}
+
+	data[0] = (char) *seria;
+	data[1] = (char) ( *pomiar / 256 );
+	data[2] = (char) ( *pomiar % 256 );
 
 	data[3] = (char) ( t / 4 );
 
@@ -114,6 +142,7 @@ void dekompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
 		}
 
 		spekt[spektrometr] = robocza / (int) pow( 2, reszta );
+		spekt[spektrometr + 1] = robocza / (int) pow( 2, reszta );
 
 		robocza = robocza % (int) pow( 2, reszta );
 
