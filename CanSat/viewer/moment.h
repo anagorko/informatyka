@@ -50,13 +50,13 @@ public:
 		return line;
 	}
 
-	int time_to_moment( string time )
-{
+	static int time_to_moment( string time )
+	{
 	int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, moment = 0;
 
 	int controler = 0;
 
-	for ( int i = 0; i < time.size(); i++ )
+	for ( size_t i = 0; i < time.size(); i++ )
 	{
 		if ( time[i] == '-' || time[i] == ':' || time[i] == ' ' || time[i] == '.' )
 			controler++;
@@ -114,7 +114,7 @@ public:
 	return time_return;
 }
 
-	string moment_to_time( int moment )
+	string dbRepresentation()
 	{
 		struct tm zero;
 		zero.tm_year = 117;

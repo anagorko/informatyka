@@ -30,7 +30,12 @@
 //for bmp
 #include <SFE_BMP180.h>
 #include <Wire.h>
-
+//for sd card
+#include <SPI.h>
+#include <SD.h>
+constexpr int pin_CS = 4;
+File plik;
+//end sd card
 
 #define IS_RFM69HCW   true
 
@@ -45,7 +50,7 @@ int pomiar;
 constexpr int NodeID = 3;
 constexpr int NetworkID = 233;
 constexpr int TargetID = 1; 
-char radiostring[100];
+//char radiostring[100];
 RFM69 radio;
 
 //lfl
@@ -94,7 +99,7 @@ void get_lfl(){
   ClockPulse(); 
   digitalWrite(pinSI, LOW);
 
-  delay(500);
+  //delay(500);
 
   for(int i = 0; i < 260; i++) {
       ClockPulse(); 
@@ -104,12 +109,19 @@ void get_lfl(){
 }
 void send_to_radio(){
     radio.send(TargetID,data,packagesize);
-    for(int i=0;i<10;i++)
-    Serial.println((char)data[i]);
-    Serial.println("");
+    
+//    for(int i=0;i<packagesize;i++) Serial.print((char)data[i]);
+    Serial.print("seria = ");Serial.print(seria);Serial.print("pomiar = ");Serial.print(pomiar);Serial.println("#package sent");
+    
     delay(50);
 }
-void sent_to_SD_card(){};
+void sent_to_SD_card(){
+  
+  plik = SD.open("wyniki.csv", FILE_WRITE);
+  plik.println(seria);
+  plik.close();
+
+};
 
 
 void kompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
@@ -162,14 +174,16 @@ void kompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
     }
 
     spektrometr += 2;
-  }
+  } 
 }
-
-
 
 
 void setup(){
   Serial.begin(9600);
+  
+  //tylko do testow przy komputerze
+  while(!Serial);
+  delay(10000);
   Serial.println("boot");
  
   delay(1000);
@@ -204,23 +218,29 @@ void setup(){
 
   for(int i=0;i< 260;i++) ClockPulse();
   //end lfl
+
+  //SD card
+  if (!SD.begin(18)  )                                       //sprawdź czy nie ma karty na pinie ChipSelect 4
+  {
+     Serial.println("Nie wykryto karty(ERR)");            //błąd wykrycia karty
+     return;                                              //przerwij program
+  }
+  //end SD card
   
   seria = rand()%256;
   pomiar = 0;
-  Serial.println("done");
 }
   
 void loop(){
- // Serial.println("elo");
 
   pomiar++;
   
   get_bmp();
   get_lfl();
 
-  
-
+  kompresja( &seria, &pomiar,(int) &T, (int) &P, pixels );
   send_to_radio();
+  
   sent_to_SD_card();
   
 }

@@ -14,12 +14,13 @@ void CanSatViewerWindow::draw() {
 	spectrograf.draw(display);
 	timeline.draw(display);
 
-	Moment m(gd.getData().getMoment());
+	cout << gd.getData().timestamp << " " << moment_to_time(gd.getData().timestamp) << endl;
 
-        al_draw_text(Button::font, al_map_rgb(0x00,0x00,0x00), 20, 400, 0, m.fullRepresentation().c_str());
-	al_draw_text(Button::font, al_map_rgb(0x00,0x00,0x00), 300, 400, 0, "Temp 23 C    Press 1023 hPa      Tag: Chlor");
+        al_draw_text(Button::font, al_map_rgb(0x00,0x00,0x00), 20, 400, 0, moment_to_time(gd.getData().timestamp).c_str());
 
-	cout << gd.getData().getMoment() << " " << m.fullRepresentation() << endl;
+	stringstream info; int temp = gd.getData().temperature;
+	info << "Temp " << (temp/10) << "." << setw(1) << setfill('0') << (temp%10) << " Press " << gd.getData().pressure << " Tag " << gd.getData().tag;
+	al_draw_text(Button::font, al_map_rgb(0x00,0x00,0x00), 20, 430, 0, info.str().c_str());
 }
 
 
@@ -78,8 +79,8 @@ int CanSatViewerWindow::init() {
     	btnLive -> changeStatus();
 	btnSetReference = new Button(308,viewer_height-230,"Set ref",92);
 	buttons.push_back(btnSetReference);	
-	buttons.push_back(new Button(408,viewer_height-230,">|",92));
-	buttons.push_back(new Button(508,viewer_height-230,"|<",92));
+	buttons.push_back(btnPrevMoment = new Button(408,viewer_height-230,"|<",92));
+	buttons.push_back(btnNextMoment = new Button(508,viewer_height-230,">|",92));
 	buttons.push_back(new Button(608,viewer_height-230,"Avg 5s",92));
 	buttons.push_back(new Button(708,viewer_height-230,"Avg 15s",92));
 	buttons.push_back(new Button(808,viewer_height-230,"Avg 60s",92));
@@ -120,7 +121,7 @@ void CanSatViewerWindow::parseData(string line) {
 
 	int m;
 	s >> m;
-	result.setMoment(m);
+	result.timestamp=m;
 
 	for (int i = 0; i < 256; i++) {
 		char c; s >> c; if (c != ';') { cout << "Parse error." << endl; return; }
@@ -156,6 +157,8 @@ void CanSatViewerWindow::serialRead(int fd) {
 	}
 
 void CanSatViewerWindow::loop(int fd) {
+	int time_fraction = 0;
+
  	while(!wyjdz)
  	{
  		ALLEGRO_EVENT ev;
@@ -167,7 +170,17 @@ void CanSatViewerWindow::loop(int fd) {
  	        	//
  	        	przerysuj = true;
  	        	
- 	        	if (timeline.timeRun) timeline.setMoment(timeline.getMoment()+1);
+ 	        	if (timeline.timeRun) {
+				time_fraction++;
+				while (time_fraction>=6){
+					timeline.setMoment(timeline.getMoment()+1);
+					time_fraction-=6;
+					cout<<timeline.getMoment()<<endl;
+				}
+			} else {
+				time_fraction=0;
+			}
+
 			getSpectrogram(timeline.getMoment());
 
 			if (spectrograf.countData() > 0) {
@@ -205,6 +218,19 @@ void CanSatViewerWindow::loop(int fd) {
  		}
 
 		if (btnExit -> wasPressed()) { wyjdz = true; }
+
+		if (btnNextMoment->isPressed()) {
+			int m = data.nextMoment(timeline.getMoment());
+			if (m>=0) {
+				timeline.setMoment(m);
+			}
+		}
+		if (btnPrevMoment->isPressed()) {
+			int m = data.prevMoment(timeline.getMoment());
+			if (m>=0) {
+				timeline.setMoment(m);
+			}
+		}
 
 		if (btnStop -> wasPressed()) { 
 			timeline.timeRun = false; 
