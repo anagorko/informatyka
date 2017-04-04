@@ -44,6 +44,9 @@ public:
 	// TODO: średni odczyt dla danej etykiety
 	Spectrogram readTag(string tag);
 
+	int nextMoment(int);
+	int prevMoment(int);
+
 	Spectrogram SELECT( const char *query );
 	Spectrogram lastRecord();
 };

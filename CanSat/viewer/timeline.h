@@ -15,7 +15,7 @@ class TimeLine {
     bool pressed, cursor_above;
     float px, py, pmoment;
 
-    float moment;
+    int moment;
     float range;
 
     static ALLEGRO_FONT * font;
@@ -37,8 +37,8 @@ public:
     void mouseReleased();
 	void mouseMoved(float x, float y, int z);
 
-    float getMoment() { return moment; }
-    void setMoment(float a) { moment = a; }
+    int getMoment() { return moment; }
+    void setMoment(int a) { moment = a; }
 
 	bool isPressed() { return pressed; }
 };

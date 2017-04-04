@@ -6,23 +6,19 @@ using namespace std;
 
 class Spectrogram {
 public:
-	int moment;
 	static const int resolution = 256;
 
 	char id_serial;
 
 	int id_measurement;
 
-	int lfl[resolution];
+	short int lfl[resolution];
 	
 	int temperature, pressure;
 
-	std::string time;
+	int timestamp;
 
 	std::string tag;
-
-	float getMoment() { return moment; }
-	void setMoment(int a) { moment = a; }
 };
 
 #endif /* __SPECTROGRAM__ */

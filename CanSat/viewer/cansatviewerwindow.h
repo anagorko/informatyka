@@ -47,6 +47,8 @@ class CanSatViewerWindow
     	Button* btnLive;
 	Button* btnSetReference;
 
+	Button *btnNextMoment, *btnPrevMoment;
+
 	Datastore data;
 
 	GraphData gd;

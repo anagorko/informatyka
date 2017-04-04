@@ -9,11 +9,37 @@
 
 using namespace std;
 
+int Datastore::nextMoment(int m)
+{
+	stringstream ss;
+	ss << "SELECT * FROM data WHERE timestamp > '"<<m<<"' ORDER BY timestamp LIMIT 1";
+	Spectrogram s = SELECT(ss.str().c_str());
+
+	cout << m<<" -> "<<s.timestamp<< "  " << moment_to_time(m)<<" "<<moment_to_time(s.timestamp)<<endl;
+
+	if (s.timestamp<0) return m;
+
+
+	return s.timestamp;
+}
+
+int Datastore::prevMoment(int m)
+{
+	stringstream ss;
+	ss << "SELECT * FROM data WHERE timestamp < '" << m << "' ORDER BY timestamp DESC LIMIT 1";
+	Spectrogram s = SELECT(ss.str().c_str());
+
+	if (s.timestamp<0) return m;
+
+	cout << m<<" -> "<<s.timestamp<< "  " << moment_to_time(m)<<" "<<moment_to_time(s.timestamp)<<endl;
+	return s.timestamp;
+}
+
 int Datastore::init(string _fn, bool writable) {
 	db_filename = _fn;
 
 	int flags = writable ? SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE : SQLITE_OPEN_READONLY;
-
+	
 	if (sqlite3_open_v2(db_filename.c_str(), &database, flags, NULL) != SQLITE_OK) {
 		cout << "Error opening database." << endl;
 		return -1;
@@ -41,22 +67,24 @@ Spectrogram Datastore::readClosest(int moment)
 */
 	Spectrogram earlier, later;
 
-	string select_earlier, select_later;
+	stringstream select_earlier, select_later;
 
-	select_earlier = "SELECT * FROM data WHERE timestamp < '" + moment_to_time( moment ) + "' ORDER BY timestamp DESC LIMIT 1";
+	select_earlier << "SELECT * FROM data WHERE timestamp < '" << moment  << "' ORDER BY timestamp DESC LIMIT 1";
+	select_later << "SELECT * FROM data WHERE timestamp >= '" << moment  << "' ORDER BY timestamp LIMIT 1";
 
-	select_later = "SELECT * FROM data WHERE timestamp >= '" + moment_to_time( moment ) + "' ORDER BY timestamp LIMIT 1";
+	earlier = SELECT( select_earlier.str().c_str() );
 
-	earlier = SELECT( select_earlier.c_str() );
+	later = SELECT( select_later.str().c_str() );
 
-	later = SELECT( select_later.c_str() );
+	if (earlier.timestamp==-1&&later.timestamp==-1) {cout<<"no data"<<endl;exit(1);}
+	if (earlier.timestamp == -1) return later;
+	if (later.timestamp == -1) return earlier;
 
-	if ( moment - earlier.moment < later.moment - moment )
-		return later;
-	else
+	if ( moment - earlier.timestamp < later.timestamp - moment ) {
 		return earlier;
-
-
+	} else {
+		return later;
+	}
 }
 
 
@@ -64,16 +92,17 @@ int Datastore::write(Spectrogram in)
 {
 	stringstream strm;
 
-	strm << "INSERT INTO data VALUES ( \"test" << (int) in.id_serial << "\", "<< (int) in.id_measurement << ", \""  << in.time << "\", " << (int) in.temperature << ", " << (int) in.pressure << ", ";
+	strm << "INSERT INTO data VALUES ( \"" << (int) in.id_serial << "\", "<< (int) in.id_measurement << ", \""  << in.timestamp << "\", " << (int) in.temperature << ", " << (int) in.pressure << ", ";
 
 	strm << "X'";
-	for ( int i = 0; i < in.resolution; i++ )
+	for ( int i = 0; i < Spectrogram::resolution; i++ )
 	{
-		strm << hex << setw(2) << setfill('0') << (unsigned int) in.lfl[i];
+		strm << hex << setw(2) << setfill('0') << (unsigned int) (in.lfl[i] & 0xFF);
+		strm << hex << setw(2) << setfill('0') << (unsigned int) ((in.lfl[i]>>8) & 0xFF);
 	}
 	strm << "', ";
 
-	strm << "\"testtag" << in.tag << "\" );";
+	strm << "\"" << in.tag << "\" );";
 
 	string insert;
 	getline(strm, insert);
@@ -139,7 +168,7 @@ int chars_to_int( char c1, char c2 )
 
 std::ostream operator<< ( ostream& o, Spectrogram& in )
 {
-	o << in.id_serial << " " << in.id_measurement << " " << in.time << " " << in.temperature << " " << in.pressure;
+	o << in.id_serial << " " << in.id_measurement << " " << in.timestamp << " " << in.temperature << " " << in.pressure;
 
 	for ( int i = 0; i < 256; i++ )
 	{
@@ -154,13 +183,11 @@ Spectrogram Datastore::SELECT( const char *query )
 {
 	Spectrogram uncode;
 
+	uncode.timestamp=-1;
+
 	string lfl_string;
 
-	cout << "query " << query << endl;
-
 	const char **tail = NULL;
-
-//tu się zaczyna ctrl-c, które działa ale nie do końca wiem jak
 
 	sqlite3_stmt *statement;
 
@@ -168,77 +195,63 @@ Spectrogram Datastore::SELECT( const char *query )
 	{
 		int ctotal = sqlite3_column_count(statement);
 		int res = 0;
-		cout << "ctotal " << ctotal << endl;
 
-		while ( 1 )         
+		res = sqlite3_step(statement);
+
+		if ( res == SQLITE_ROW ) 
 		{
-			res = sqlite3_step(statement);
-
-			if ( res == SQLITE_ROW ) 
-			{
-				for ( int i = 0; i < ctotal; i++ ) 
-				{
-					string s = (char*)sqlite3_column_text(statement, i);
-					
-					//ponieżej jest moja część
-					switch ( i )
-					{
-						case 0:
-							uncode.id_serial = s[0];
-							break;
-						case 1:
-							uncode.id_measurement = stoi( s, nullptr, 0 );
-							break;
-						case 2:
-							uncode.time = s;
-							break;
-						case 3:
-							uncode.temperature = stoi( s, nullptr, 0 );
-							break;
-						case 4:
-							uncode.pressure = stoi( s, nullptr, 0 );
-							break;
-						case 5:
-							lfl_string = s;
-							break;
-						case 6:
-							uncode.tag = s;
-							break;
-					}
-					//wyżej jest moje :)
-
-					cout << s << " ";
+			if (sqlite3_column_bytes(statement, 5) != 256*2) {
+				cout << "Error: incorrect blob"<<endl;
+			} else {
+				short int *blob = (short int *) sqlite3_column_blob(statement, 5);
+				for (int i = 0; i < 256; i++) {
+					uncode.lfl[i] = blob[i];
 				}
-				cout << endl;
 			}
 
-			if ( res == SQLITE_DONE || res==SQLITE_ERROR)    
+			for ( int i = 0; i < ctotal; i++ ) 
 			{
-				cout << "done " << endl;
-				break;
-			}
+				string s = (char*)sqlite3_column_text(statement, i);
+				
+				//ponieżej jest moja część
+				switch ( i )
+				{
+					case 0:
+						uncode.id_serial = s[0];
+						break;
+					case 1:
+						uncode.id_measurement = stoi( s, nullptr, 0 );
+						break;
+					case 2:
+						uncode.timestamp = stoi(s);
+						break;
+					case 3:
+						uncode.temperature = stoi( s, nullptr, 0 );
+						break;
+					case 4:
+						uncode.pressure = stoi( s, nullptr, 0 );
+						break;
+					case 5:
+						lfl_string = s;
+						break;
+					case 6:
+						uncode.tag = s;
+						break;
+				}
+				//wyżej jest moje :)
 
-			if ( res == SQLITE_MISUSE) {
-				cout << "misuse"<<endl;
-				exit(0);
 			}
+		} else {
+			//cout<<"NO ROW "<<query<<endl;
+			uncode.timestamp = -1;
 		}
-	}
 
-//tu się kończy ctrl-v
+	} else {
+		exit(1);
+		uncode.timestamp = -1;
+	}
 
 	sqlite3_finalize(statement);
-
-	for ( int i = 0; i < 256; i++ )
-	{
-		uncode.lfl[i] = chars_to_int( lfl_string[ 2 * i ], lfl_string[ 2 * i + 1 ] );
-
-//cout << (unsigned int) lfl_string[2 * i] << " " << (unsigned int) lfl_string[2 * i + 1] << " " << uncode.lfl[i] << endl;
-	}
-
-	uncode.moment = time_to_moment( uncode.time );
-
-	cout << "moment " << uncode.moment << " " << uncode.time << endl;
 
 	return uncode;
 }
@@ -316,6 +329,8 @@ int time_to_moment( string time )
 
 string moment_to_time( int moment )
 {
+	if (moment < 0) { moment = 0; }
+
 	struct tm zero;
 	zero.tm_year = 117;
 	zero.tm_mon = 0;
