@@ -23,9 +23,19 @@ public:
 	void setData(const Spectrogram &_data) { data = _data; }
 
 	Spectrogram getData() { return data; }
+	Spectrogram getReference() { return ref; }
 
 	void setMode(int _mode) { mode = _mode; }
 	int getMode() { return mode; }
+
+	float integral() const
+	{
+		float s = 0;
+		for (int i = 0; i < Spectrogram::resolution; i++) {
+			s += getValue(i);
+		}
+		return s;
+	}
 
 	float maxValue() const
 	{
@@ -103,6 +113,8 @@ class Graph {
 		return min;
 	}
 
+	void fixMinMax(float &, float &, float) const;
+
 public:
     	Graph();
 
@@ -112,19 +124,12 @@ public:
 	void addGraphData(GraphData &gd) {
 		v.push_back(gd);
 	}
-
-    	void addData(Spectrogram d) { 
-		GraphData gd;
-		gd.setMode(typeShow);
-		gd.setReference(basis);
-		gd.setData(d);
-		v.push_back(gd); 
-	}
     	int countData() { return v.size(); }
-    	void changeData(size_t d, Spectrogram s);
+	void changeGraphData(int d, GraphData &gd);
+
     	void changeLive() { live = (live == true)? false : true; }
     	bool isLive() { return live; }
-    	void setBasis(Spectrogram s) { basis = s; }
+
     	void setShow(int d) { typeShow = d; };
     	void clearSet() { v.clear(); }
 	void drawScale() const;

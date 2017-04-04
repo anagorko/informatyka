@@ -62,51 +62,69 @@ void TimeLine::draw(ALLEGRO_DISPLAY * display) const {
     }
  
 	ss.str("");
-    ss << "range : " << range;
-    al_draw_text(font, al_map_rgb(0x00,0x00,0x00),position_x + 20, position_y, 0, ss.str().c_str());
-  
+    	ss << "range : " << range;
+    	al_draw_text(font, al_map_rgb(0x00,0x00,0x00),position_x + 20, position_y, 0, ss.str().c_str());
+
+	if (left_m >= 0 && right_m >= 0) {
+		int left_x = position_x + width/2 + ((float) left_m - moment) / range * width / 2;
+		int right_x = position_x + width/2 + ((float) right_m - moment) / range * width / 2;
+
+		al_draw_filled_rectangle(left_x, position_y, right_x, position_y + height, al_map_rgba(0xff,0x00,0x00,0x80));
+	} else if (left_m >= 0 || right_m >= 0) {
+		int ps = (left_m >= 0) ? left_m : right_m;
+		int ps_x = position_x + width/2 + ((float) ps - moment) / range * width / 2;
+
+		al_draw_filled_rectangle(ps_x-1, position_y, ps_x+1, position_y + height, al_map_rgba(0xff,0x00,0x00,0x80));
+	}
 }
 
 TimeLine::TimeLine() {
-    width = viewer_width - 16;
-    height = viewer_height * ((float)10/(float)100);
-    position_x = (viewer_width - width)/2;
-    position_y = 600;
-    moment = 0;
-    pmoment = 0;
-    range = 60*2;
-    cursor_above = false;
-    pressed = false;
-    timeRun = false;
+    	width = viewer_width - 16;
+    	height = viewer_height * ((float)10/(float)100);
+    	position_x = (viewer_width - width)/2;
+    	position_y = 600;
+    	range = 60*2;
+    	cursor_above = false;
+    	pressed = false;
+	pmoment = 0;
+    	left_m = -1; right_m = -1;
+	tag = "";
 }
+
 void TimeLine::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width
     && y > position_y && y < position_y + height){
         cursor_above = true;
-        //cout<<"mouse wheel = " << z<<endl;
-        range += 1.0 * z;
+        if (z != 0) { range *= 1.0 + (float) z / 20.0; }
     } else {
         cursor_above = false;
     }
 }
-void TimeLine::mousePressed(float x, float y){
+
+void TimeLine::mousePressed(float x, float y, bool shift){
     if( !pressed && x > position_x && x < position_x + width
-    &&  y > position_y && y < position_y + height){
+        && y > position_y && y < position_y + height){
         
         pressed = true;
         px = x;
         py = y;
 
-        float distance = (position_x + width / 2) - x;
-        pmoment = moment - ( distance * range / (width/2));
+        float distance = (x - (position_x + width / 2))/(width/2.0);
+        pmoment = moment + distance * range;
 
-        cout << "timeline" << " pressed"<< endl;
+	if (shift) {
+		shiftClick(pmoment);
+	} else {
+		click(pmoment);
+	}
+        cout << "dist " << distance << " timeline pressed " << pmoment << " " << range << endl;
     }
 }
+
 void TimeLine::mouseReleased(){
     if(pressed){
         pressed = false;
-        moment = pmoment;
+//        moment = pmoment;
     }
 }
 

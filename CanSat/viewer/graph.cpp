@@ -9,6 +9,19 @@
 #include <sstream>
 #include <iomanip>
 
+void Graph::fixMinMax(float &min, float &max, float integ) const {
+	float a = Spectrogram::resolution * (max-min);
+	integ = integ-Spectrogram::resolution*min;
+
+	cout << "integ "<<integ<<" a "<<a<<endl;
+
+	if (integ > a/2.0) {
+		max += (integ-a/2.0) / Spectrogram::resolution;
+	} else {
+		min += (integ-a/2.0) / Spectrogram::resolution;
+	}
+}
+
 void Graph::draw(ALLEGRO_DISPLAY * display) {
 
 	al_draw_filled_rectangle(position_x,position_y,position_x+width,position_y+height, colorBackground);
@@ -24,6 +37,13 @@ void Graph::draw(ALLEGRO_DISPLAY * display) {
 	drawScale();
 
 	float max = maxValue(), min = minValue();
+
+	float integ=0;
+	for (auto &gd: v){
+		integ+=gd.integral();
+	}
+	integ /= v.size();
+	fixMinMax(min,max,integ);
 
         for(auto &gd: v){
 		float px, py; bool first=true;
@@ -61,18 +81,25 @@ void Graph::drawScale() const {
     float stick_y2 = position_y + height;
     al_draw_line(position_x + width + 10, stick_y1, position_x + width + 10, stick_y2, al_map_rgb(0, 0, 0), 2);  
 
+	float integ=0;
+	for (auto &gd: v){
+		integ+=gd.integral();
+	}
+	integ /= v.size();
+
+	float max = maxValue(), min = minValue();
+	fixMinMax(min,max,integ);
 
     stringstream ss;
     int font_height = al_get_font_line_height(font);
-    float value=0;
     float stickLen = stick_y2 - stick_y1;
     
     	for(int i=0;i<5;i++){
-		float value = (float) i * (maxValue() - minValue()) / 4.0;
-		float h = stickLen / (maxValue() - minValue()) * value;
+		float value = (float) i * (max - min) / 4.0;
+		float h = stickLen / (max - min) * value;
 
         	ss.str("");
-        	ss << setw(4) << (minValue()+value);
+        	ss << setw(4) << (min+value);
 	
 		al_draw_line(position_x + frame_thickness, stick_y2-h, 
 			     position_x + width-frame_thickness,stick_y2-h, al_map_rgba(0,0,0,0x40),1);
@@ -97,9 +124,10 @@ Graph::Graph() {
     	setShow(GraphData::modeA);
     	cursorAbove = false;
     	range = 1023;
-    	Spectrogram s;
-	addData(s);
     	live = true;
+
+	GraphData gd;
+	addGraphData(gd);
 }
 void Graph::mouseMoved(float x, float y, int z){
     if(x > position_x && x < position_x + width
@@ -111,10 +139,17 @@ void Graph::mouseMoved(float x, float y, int z){
         cursorAbove = false;
     }
 }
+/*
 void Graph::changeData(size_t d, Spectrogram s) {
     	if(d >= v.size()) cout<<" próbuję dostać się do nieistniejącego spectrogramu\n";
     	v[d].setData(s); 
-	v[d].setReference(s);
+//	v[d].setReference(s);
+}
+*/
+
+void Graph::changeGraphData(int d, GraphData &gd) {
+    	if(d >= v.size()) cout<<" próbuję dostać się do nieistniejącego spectrogramu\n";
+	v[d] = gd;
 }
 
 ALLEGRO_FONT * Graph::font;

@@ -151,12 +151,17 @@ int Datastore::countSpectrograms(string tag)
 // TODO: średni odczyt z danego odcinka czasu
 Spectrogram Datastore::readInterval(int from, int to)
 {
-	return readClosest(from);
+	stringstream q;
+	q << "SELECT * FROM data WHERE timestamp >= " << from << " AND timestamp <= " << to;
+
+	return SELECT(q.str().c_str());
 }
 
 // TODO: średni odczyt dla danej etykiety
 Spectrogram Datastore::readTag(string tag) {
-	return readClosest(0);
+	stringstream q;
+	q << "SELECT * FROM data WHERE tag='"<<tag<<"'";
+	return SELECT(q.str().c_str());
 }
 
 
@@ -198,14 +203,20 @@ Spectrogram Datastore::SELECT( const char *query )
 
 		res = sqlite3_step(statement);
 
-		if ( res == SQLITE_ROW ) 
+		int lfl_sum[256]; for (int i = 0; i < 256; i++) { lfl_sum[i] = 0; }
+		int temp_sum = 0, press_sum = 0;
+		int num_rows = 0;
+
+
+		while ( res == SQLITE_ROW ) 
 		{
+			num_rows++;
 			if (sqlite3_column_bytes(statement, 5) != 256*2) {
 				cout << "Error: incorrect blob"<<endl;
 			} else {
 				short int *blob = (short int *) sqlite3_column_blob(statement, 5);
 				for (int i = 0; i < 256; i++) {
-					uncode.lfl[i] = blob[i];
+					lfl_sum[i] += blob[i];
 				}
 			}
 
@@ -226,13 +237,12 @@ Spectrogram Datastore::SELECT( const char *query )
 						uncode.timestamp = stoi(s);
 						break;
 					case 3:
-						uncode.temperature = stoi( s, nullptr, 0 );
+						temp_sum += stoi( s, nullptr, 0 );
 						break;
 					case 4:
-						uncode.pressure = stoi( s, nullptr, 0 );
+						press_sum += stoi( s, nullptr, 0 );
 						break;
 					case 5:
-						lfl_string = s;
 						break;
 					case 6:
 						uncode.tag = s;
@@ -241,11 +251,19 @@ Spectrogram Datastore::SELECT( const char *query )
 				//wyżej jest moje :)
 
 			}
-		} else {
-			//cout<<"NO ROW "<<query<<endl;
-			uncode.timestamp = -1;
+			res = sqlite3_step(statement);
 		}
+		if (num_rows == 0) {
+			uncode.timestamp = -1;
+		} else {
+			uncode.temperature = temp_sum / num_rows;
+			uncode.pressure = press_sum / num_rows;
 
+			for (int i = 0; i < 256; i++) {
+				uncode.lfl[i] = lfl_sum[i]/num_rows;
+			}
+			if (num_rows>1) { cout<<"num_rows " <<num_rows<<" "<<query<<endl; }
+		}
 	} else {
 		exit(1);
 		uncode.timestamp = -1;

@@ -2,6 +2,7 @@
 #define __SPECTROGRAM__
 
 #include <iostream>
+
 using namespace std;
 
 class Spectrogram {

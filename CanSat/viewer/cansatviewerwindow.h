@@ -26,17 +26,19 @@ class CanSatViewerWindow
 
 	vector <Button *> buttons;
 
-	Graph spectrograf;
+	Graph graph;
+	GraphData gd;
 	TimeLine timeline;
+	Datastore data;
+
    	bool przerysuj = true;
    	bool wyjdz = false;
 	bool key[ALLEGRO_KEY_MAX];  // wciśnięte klawisze   
-
+	bool timeRun = false;
 
     	Button* btnExit;
     	Button* btnStop;
     	Button* btnPlay;
-    	Button* btnChlor;
 
     	Button* btnAbsolute;
     	Button* btnDiffrent;
@@ -48,16 +50,7 @@ class CanSatViewerWindow
 	Button* btnSetReference;
 
 	Button *btnNextMoment, *btnPrevMoment;
-
-	Datastore data;
-
-	GraphData gd;
-
-	void getSpectrogram(int m) {
-		gd.setData(data.readClosest(m));
-	}
-
-	stringstream ss;
+	Button *btnChlor;
 
 public:
 	CanSatViewerWindow();
