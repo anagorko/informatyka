@@ -67,15 +67,18 @@ char data[packagesize];
 
 //bmp
 SFE_BMP180 pressure;
-double T,P;
+int T,P;
 
 void get_bmp(){
+  double _T,_P;
  char status = pressure.startTemperature();
  delay(status); 
- pressure.getTemperature(T);
+ pressure.getTemperature(_T);
+ T = _T * 10;
  status = pressure.startPressure(3); //2,1 or 0
  delay(status);
- status = pressure.getPressure(P,T);
+ status = pressure.getPressure(_P,_T);
+ P = _P;
 }
 void ClockPulse()
 {
@@ -111,7 +114,8 @@ void send_to_radio(){
     radio.send(TargetID,data,packagesize);
     
 //    for(int i=0;i<packagesize;i++) Serial.print((char)data[i]);
-    Serial.print("seria = ");Serial.print(seria);Serial.print("pomiar = ");Serial.print(pomiar);Serial.println("#package sent");
+    Serial.print("seria = ");Serial.print(seria);Serial.print("pomiar = ");Serial.print(pomiar);Serial.print("temperatura = ");Serial.print(T);
+    Serial.print("cisnienie = ");Serial.print(P);Serial.println("#package sent");
     
     delay(50);
 }
@@ -220,7 +224,7 @@ void setup(){
   //end lfl
 
   //SD card
-  if (!SD.begin(18)  )                                       //sprawdź czy nie ma karty na pinie ChipSelect 4
+  if (!SD.begin(pin_CS)  )                                       //sprawdź czy nie ma karty na pinie ChipSelect 4
   {
      Serial.println("Nie wykryto karty(ERR)");            //błąd wykrycia karty
      return;                                              //przerwij program
@@ -238,7 +242,7 @@ void loop(){
   get_bmp();
   get_lfl();
 
-  kompresja( &seria, &pomiar,(int) &T, (int) &P, pixels );
+  kompresja( &seria, &pomiar,&T, &P, pixels );
   send_to_radio();
   
   sent_to_SD_card();
