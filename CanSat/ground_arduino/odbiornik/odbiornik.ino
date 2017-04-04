@@ -25,11 +25,11 @@ RFM69 radio;
 
 char data[ilosc_bajtow];
 
-int id_serii, id_measure, temperature, pressure, lfl[256];
+unsigned int id_serii, id_measure, temperature, pressure, lfl[256];
 
 void dekompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
 {
-  *seria = (int) data[0];
+  *seria = (unsigned int) data[0];
   *pomiar = ( (int) data[1] ) * 256 + (int) data[2];
 
   *temp = (int) data[3] * 4 + ( (int) data[4] / 64 );
@@ -74,7 +74,7 @@ void dekompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("boot");
+  //Serial.println("boot");
   delay(1000);
 
   radio.initialize(FREQUENCY,NodeID,NetworkID);
@@ -86,23 +86,26 @@ void setup() {
 
 void loop() {
   if(radio.receiveDone()){
-    Serial.print("Incoming packet: ");
+//Serial.print("Incoming packet: ");
     for(byte i = 0; i < radio.DATALEN; i++){
       data[i] = (char)radio.DATA[i];
     }
-    Serial.print(" end message. ");
-    Serial.println("RSSI: " + String(radio.RSSI));
+//Serial.print(" end message. ");
+//Serial.println("RSSI: " + String(radio.RSSI));
+
+    dekompresja( &id_serii, &id_measure, &temperature, &pressure, &lfl[0]);
+
+    Serial.print( id_serii ); Serial.print( ";" );
+    Serial.print( id_measure ); Serial.print( ";" );
+    Serial.print( temperature ); Serial.print( ";" );
+    Serial.print( pressure );
+
+    for ( int i = 0; i < 256; i++ )
+    {
+      Serial.print( ";" ); Serial.print( lfl[i] );
+    }
+  
+    Serial.println( ";" );
   }
-
-  dekompresja( &id_serii, &id_measure, &temperature, &pressure, &lfl[0]);
-
-  Serial.print( id_serii ); Serial.print( ";" );
-  Serial.print( id_measure ); Serial.print( ";" );
-  Serial.print( temperature ); Serial.print( ";" );
-  Serial.print( pressure ); Serial.print( ";" );
-
-  for ( int i = 0; i < 256; i++ )
-  {
-    Serial.print( lfl[i] ); Serial.print( ";" );
-  }
+  //Serial.println( "rotate" );
 }
