@@ -140,7 +140,19 @@ void send_to_radio(){
 }
 void send_to_SD_card(){
   plik = SD.open("wyniki.csv", FILE_WRITE);
-  plik.println(seria);
+  plik.println(" ");
+  plik.print(seria);    //dopisywanie numeru serii od nowej linii
+  plik.print(" ");
+  plik.print(pomiar);   //wpisywanie numeru pomiaru po spacji
+  plik.print(" ");
+  plik.print(T);   //wpisywanie temperatury po spacji
+  plik.print(" ");
+  plik.print(P);   //wpisywanie ciśnienia po spaji
+  plik.print(" ");
+  for(int i=0; i<256; i++){
+    plik.print(pixels[i]);
+    plik.print(" ");
+  };    //wpisywanie odczytów (x256) ze spektrometru
   plik.close();
 
 };
