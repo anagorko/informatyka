@@ -24,16 +24,18 @@
  * CS <----------> 18
  * 
  */
- 
+
+//#define NO_SERIAL
+
 #include <qbcan.h>
 
 //for bmp
-#include <SFE_BMP180.h>
+#include <BMP180.h>
 #include <Wire.h>
 //for sd card
 #include <SPI.h>
 #include <SD.h>
-constexpr int pin_CS = 4;
+const int pin_CS = A0;
 File plik;
 //end sd card
 
@@ -43,13 +45,24 @@ File plik;
 #define pres_zero 600 //punkt zero dla ciśnienia (wartość w hPa)
 #define ilosc_bajtow  255 //ilość bajtów do zapisu
 
-int seria;
-int pomiar;
+unsigned int seria;
+unsigned int pomiar;
+
+
+const int skiprate = 10;
+struct datagram
+{
+  unsigned char seria, pomiar;
+  unsigned int temperature, pressure;
+  unsigned short int lfl[256 / skiprate];
+} data;
+
+
 
 //radio
-constexpr int NodeID = 3;
-constexpr int NetworkID = 233;
-constexpr int TargetID = 1; 
+const int NodeID = 3;
+const int NetworkID = 233;
+const int TargetID = 1; 
 //char radiostring[100];
 RFM69 radio;
 
@@ -61,12 +74,13 @@ const int pinSI = A1;    // digital out A1
 const int pinCLK = A2;   // digital out A2
 const int pinAO = A3;   // analog in A3
 
-short int pixels[256];
+unsigned short int pixels[256];
 #define packagesize 166
-char data[packagesize];
+//unsigned char data[packagesize];
+
 
 //bmp
-SFE_BMP180 pressure;
+BMP180 pressure;
 int T,P;
 
 void get_bmp(){
@@ -111,96 +125,64 @@ void get_lfl(){
   delay(1);
 }
 void send_to_radio(){
-    radio.send(TargetID,data,packagesize);
+//    radio.send(TargetID,data,packagesize);
+    radio.send(TargetID,(char *) &data,sizeof(datagram));
+    Serial.print("datagram size ");Serial.println(sizeof(datagram));
     
 //    for(int i=0;i<packagesize;i++) Serial.print((char)data[i]);
+    #ifndef NO_SERIAL
     Serial.print("seria = ");Serial.print(seria);Serial.print("pomiar = ");Serial.print(pomiar);Serial.print("temperatura = ");Serial.print(T);
     Serial.print("cisnienie = ");Serial.print(P);Serial.println("#package sent");
-    
+    #endif
+        
     delay(50);
 }
 void sent_to_SD_card(){
-  
   plik = SD.open("wyniki.csv", FILE_WRITE);
   plik.println(seria);
   plik.close();
 
 };
 
-
-void kompresja( int *seria, int *pomiar, int *temp, int *pres, int spekt[] )
+void kompresja( unsigned int *seria, unsigned int *pomiar, unsigned int *temp, unsigned int *pres, unsigned short int spekt[] )
 {
-  data[0] = (char) *seria;
-  data[1] = (char) ( *pomiar / 256 );
-  data[2] = (char) ( *pomiar % 256 );
-
-  int t = *temp - temp_zero;
-  int p = *pres - pres_zero;
-
-  pixels[3] = (char) ( t / 4 );
-
-  p = p + ( (t % 4) * 1024 );
-
-  pixels[4] = (char) ( p / 16 );
-
-  int spektrometr = 0, robocza = (p % 16) * 1024 + spekt[spektrometr], reszta = 6;
-
-  pixels[5] = (char) ( robocza / 64 );
-
-  robocza = robocza % 64;
-
-  spektrometr++;
-
-  for ( int i = 6; i < ilosc_bajtow; i++ )
-  {
-    if ( spektrometr >= 256 )
-      break;
-
-    robocza = robocza * 1024 + spekt[spektrometr];
-
-    reszta = reszta + 10 - 8;
-
-    pixels[i] = (char) ( robocza / pow( 2, reszta ) );
-
-//cout << "r" << robocza << "." << pow( 2, reszta ) << "=" << (int) data[i] << " ";
-
-    robocza = robocza % (int) pow( 2, reszta );
-
-    if ( reszta == 8 )
-    {
-      i++; 
-
-      data[i] = (char) robocza;
-
-      robocza = 0;
-
-      reszta = 0;
-    }
-
-    spektrometr += 2;
-  } 
+  data.seria=*seria;
+  data.pomiar=*pomiar;
+  data.temperature=*temp;
+  data.pressure=*pres;
+  for (int i = 0; i < 256/skiprate;i++){
+    data.lfl[i] = spekt[i*skiprate];
+  }
 }
 
-
 void setup(){
+  #ifndef NO_SERIAL
   Serial.begin(9600);
+  #endif
   
   //tylko do testow przy komputerze
-  while(!Serial);
-  delay(10000);
-  Serial.println("boot");
- 
+//  while(!Serial);
   delay(1000);
+//  Serial.println("boot");
+ 
+  delay(10000);
   //radio rfm
   radio.initialize(FREQUENCY,NodeID,NetworkID);
   radio.setHighPower();
-  radio.setPowerLevel(5);                           // from power output ranges from 0 (5dBm) to 31 (20dBm)
+//  radio.setPowerLevel(5);                           // from power output ranges from 0 (5dBm) to 31 (20dBm)
   radio.setFrequency(434200000);
   //end radio rfm
   
   //bmp
-  if (pressure.begin())  Serial.println("BMP180 init success");
-  else Serial.println("BMP180 init fail (disconnected?)\n\n");
+  if (pressure.begin()) {
+    #ifndef NO_SERIAL
+     Serial.println("BMP180 init success");
+    #endif
+  } else {
+    #ifndef NO_SERIAL
+    Serial.println("BMP180 init fail (disconnected?)\n\n");
+    #endif
+  }
   //endbmp
     
   //lfl
@@ -226,8 +208,10 @@ void setup(){
   //SD card
   if (!SD.begin(pin_CS)  )                                       //sprawdź czy nie ma karty na pinie ChipSelect 4
   {
+     #ifndef NO_SERIAL
      Serial.println("Nie wykryto karty(ERR)");            //błąd wykrycia karty
-     return;                                              //przerwij program
+     #endif
+//     return;                                              //przerwij program
   }
   //end SD card
   
@@ -235,16 +219,20 @@ void setup(){
   pomiar = 0;
 }
   
-void loop(){
-
-  pomiar++;
+void loop()
+{
+  #ifndef NO_SERIAL
+  Serial.println("loop");
+  #endif
   
+  pomiar++;
+
   get_bmp();
   get_lfl();
 
   kompresja( &seria, &pomiar,&T, &P, pixels );
   send_to_radio();
+  delay(1500);
   
   sent_to_SD_card();
-  
 }
