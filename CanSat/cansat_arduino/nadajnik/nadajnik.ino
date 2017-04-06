@@ -49,10 +49,11 @@ unsigned int seria;
 unsigned int pomiar;
 
 
-const int skiprate = 10;
+const int skiprate = 8;
 struct datagram
 {
-  unsigned char seria, pomiar;
+  unsigned char seria;
+  unsigned short int pomiar;
   unsigned int temperature, pressure;
   unsigned short int lfl[256 / skiprate];
 } data;
@@ -137,7 +138,7 @@ void send_to_radio(){
         
     delay(50);
 }
-void sent_to_SD_card(){
+void send_to_SD_card(){
   plik = SD.open("wyniki.csv", FILE_WRITE);
   plik.println(seria);
   plik.close();
@@ -165,12 +166,11 @@ void setup(){
   delay(1000);
 //  Serial.println("boot");
  
-  delay(10000);
   //radio rfm
   radio.initialize(FREQUENCY,NodeID,NetworkID);
   radio.setHighPower();
 //  radio.setPowerLevel(5);                           // from power output ranges from 0 (5dBm) to 31 (20dBm)
-  radio.setFrequency(434200000);
+  radio.setFrequency(434600000);
   //end radio rfm
   
   //bmp
@@ -232,7 +232,7 @@ void loop()
 
   kompresja( &seria, &pomiar,&T, &P, pixels );
   send_to_radio();
-  delay(1500);
-  
-  sent_to_SD_card();
+  send_to_SD_card();
+  delay(500);  
 }
+
